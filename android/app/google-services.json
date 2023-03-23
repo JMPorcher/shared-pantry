@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "248552006510",
+    "project_id": "shared-pantry",
+    "storage_bucket": "shared-pantry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248552006510:android:1760ba24a98fd65157577f",
+        "android_client_info": {
+          "package_name": "com.example.shared_pantry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248552006510-t0l8fckvm8faoaqn3e0v0413f1cad63u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPeA_aQFXMzORQ0xKtizh1j0ZwbTNoHzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248552006510-t0l8fckvm8faoaqn3e0v0413f1cad63u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
