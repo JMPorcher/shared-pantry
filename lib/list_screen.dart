@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/widgets/add_dialog.dart';
 import 'package:shared_pantry/widgets/item_list.dart';
-import 'package:provider/provider.dart';
-
-import 'models/item.dart';
 
 class ListScreen extends StatefulWidget {
   const ListScreen({Key? key}) : super(key: key);
@@ -15,9 +12,10 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   bool switchState = false;
 
-  Future<Item?> showAddDialog() => showDialog<Item>(
+  void showAddDialog() => showDialog(
       context: context,
-      builder: (BuildContext context) => AddDialog());
+      builder: (BuildContext context) => const AddDialog()
+  );
 
   @override
   Widget build(BuildContext context) {

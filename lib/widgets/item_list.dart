@@ -19,10 +19,15 @@ class _ItemListState extends State<ItemList> {
       child: ListView.builder(
           itemCount: itemList.length,
           itemBuilder: (context, index) {
-            return ItemTile(
-                itemList[index].title,
-                itemList[index].isAvailable,
-                toggleSwitch: (_) => itemList[index].toggleAvailable());
+            return Dismissible(
+              onDismissed: (direction){context.read<ItemListProvider>().removeItemAt(index);},
+              key: UniqueKey(),
+              child: ItemTile(
+                  itemList[index].title,
+                  itemList[index].isAvailable,
+                  toggleSwitch: (_) { context.read<ItemListProvider>().toggleItemAvailability(index);}
+              ),
+            );
           }
       ),
     );
@@ -32,22 +37,22 @@ class _ItemListState extends State<ItemList> {
 class ItemListProvider with ChangeNotifier {
   final List<Item> _itemList = [
     Item('Bread', false),
-    Item('Boyyy', false),
+    Item('Enriched Uranium', false),
   ];
   List<Item> get itemList => _itemList;
 
   void addItem(Item item) {
-    itemList.add(item);
+    _itemList.add(item);
     notifyListeners();
   }
 
-  void removeItem(Item item) {
-    itemList.remove(item);
+  void removeItemAt(int index) {
+    _itemList.removeAt(index);
     notifyListeners();
   }
 
   void toggleItemAvailability(int index) {
-    itemList[index].toggleAvailable();
+    _itemList[index].toggleAvailable();
     notifyListeners();
   }
 }

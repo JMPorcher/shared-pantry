@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/list_screen.dart';
 import 'package:shared_pantry/widgets/item_list.dart';
+import 'package:shared_pantry/widgets/shopping_list_dialog.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: '',),
     );
   }
 }
@@ -44,7 +45,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Shared Pantry'),
+        actions: <Widget>[
+          IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {
+                showDialog(context: context, builder: (BuildContext context) => const ShoppingListDialog());
+              }),
+        ],
       ),
       body: const ListScreen(),
     );
