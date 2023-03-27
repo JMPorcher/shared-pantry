@@ -38,6 +38,7 @@ class ItemListProvider with ChangeNotifier {
   final List<Item> _itemList = [
     Item('Bread', false),
     Item('Enriched Uranium', false),
+    Item('Test from office', true),
   ];
   List<Item> get itemList => _itemList;
 

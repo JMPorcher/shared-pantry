@@ -13,7 +13,7 @@ void main() async {
   );
   runApp(MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => ItemListProvider())],
-      child: MyApp()));
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
