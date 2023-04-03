@@ -14,14 +14,14 @@ HOW TO STORE THIS???
 JSON Format Categories and Lists:
 [
   {
-    category title: "Category 1",
+    category_title: "Category 1",
     list: [
       {"item" : bool}
       {"item" : bool}
     ]     
   },
   {
-    category title: "Category 2",
+    category_title: "Category 2",
     list: [
       {"item" : bool}
       {"item" : bool}

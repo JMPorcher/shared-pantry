@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_pantry/models/item_category.dart';
-import '../providers/item_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/item.dart';
+import '../providers/item_list_provider.dart';
 
 class ShoppingListDialog extends StatefulWidget {
   const ShoppingListDialog({super.key});
@@ -24,7 +24,7 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
     for (ItemCategory category in providerList) {
       itemsThatRanOut.addAll(category.items.where((i) => i.isAvailable == false).toList());
     }
-
+  // Testing
 
     String appendUnavailableItems() {
       String unavailableItems = '';
