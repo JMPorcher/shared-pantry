@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'item_list.dart';
+import 'package:shared_pantry/models/item_category.dart';
+import '../providers/item_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -17,8 +18,13 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
 
  @override
   Widget build(BuildContext context) {
-    List<Item> allItems = context.watch<ItemListProvider>().itemList;
-    List<Item> itemsThatRanOut = allItems.where((i) => i.isAvailable == false).toList();
+    //TODO Change allItems to gather all items from all categories
+    var providerList = context.watch<ItemListProvider>().categoriesList;
+    List<Item> itemsThatRanOut = [];
+    for (ItemCategory category in providerList) {
+      itemsThatRanOut.addAll(category.items.where((i) => i.isAvailable == false).toList());
+    }
+
 
     String appendUnavailableItems() {
       String unavailableItems = '';
