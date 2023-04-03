@@ -1,5 +1,7 @@
 # shared_pantry
 
+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
+
 Know which household items are currently in the house
 
 ## Stuff that needs doing

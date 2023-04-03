@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 
 class ItemTile extends StatelessWidget {
 
-  const ItemTile(this.itemTitle, this.isAvailable, {super.key, required this.toggleSwitch});
+  const ItemTile({
+    required this.itemTitle,
+    required this.isAvailable,
+    super.key,
+    required this.toggleSwitch});
 
   final String itemTitle;
   final bool isAvailable;

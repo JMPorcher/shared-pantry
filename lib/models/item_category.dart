@@ -1,17 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:shared_pantry/models/item.dart';
 
-class Category {
-  Category({
-    required this.title,
-    required this.isExpanded,
-    required this.children,
-    required this.id
-  });
+class ItemCategory {
+  ItemCategory({required this.title, required this.items});
 
   final String title;
   bool isExpanded = false;
-  List<Item> children;
-  int id;
+  List<Item> items;
 
   void toggleExpanded() {
     isExpanded = !isExpanded;

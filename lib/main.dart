@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/list_screen.dart';
-import 'package:shared_pantry/widgets/item_list.dart';
+import 'package:shared_pantry/providers/item_list_provider.dart';
 import 'package:shared_pantry/widgets/shopping_list_dialog.dart';
 import 'firebase_options.dart';
 
@@ -12,7 +12,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => ItemListProvider())],
+      providers: [ChangeNotifierProvider(create: (_) => ItemListProvider(),  )],
       child: const MyApp()));
 }
 
@@ -55,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: const ListScreen(),
+      //body: const ListScreen(),
     );
   }
 }

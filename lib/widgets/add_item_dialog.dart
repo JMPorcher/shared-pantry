@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
+import '../models/item.dart';
 import '../models/item_category.dart';
 import '../providers/item_list_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddDialog extends StatefulWidget {
-  AddDialog({required this.categoryIndex, super.key});
+class AddItemDialog extends StatefulWidget {
+  AddItemDialog({required this.categoryIndex, super.key});
 
   int categoryIndex;
 
   @override
-  State<AddDialog> createState() => _AddDialogState();
+  State<AddItemDialog> createState() => _AddItemDialogState();
 }
 
-class _AddDialogState extends State<AddDialog> {
+class _AddItemDialogState extends State<AddItemDialog> {
   bool itemInStock = false;
-  String categoryTitle = '';
+  String itemTitle = '';
+  late int categoryIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    categoryIndex = widget.categoryIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,7 @@ class _AddDialogState extends State<AddDialog> {
                 autofocus: true,
                 onChanged: (newString) {
                   setState(() {
-                    categoryTitle = newString;
+                    itemTitle = newString;
                   });
                 },
               ),
@@ -54,9 +62,10 @@ class _AddDialogState extends State<AddDialog> {
                 child: const Text('Cancel')),
             TextButton(
                 onPressed: () {
-                  context.read<ItemListProvider>().addCategory(kTestCategory);
-                  Provider.of<ItemListProvider>(context,listen: false).printCategories();
-                  Navigator.pop(context);
+                  if (itemTitle != '') {
+                    context.read<ItemListProvider>().addItem(categoryIndex, Item(itemTitle, itemInStock));
+                    Navigator.pop(context);
+                  }
                 },
                 child: const Text('Add'))
           ]),]
