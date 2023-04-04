@@ -75,6 +75,7 @@ class _ExpandableItemListState extends State<ExpandableItemList> {
     return Scaffold(
       body: SingleChildScrollView(
         child: ExpansionPanelList(
+          key: UniqueKey(),
             expansionCallback: (index, isOpen) =>
                 setState(() {
                   context
