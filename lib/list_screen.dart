@@ -23,7 +23,7 @@ class _ListScreenState extends State<ListScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            const Expanded(child: ExpandableItemList()),
+            const Expanded(child: ExpandableCategoryList()),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12),
