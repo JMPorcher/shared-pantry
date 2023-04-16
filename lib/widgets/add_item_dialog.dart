@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import '../models/item.dart';
 import '../models/item_category.dart';
-import '../providers/item_list_provider.dart';
+import '../providers/category_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddItemDialog extends StatefulWidget {
@@ -63,7 +63,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
             TextButton(
                 onPressed: () {
                   if (itemTitle != '') {
-                    context.read<ItemListProvider>().addItem(categoryIndex, Item(itemTitle, itemInStock));
+                    context.read<CategoryListProvider>().addItem(categoryIndex, Item(itemTitle, itemInStock));
                     Navigator.pop(context);
                   }
                 },

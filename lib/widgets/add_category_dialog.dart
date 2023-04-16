@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 
 import '../models/item_category.dart';
-import '../providers/item_list_provider.dart';
+import '../providers/category_list_provider.dart';
 
 class AddCategoryDialog extends StatefulWidget {
   const AddCategoryDialog({super.key});
@@ -38,7 +38,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
               TextButton(
                   onPressed: () {
                     if (categoryTitle != '') {
-                      context.read<ItemListProvider>().addCategory(ItemCategory(title: categoryTitle, items: []));
+                      context.read<CategoryListProvider>().addCategory(ItemCategory(title: categoryTitle, items: []));
                       Navigator.pop(context);
                     }
                   },

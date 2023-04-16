@@ -4,7 +4,7 @@ import 'package:shared_pantry/models/item_category.dart';
 
 import '../models/item.dart';
 
-class ItemListProvider with ChangeNotifier {
+class CategoryListProvider with ChangeNotifier {
   final List<ItemCategory> _categoriesList = [kTestCategory];
   List<ItemCategory> get categoriesList => _categoriesList;
 
@@ -21,7 +21,7 @@ class ItemListProvider with ChangeNotifier {
   }
 
   void removeCategoryAt(int index) {
-    //TODO
+    _categoriesList.removeAt(index);
     notifyListeners();
   }
 

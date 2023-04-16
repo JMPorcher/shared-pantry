@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/widgets/add_category_dialog.dart';
-import 'package:shared_pantry/widgets/expandable_item_list.dart';
+import 'package:shared_pantry/widgets/expandable_category_list.dart';
 
 class ListScreen extends StatefulWidget {
   const ListScreen({Key? key}) : super(key: key);

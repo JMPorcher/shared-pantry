@@ -1,6 +1,6 @@
 
 import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/providers/item_list_provider.dart';
+import 'package:shared_pantry/providers/category_list_provider.dart';
 
 import 'models/item.dart';
 
