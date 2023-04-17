@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_pantry/widgets/add_category_dialog.dart';
+import 'package:shared_pantry/dialogs/add_category_dialog.dart';
 import 'package:shared_pantry/widgets/expandable_category_list.dart';
 
 class ListScreen extends StatefulWidget {

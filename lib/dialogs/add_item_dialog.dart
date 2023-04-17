@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shared_pantry/constants.dart';
 import '../models/item.dart';
-import '../models/item_category.dart';
 import '../providers/category_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddItemDialog extends StatefulWidget {
-  AddItemDialog({required this.categoryIndex, super.key});
+  const AddItemDialog({required this.categoryIndex, super.key});
 
-  int categoryIndex;
+  final int categoryIndex;
 
   @override
   State<AddItemDialog> createState() => _AddItemDialogState();

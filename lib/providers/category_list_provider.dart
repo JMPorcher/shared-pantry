@@ -12,7 +12,6 @@ class CategoryListProvider with ChangeNotifier {
     var result = categoriesList.map((item) {
       return {"key": item.title};
     }).toList();
-    print(result);
   }
 
   void addCategory(ItemCategory category) {
@@ -22,6 +21,11 @@ class CategoryListProvider with ChangeNotifier {
 
   void removeCategoryAt(int index) {
     _categoriesList.removeAt(index);
+    notifyListeners();
+  }
+
+  void editCategory(int index, String newTitle) {
+    _categoriesList[index].changeTitle(newTitle);
     notifyListeners();
   }
 
