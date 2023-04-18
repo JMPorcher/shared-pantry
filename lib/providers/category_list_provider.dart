@@ -8,12 +8,6 @@ class CategoryListProvider with ChangeNotifier {
   final List<ItemCategory> _categoriesList = [kTestCategory];
   List<ItemCategory> get categoriesList => _categoriesList;
 
-  void printCategories() {
-    var result = categoriesList.map((item) {
-      return {"key": item.title};
-    }).toList();
-  }
-
   void addCategory(ItemCategory category) {
     _categoriesList.add(category);
     notifyListeners();
