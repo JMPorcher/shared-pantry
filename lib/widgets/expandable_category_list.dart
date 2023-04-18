@@ -55,10 +55,7 @@ class _ExpandableCategoryListState extends State<ExpandableCategoryList> {
                         categoryIndex: categoryList.indexOf(currentCategory),
                         categoryTitle: categoryList.isEmpty
                             ? ''
-                            : context
-                                .watch<CategoryListProvider>()
-                                .categoriesList[index]
-                                .title,
+                            : categoryList[index].title,
                       ),
                     );
                   },

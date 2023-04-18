@@ -7,6 +7,4 @@ class Item {
   void toggleAvailable() {
     isAvailable = !isAvailable;
   }
-
-
 }
