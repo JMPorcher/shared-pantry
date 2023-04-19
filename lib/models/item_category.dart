@@ -13,6 +13,5 @@ class ItemCategory {
 
   void changeTitle(String newTitle) {
     title = newTitle;
-    print(newTitle);
   }
 }
