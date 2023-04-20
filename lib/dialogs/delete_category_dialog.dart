@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/category_list_provider.dart';
+import 'package:shared_pantry/models/item_category.dart';
+import '../providers/pantry_list_provider.dart';
 
 class DeleteCategoryDialog extends StatefulWidget {
   const DeleteCategoryDialog(
-      {required this.categoryIndex, required this.categoryTitle, super.key});
+      {required this.currentCategory, super.key});
 
-  final int categoryIndex;
-  final String categoryTitle;
+  final ItemCategory currentCategory;
 
   @override
   State<DeleteCategoryDialog> createState() => _DeleteCategoryDialogState();
 }
 
-class _DeleteCategoryDialogState extends State<DeleteCategoryDialog> {
-  bool itemInStock = false;
-  String categoryTitle = '';
-  late int categoryIndex;
 
-  @override
-  void initState() {
-    super.initState();
-    categoryTitle = widget.categoryTitle;
-    categoryIndex = widget.categoryIndex;
-  }
+class _DeleteCategoryDialogState extends State<DeleteCategoryDialog> {
 
   @override
   Widget build(BuildContext context) {
+    ItemCategory currentCategory = widget.currentCategory;
+
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +29,7 @@ class _DeleteCategoryDialogState extends State<DeleteCategoryDialog> {
                 width: double.infinity,
                 child: Text('You are about to delete category'),
               ),
-              content: Text(categoryTitle, textAlign: TextAlign.center),
+              content: Text(currentCategory.title, textAlign: TextAlign.center),
               actions: [
                 TextButton(
                     onPressed: () {
@@ -47,7 +40,7 @@ class _DeleteCategoryDialogState extends State<DeleteCategoryDialog> {
                     onPressed: () {
                       Navigator.pop(context);
                       context
-                          .read<CategoryListProvider>()
+                          .read<PantryListProvider>()
                           .removeCategoryAt(categoryIndex);
                     },
                     child: const Text('Yes'))

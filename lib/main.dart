@@ -1,19 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/list_screen.dart';
-import 'package:shared_pantry/providers/category_list_provider.dart';
-import 'package:shared_pantry/widgets/shopping_list_dialog.dart';
-import 'firebase_options.dart';
+import 'package:shared_pantry/providers/pantry_list_provider.dart';
+import 'package:shared_pantry/widgets/pantry_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  runApp(
+      ChangeNotifierProvider(
+        create: (_) => PantryListProvider(),
+        child: const MyApp()
+      )
   );
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => CategoryListProvider(),  )],
-      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -22,40 +24,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Shared Pantry',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: '',),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shared Pantry'),
-        actions: <Widget>[
-          IconButton(
-              icon: const Icon(Icons.shopping_cart),
-              onPressed: () {
-                showDialog(context: context, builder: (BuildContext context) => const ShoppingListDialog());
-              }),
-        ],
-      ),
-      body: const ListScreen(),
-      //body: const ListScreen(),
+      home: const PantryScreen(),
     );
   }
 }

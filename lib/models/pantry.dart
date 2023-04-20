@@ -1,7 +1,7 @@
 import 'item_category.dart';
 
 class Pantry {
-  Pantry(this.categoryList);
+  Pantry({required this.categoryList});
 
   List<ItemCategory> categoryList;
 

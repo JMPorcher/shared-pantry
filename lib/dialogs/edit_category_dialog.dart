@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../providers/category_list_provider.dart';
+import 'package:shared_pantry/models/item_category.dart';
+import '../providers/pantry_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class EditCategoryDialog extends StatefulWidget {
-  const EditCategoryDialog({required this.categoryIndex, super.key});
+  const EditCategoryDialog({required this.itemCategory, super.key});
 
-  final int categoryIndex;
+  final ItemCategory itemCategory;
 
   @override
   State<EditCategoryDialog> createState() => _EditCategoryDialogState();
@@ -17,8 +18,8 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
 
   @override
   Widget build(BuildContext context) {
-    int categoryIndex = widget.categoryIndex;
-    String categoryTitle = context.watch<CategoryListProvider>().categoriesList[categoryIndex].title;
+    ItemCategory itemCategory = widget.itemCategory;
+    String categoryTitle = itemCategory.title;
 
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -45,7 +46,7 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
               TextButton(
                   onPressed: () {
                     if (newTitle.isNotEmpty) {
-                      context.read<CategoryListProvider>().editCategory(categoryIndex, newTitle);
+                      context.read<PantryListProvider>().editCategory(itemCategory, newTitle);
                       Navigator.pop(context);
                     }
                   },

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shared_pantry/models/item_category.dart';
 import '../models/item.dart';
-import '../providers/category_list_provider.dart';
+import '../providers/pantry_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddItemDialog extends StatefulWidget {
-  const AddItemDialog({required this.categoryIndex, super.key});
+  const AddItemDialog({required this.currentItemList, super.key});
 
-  final int categoryIndex;
+  final List<Item> currentItemList;
 
   @override
   State<AddItemDialog> createState() => _AddItemDialogState();
@@ -15,16 +16,10 @@ class AddItemDialog extends StatefulWidget {
 class _AddItemDialogState extends State<AddItemDialog> {
   bool itemInStock = false;
   String itemTitle = '';
-  late int categoryIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    categoryIndex = widget.categoryIndex;
-  }
 
   @override
   Widget build(BuildContext context) {
+    List<Item> currentItemList = widget.currentItemList;
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +56,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
             TextButton(
                 onPressed: () {
                   if (itemTitle != '') {
-                    context.read<CategoryListProvider>().addItem(categoryIndex, Item(itemTitle, itemInStock));
+                    context.read<PantryListProvider>().addItem(currentItemList, Item(itemTitle, itemInStock));
                     Navigator.pop(context);
                   }
                 },

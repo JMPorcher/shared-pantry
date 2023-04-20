@@ -3,23 +3,27 @@ import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 
 import '../models/item.dart';
+import '../models/pantry.dart';
 
-class CategoryListProvider with ChangeNotifier {
+class PantryListProvider with ChangeNotifier {
   final List<ItemCategory> _categoriesList = [kTestCategory];
   List<ItemCategory> get categoriesList => _categoriesList;
+
+  final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2];
+  List<Pantry> get pantriesList => _pantriesList;
 
   void addCategory(ItemCategory category) {
     _categoriesList.add(category);
     notifyListeners();
   }
 
-  void removeCategoryAt(int index) {
-    _categoriesList.removeAt(index);
+  void removeCategory(List<ItemCategory> itemCategoryList) {
+    _categoriesList.remove(itemCategory);
     notifyListeners();
   }
 
-  void editCategory(int index, String newTitle) {
-    _categoriesList[index].changeTitle(newTitle);
+  void editCategory(ItemCategory itemCategory, String newTitle) {
+    itemCategory.changeTitle(newTitle);
     notifyListeners();
   }
 
@@ -28,13 +32,13 @@ class CategoryListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addItem(int categoryIndex, Item item) {
-    _categoriesList[categoryIndex].items.add(item);
+  void addItem(List<Item> itemList, Item item) {
+    itemList.add(item);
     notifyListeners();
   }
 
-  void removeItemAt(int categoryIndex, int index) {
-    _categoriesList[categoryIndex].items.removeAt(index);
+  void removeItemAt(int categoryIndex, int itemIndex) {
+    _categoriesList[categoryIndex].items.removeAt(itemIndex);
     notifyListeners();
   }
 
