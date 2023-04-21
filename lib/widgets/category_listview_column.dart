@@ -1,31 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/models/pantry.dart';
 
 import '../dialogs/add_category_dialog.dart';
 import '../dialogs/delete_category_dialog.dart';
 import '../dialogs/edit_category_dialog.dart';
+import 'item_listview_column.dart';
 
-class CategoryListViewColumn extends StatefulWidget {
-  CategoryListViewColumn({required this.currentCategoryList, Key? key}) : super(key: key);
+class CategoryListViewColumn extends StatelessWidget {
+  const CategoryListViewColumn({required this.currentCategoryList, Key? key}) : super(key: key);
 
   final List<ItemCategory> currentCategoryList;
 
   @override
-  State<CategoryListViewColumn> createState() => _CategoryListViewColumnState();
-}
-
-class _CategoryListViewColumnState extends State<CategoryListViewColumn> {
-
-  void showAddDialog() =>
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => const AddCategoryDialog());
-
-  @override
   Widget build(BuildContext context) {
-    List<ItemCategory> currentCategoryList = widget.currentCategoryList;
+
+    void showAddDialog() =>
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AddCategoryDialog(currentCategoryList: currentCategoryList,));
 
     return Column(
       children: [
@@ -57,9 +50,7 @@ class _CategoryListViewColumnState extends State<CategoryListViewColumn> {
                           builder: (BuildContext context) =>
                               DeleteCategoryDialog(
                                 currentCategory: currentCategory,
-                                categoryTitle: currentPantry.categoryList.isEmpty
-                                    ? ''
-                                    : currentPantry.categoryList[categoryIndex].title,
+                                currentCategoryList: currentCategoryList
                               ),
                         );
                       },
@@ -75,16 +66,16 @@ class _CategoryListViewColumnState extends State<CategoryListViewColumn> {
                   ),
                   margin: const EdgeInsets.only(bottom: 4),
                   child: ExpansionTile(
-                    initiallyExpanded: currentPantry.categoryList[categoryIndex].isExpanded,
+                    initiallyExpanded: currentCategoryList[categoryIndex].isExpanded,
                     onExpansionChanged: (_) {
-                      currentPantry.categoryList[categoryIndex].toggleExpanded();
+                      currentCategoryList[categoryIndex].toggleExpanded();
                     },
                     title: Center(
                         child: Text(currentCategory.title)),
                     collapsedBackgroundColor: const Color(
                         0x5BAAD9FF),
                     children: [
-                      ItemListViewColumn(currentCategory: currentCategory)
+                      ItemListViewColumn(itemList: currentCategory.items)
                     ],
                   ), //Category tile that can be expanded
                 ));
@@ -104,7 +95,7 @@ class _CategoryListViewColumnState extends State<CategoryListViewColumn> {
           ]),
           child: MaterialButton(
               onPressed: () => showAddDialog(),
-              child: currentPantry.categoryList.isEmpty
+              child: currentCategoryList.isEmpty
                   ? const Text(
                 '(  Add your first category  )',
                 style: TextStyle(color: Colors.white),
@@ -113,6 +104,6 @@ class _CategoryListViewColumnState extends State<CategoryListViewColumn> {
                   style: TextStyle(color: Colors.white))),
         )
       ],
-    ),;
+    );
   }
 }

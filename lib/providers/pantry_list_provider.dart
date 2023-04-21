@@ -5,20 +5,25 @@ import 'package:shared_pantry/models/item_category.dart';
 import '../models/item.dart';
 import '../models/pantry.dart';
 
-class PantryListProvider with ChangeNotifier {
+class PantryProvider with ChangeNotifier {
   final List<ItemCategory> _categoriesList = [kTestCategory];
   List<ItemCategory> get categoriesList => _categoriesList;
 
   final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2];
   List<Pantry> get pantriesList => _pantriesList;
 
-  void addCategory(ItemCategory category) {
-    _categoriesList.add(category);
+  String currentPantryTitle(Pantry pantry) {
+    return pantry.pantryTitle;
+  }
+
+  //===========CATEGORY FUNCTIONS===========
+  void addCategory(List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {
+    itemCategoryList.add(itemCategory);
     notifyListeners();
   }
 
-  void removeCategory(List<ItemCategory> itemCategoryList) {
-    _categoriesList.remove(itemCategory);
+  void removeCategory(List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {
+    itemCategoryList.remove(itemCategory);
     notifyListeners();
   }
 
@@ -27,23 +32,25 @@ class PantryListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleCategoryIsExpanded(int categoryIndex) {
-    _categoriesList[categoryIndex].toggleExpanded();
+  void toggleCategoryIsExpanded(List<ItemCategory> categoryList, ItemCategory itemCategory) {
+    categoryList[categoryList.indexOf(itemCategory)].toggleExpanded();
     notifyListeners();
   }
 
+
+  //===========ITEM FUNCTIONS===========
   void addItem(List<Item> itemList, Item item) {
     itemList.add(item);
     notifyListeners();
   }
 
-  void removeItemAt(int categoryIndex, int itemIndex) {
-    _categoriesList[categoryIndex].items.removeAt(itemIndex);
+  void removeItem(List<Item> itemList, Item item) {
+    itemList.remove(item);
     notifyListeners();
   }
 
-  void toggleItemAvailability(int categoryIndex, int index) {
-    _categoriesList[categoryIndex].items[index].toggleAvailable();
+  void toggleItemAvailability(List<Item> itemList, Item item) {
+    itemList[itemList.indexOf(item)].toggleAvailable();
     notifyListeners();
   }
 }

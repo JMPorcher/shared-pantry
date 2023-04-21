@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/models/item_category.dart';
-import '../providers/pantry_list_provider.dart';
+import 'package:shared_pantry/providers/pantry_list_provider.dart';
 
-class DeleteCategoryDialog extends StatefulWidget {
+class DeleteCategoryDialog extends StatelessWidget {
   const DeleteCategoryDialog(
-      {required this.currentCategory, super.key});
+      {required this.currentCategory,
+       required this.currentCategoryList,
+       super.key});
 
   final ItemCategory currentCategory;
-
-  @override
-  State<DeleteCategoryDialog> createState() => _DeleteCategoryDialogState();
-}
-
-
-class _DeleteCategoryDialogState extends State<DeleteCategoryDialog> {
+  final List<ItemCategory> currentCategoryList;
 
   @override
   Widget build(BuildContext context) {
-    ItemCategory currentCategory = widget.currentCategory;
 
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -39,9 +34,7 @@ class _DeleteCategoryDialogState extends State<DeleteCategoryDialog> {
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      context
-                          .read<PantryListProvider>()
-                          .removeCategoryAt(categoryIndex);
+                      context.read<PantryProvider>().removeCategory(currentCategoryList, currentCategory);
                     },
                     child: const Text('Yes'))
               ]),

@@ -46,7 +46,7 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
               TextButton(
                   onPressed: () {
                     if (newTitle.isNotEmpty) {
-                      context.read<PantryListProvider>().editCategory(itemCategory, newTitle);
+                      context.read<PantryProvider>().editCategory(itemCategory, newTitle);
                       Navigator.pop(context);
                     }
                   },

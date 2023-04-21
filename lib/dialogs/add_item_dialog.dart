@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_pantry/models/item_category.dart';
 import '../models/item.dart';
 import '../providers/pantry_list_provider.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +55,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
             TextButton(
                 onPressed: () {
                   if (itemTitle != '') {
-                    context.read<PantryListProvider>().addItem(currentItemList, Item(itemTitle, itemInStock));
+                    context.read<PantryProvider>().addItem(currentItemList, Item(itemTitle, itemInStock));
                     Navigator.pop(context);
                   }
                 },

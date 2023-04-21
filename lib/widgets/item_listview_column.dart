@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/models/item_category.dart';
 
 import '../dialogs/add_item_dialog.dart';
 import '../models/item.dart';
 import '../providers/pantry_list_provider.dart';
 import 'item_tile.dart';
 
-class ItemListViewColumn extends StatefulWidget {
+class ItemListViewColumn extends StatelessWidget {
   const ItemListViewColumn({required this.itemList, Key? key})
       : super(key: key);
 
   final List<Item> itemList;
 
   @override
-  State<ItemListViewColumn> createState() => _ItemListViewColumnState();
-}
-
-class _ItemListViewColumnState extends State<ItemListViewColumn> {
-  @override
   Widget build(BuildContext context) {
-    List<Item> itemList = widget.itemList;
 
     return Column(
       children: [
@@ -31,16 +24,16 @@ class _ItemListViewColumnState extends State<ItemListViewColumn> {
               Item currentItem = itemList[itemIndex];
               return Dismissible(
                 onDismissed: (direction) {
-                  context.read<PantryListProvider>().removeItemAt(
-                      itemList.indexOf(currentItem), itemIndex);
+                  context.read<PantryProvider>().removeItem(
+                      itemList, currentItem);
                 },
                 key: UniqueKey(),
                 child: ItemTile(
                   toggleSwitch: (_) => context
-                      .read<PantryListProvider>()
+                      .read<PantryProvider>()
                       .toggleItemAvailability(
-                          itemList.indexOf(currentItem),
-                          itemIndex),
+                          itemList,
+                          currentItem),
                   itemTitle: currentItem.title,
                   isAvailable: currentItem.isAvailable,
                 ),

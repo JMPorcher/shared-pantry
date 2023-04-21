@@ -4,8 +4,8 @@ import 'package:shared_pantry/providers/pantry_list_provider.dart';
 import 'models/item.dart';
 import 'models/pantry.dart';
 
-Pantry kTestPantry = Pantry(categoryList: [kTestCategory]);
-Pantry kTestPantry2 = Pantry(categoryList: [kTestCategory2]);
+Pantry kTestPantry = Pantry(categoryList: [kTestCategory], pantryTitle: 'Pantry 1');
+Pantry kTestPantry2 = Pantry(categoryList: [kTestCategory2], pantryTitle: 'Pantry 2');
 
 ItemCategory kTestCategory = ItemCategory(
   title: 'Test category',

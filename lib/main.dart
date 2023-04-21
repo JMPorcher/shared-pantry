@@ -12,7 +12,7 @@ void main() async {
   // );
   runApp(
       ChangeNotifierProvider(
-        create: (_) => PantryListProvider(),
+        create: (_) => PantryProvider(),
         child: const MyApp()
       )
   );

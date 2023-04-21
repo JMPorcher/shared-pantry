@@ -18,7 +18,7 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
 
  @override
   Widget build(BuildContext context) {
-    var providerList = context.watch<PantryListProvider>().categoriesList;
+    var providerList = context.watch<PantryProvider>().categoriesList;
     List<Item> itemsThatRanOut = [];
     for (ItemCategory category in providerList) {
       itemsThatRanOut.addAll(category.items.where((i) => i.isAvailable == false).toList());

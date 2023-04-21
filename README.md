@@ -12,13 +12,15 @@ Know which household items are currently in the house. Add more pantries: person
 
 [X] Does the **Pantry class** need something else at this point?
 --> nah
-[] Add Pantry to Provider
-[] PageView for Pantries
+[X] Add Pantry to Provider
+[X] PageView for Pantries
+[] Add Pantry title to AppBar
+[] Adjust ShoppingList for Pantries
 
-[] Delete option for Pantries: personal is archivable/deletable, shared can be erased by Pantry starter or left by every other user
 
 [] Welcome screen "Add your first pantry"
 
+[] Delete option for Pantries: personal is archivable/deletable, shared can be erased by Pantry starter or left by every other user
 [] Firebase basic structure (I'm scared man)
 [] Firebase groups
 
