@@ -1,10 +1,14 @@
 import 'item_category.dart';
 
 class Pantry {
-  Pantry({required this.categoryList, required this.pantryTitle});
+  Pantry(this.categoryList, {required this.pantryTitle});
 
-  List<ItemCategory> categoryList;
-  final String pantryTitle;
+  List<ItemCategory> categoryList = [];
+  String pantryTitle;
+
+  void editTitle(String newTitle) {
+    pantryTitle = newTitle;
+  }
 
   // Pantry.private({});
   // Pantry.shared({});

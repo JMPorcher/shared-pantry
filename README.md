@@ -14,7 +14,11 @@ Know which household items are currently in the house. Add more pantries: person
 --> nah
 [X] Add Pantry to Provider
 [X] PageView for Pantries
-[] Add Pantry title to AppBar
+[X] Add Pantry title to AppBar
+[X] Make it possible to add Pantry
+[] Implement PageController so the PageView switches to the new page upon adding
+[X] Make it possible to remove and rename Pantry
+
 [] Adjust ShoppingList for Pantries
 
 

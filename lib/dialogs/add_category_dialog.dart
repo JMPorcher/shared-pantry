@@ -5,7 +5,7 @@ import '../models/item_category.dart';
 import '../providers/pantry_list_provider.dart';
 
 class AddCategoryDialog extends StatefulWidget {
-    const AddCategoryDialog({required this.currentCategoryList, super.key});
+    const AddCategoryDialog({required this.currentCategoryList, super.key, });
 
     final List<ItemCategory> currentCategoryList;
 
@@ -21,6 +21,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
   @override
   Widget build(BuildContext context) {
     List<ItemCategory> currentCategoryList = widget.currentCategoryList;
+
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,

@@ -16,6 +16,16 @@ class PantryProvider with ChangeNotifier {
     return pantry.pantryTitle;
   }
 
+  void addPantryWithTitle(String title) {
+    _pantriesList.add(Pantry([], pantryTitle: title));
+    notifyListeners();
+  }
+
+  void editPantry(Pantry pantry, String newTitle) {
+    pantry.editTitle(newTitle);
+    notifyListeners();
+  }
+
   //===========CATEGORY FUNCTIONS===========
   void addCategory(List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {
     itemCategoryList.add(itemCategory);
