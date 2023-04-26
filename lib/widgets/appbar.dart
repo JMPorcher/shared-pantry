@@ -7,10 +7,9 @@ import '../models/pantry.dart';
 
 class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
 
-  const PantryAppBar({required this.currentPantry, required this.pageController, Key? key}) : super(key: key);
+  const PantryAppBar({required this.currentPantry, Key? key}) : super(key: key);
 
   final Pantry currentPantry;
-  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +30,7 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
 
             itemBuilder: (context) {
           return [
+            //TODO Add pantry doesn't seem to work when freshly installed
             PopupMenuItem<int>(
               value: 0,
               child: GestureDetector(
@@ -39,11 +39,11 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                      AddPantryDialog(pageController: pageController,));
+                      const AddPantryDialog());
                 },
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     Text('Add new Pantry', style: TextStyle(color: Colors.blue)),
                     Icon(Icons.add, color: Colors.blue)
                   ],
@@ -60,9 +60,9 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                       builder: (BuildContext context) =>
                       const ShoppingListDialog());
                 },
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     Text('Shopping List', style: TextStyle(color: Colors.blue)),
                     Icon(Icons.shopping_cart, color: Colors.blue),
                   ],

@@ -13,16 +13,17 @@ class PantryScreen extends StatefulWidget {
 }
 
 class _PantryScreenState extends State<PantryScreen> {
-  PageController pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
+    PageController pageController = context.watch<PantryProvider>().pageController;
     List<Pantry> pantryList =
         context
             .watch<PantryProvider>()
             .pantriesList;
 
     return PageView.builder(
+            controller: pageController,
             itemCount: pantryList.length,
             itemBuilder: (context, pantryIndex) {
               Pantry currentPantry = pantryList[pantryIndex];
@@ -31,8 +32,7 @@ class _PantryScreenState extends State<PantryScreen> {
                 child: CategoryListViewColumn(
                   currentCategoryList: currentPantry.categoryList,
                   currentTitle: currentPantry.pantryTitle,
-                  currentPantry: currentPantry,
-                  pageController: pageController)
+                  currentPantry: currentPantry)
               );
             }
         );

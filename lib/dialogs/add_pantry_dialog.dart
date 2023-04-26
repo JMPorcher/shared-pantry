@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/models/pantry.dart';
 
 import '../providers/pantry_list_provider.dart';
 
 class AddPantryDialog extends StatefulWidget {
-  const AddPantryDialog({required this.pageController, super.key});
-
-  final PageController pageController;
+  const AddPantryDialog({super.key});
 
   @override
   State<AddPantryDialog> createState() => _AddPantryDialogState();
@@ -17,8 +16,8 @@ class _AddPantryDialogState extends State<AddPantryDialog> {
 
   @override
   Widget build(BuildContext context) {
-    PantryProvider pantryProvider = context.watch<PantryProvider>();
-    PageController pageController = widget.pageController;
+    PageController pageController = context.watch<PantryProvider>().pageController;
+    List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
 
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -43,9 +42,19 @@ class _AddPantryDialogState extends State<AddPantryDialog> {
                 TextButton(
                     onPressed: () {
                       if (pantryTitle != '') {
-                        pantryProvider.addPantryWithTitle(pantryTitle);
-                        //TODO Jump to new page
+                        context
+                            .read<PantryProvider>()
+                            .addPantryWithTitle(pantryTitle);
+
                         Navigator.pop(context);
+                        if (pageController.hasClients) {
+                          // TODO: animateToPage seems to seek the shortest route to target page? Find out
+                          pageController.jumpToPage(pantryList.length-1);
+                          // pageController.nextPage(
+                          //     duration: const Duration(milliseconds: 1000),
+                          //     curve: const ElasticInCurve()
+                          // );
+                        }
                       }
                     },
                     child: const Text('Add'))

@@ -10,8 +10,6 @@ Know which household items are currently in the house. Add more pantries: person
 [X] Move "add category" button from list_screen.dart bottom to top, "Add first category" label if there are none yet
 --> Button moved to expandable_category_list.dart
 
-[X] Does the **Pantry class** need something else at this point?
---> nah
 [X] Add Pantry to Provider
 [X] PageView for Pantries
 [X] Add Pantry title to AppBar
@@ -19,7 +17,7 @@ Know which household items are currently in the house. Add more pantries: person
 [] Implement PageController so the PageView switches to the new page upon adding
 [X] Make it possible to remove and rename Pantry
 
-[] Adjust ShoppingList for Pantries
+[] Adjust ShoppingList for Pantries, with checkboxes vor which Pantries to include.
 
 
 [] Welcome screen "Add your first pantry"

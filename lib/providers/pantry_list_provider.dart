@@ -12,19 +12,25 @@ class PantryProvider with ChangeNotifier {
   final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2];
   List<Pantry> get pantriesList => _pantriesList;
 
-  String currentPantryTitle(Pantry pantry) {
-    return pantry.pantryTitle;
+  String currentPantryTitle = '';
+  PageController pageController = PageController();
+
+  void changeCurrentTitle(String onScreenTitle) {
+    currentPantryTitle = onScreenTitle;
+    notifyListeners();
   }
 
-  void addPantryWithTitle(String title) {
+  int addPantryWithTitle(String title) {
     _pantriesList.add(Pantry([], pantryTitle: title));
     notifyListeners();
+    return _pantriesList.length-1;
   }
 
   void editPantry(Pantry pantry, String newTitle) {
     pantry.editTitle(newTitle);
     notifyListeners();
   }
+
 
   //===========CATEGORY FUNCTIONS===========
   void addCategory(List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {

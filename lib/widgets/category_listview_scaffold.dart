@@ -14,14 +14,12 @@ class CategoryListViewColumn extends StatelessWidget {
       {required this.currentCategoryList,
       required this.currentPantry,
       Key? key,
-      required this.currentTitle,
-      required this.pageController})
+      required this.currentTitle})
       : super(key: key);
 
   final Pantry currentPantry;
   final List<ItemCategory> currentCategoryList;
   final String currentTitle;
-  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class CategoryListViewColumn extends StatelessWidget {
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
       child: Scaffold(
-          appBar: PantryAppBar(currentPantry: currentPantry, pageController: pageController,),
+          appBar: PantryAppBar(currentPantry: currentPantry),
           body: Column(
             children: [
               ListView.builder(

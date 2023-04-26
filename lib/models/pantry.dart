@@ -10,6 +10,8 @@ class Pantry {
     pantryTitle = newTitle;
   }
 
+
+
   // Pantry.private({});
   // Pantry.shared({});
 
