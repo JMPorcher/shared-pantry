@@ -41,6 +41,7 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
         content: SingleChildScrollView(
           child: SizedBox(
             width: double.infinity,
+            height: double.maxFinite,
             child: Column(
               children: [
                 Container(
@@ -72,7 +73,7 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
                 ),
                 Container(
                   width: double.maxFinite,
-                  height: 400,
+                  height: itemsThatRanOut.length * 20,
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: itemsThatRanOut.length,
