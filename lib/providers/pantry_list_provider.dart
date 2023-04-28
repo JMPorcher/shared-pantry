@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loop_page_view/loop_page_view.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 
@@ -13,7 +14,7 @@ class PantryProvider with ChangeNotifier {
   List<Pantry> get pantriesList => _pantriesList;
 
   String currentPantryTitle = '';
-  PageController pageController = PageController();
+  LoopPageController pageController = LoopPageController();
 
   void changeCurrentTitle(String onScreenTitle) {
     currentPantryTitle = onScreenTitle;

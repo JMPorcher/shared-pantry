@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:loop_page_view/loop_page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/models/pantry.dart';
 
@@ -16,7 +19,7 @@ class _AddPantryDialogState extends State<AddPantryDialog> {
 
   @override
   Widget build(BuildContext context) {
-    PageController pageController = context.watch<PantryProvider>().pageController;
+    LoopPageController pageController = context.watch<PantryProvider>().pageController;
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
 
     return Column(
@@ -47,14 +50,16 @@ class _AddPantryDialogState extends State<AddPantryDialog> {
                             .addPantryWithTitle(pantryTitle);
 
                         Navigator.pop(context);
+                        Timer(const Duration(milliseconds: 0), () {
                         if (pageController.hasClients) {
-                          // TODO: animateToPage seems to seek the shortest route to target page? Find out
-                          pageController.jumpToPage(pantryList.length-1);
-                          // pageController.nextPage(
-                          //     duration: const Duration(milliseconds: 1000),
-                          //     curve: const ElasticInCurve()
-                          // );
+                          // TODO: Make animation to new page less wonky?
+                          pageController.animateJumpToPage(
+                            pantryList.length-1,
+                            duration: const Duration(milliseconds: 1000),
+                            curve: const ElasticInCurve(),
+                          );
                         }
+                        });
                       }
                     },
                     child: const Text('Add'))

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/widgets/category_listview_scaffold.dart';
+import 'package:loop_page_view/loop_page_view.dart';
 
 import '../models/pantry.dart';
 import '../providers/pantry_list_provider.dart';
@@ -16,13 +17,13 @@ class _PantryScreenState extends State<PantryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PageController pageController = context.watch<PantryProvider>().pageController;
+    LoopPageController pageController = context.watch<PantryProvider>().pageController;
     List<Pantry> pantryList =
         context
             .watch<PantryProvider>()
             .pantriesList;
 
-    return PageView.builder(
+    return LoopPageView.builder(
             controller: pageController,
             itemCount: pantryList.length,
             itemBuilder: (context, pantryIndex) {
