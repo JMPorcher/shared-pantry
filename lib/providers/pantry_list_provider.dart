@@ -34,6 +34,11 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void removePantry(Pantry pantry) {
+    _pantriesList.remove(pantry);
+    notifyListeners();
+  }
+
 
   //===========CATEGORY FUNCTIONS===========
   void addCategory(List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {

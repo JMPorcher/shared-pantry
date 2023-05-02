@@ -34,19 +34,19 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
 
 
     List<Item> itemsThatRanOut = [];
-
-   void filterItems() {
-     Map<String, bool> selectedPantries = Map.from(pantryCheckboxMap).removeWhere((key, value) => value == false);
-      //TODO Find a way to iterate through the selectedPantries map
-    selectedPantries.
-     {
-      for(ItemCategory category in pantry.categoryList) {
-        itemsThatRanOut.addAll(category.items.where((i) => i.isAvailable == false).toList());
-      }
-    }
-
-
-   }
+   //
+   // void filterItems() {
+   //   Map<String, bool> selectedPantries = Map.from(pantryCheckboxMap).removeWhere((key, value) => value == false);
+   //    //TODO Find a way to iterate through the selectedPantries map
+   //  selectedPantries.
+   //   {
+   //    for(ItemCategory category in pantry.categoryList) {
+   //      itemsThatRanOut.addAll(category.items.where((i) => i.isAvailable == false).toList());
+   //    }
+   //  }
+   //
+   //
+   // }
 
     return AlertDialog(
         title: const Text('Shopping list'),
