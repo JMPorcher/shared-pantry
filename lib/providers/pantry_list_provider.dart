@@ -16,6 +16,8 @@ class PantryProvider with ChangeNotifier {
   String currentPantryTitle = '';
   LoopPageController pageController = LoopPageController();
 
+
+  //===========PANTRY FUNCTIONS===========
   void changeCurrentTitle(String onScreenTitle) {
     currentPantryTitle = onScreenTitle;
     notifyListeners();

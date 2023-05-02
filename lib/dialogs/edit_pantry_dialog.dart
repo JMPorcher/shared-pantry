@@ -25,7 +25,7 @@ class _EditPantryDialogState extends State<EditPantryDialog> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [AlertDialog(
-            title: const Text('Edit category name:'),
+            title: const Text('Edit Pantry name:'),
             content: Column(
               children: [
                 TextFormField(

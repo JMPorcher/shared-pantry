@@ -30,23 +30,21 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
 
             itemBuilder: (context) {
           return [
-            //TODO Add pantry doesn't seem to work when freshly installed
             PopupMenuItem<int>(
               value: 0,
               child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: () {
+                  print('Add pantry tapped');
                   Navigator.pop(context);
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>
                       const AddPantryDialog());
                 },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('Add new Pantry', style: TextStyle(color: Colors.blue)),
-                    Icon(Icons.add, color: Colors.blue)
-                  ],
+                child: const ListTile(
+                  leading: Text('Add new Pantry', style: TextStyle(color: Colors.blue)),
+                  trailing: Icon(Icons.add, color: Colors.blue),
                 ),
               ),
             ),
@@ -60,12 +58,9 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                       builder: (BuildContext context) =>
                       const ShoppingListDialog());
                 },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('Shopping List', style: TextStyle(color: Colors.blue)),
-                    Icon(Icons.shopping_cart, color: Colors.blue),
-                  ],
+                child: const ListTile(
+                    leading: Text('Shopping List', style: TextStyle(color: Colors.blue)),
+                    trailing: Icon(Icons.shopping_cart, color: Colors.blue),
                 ),
               ),
             )
