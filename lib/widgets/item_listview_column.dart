@@ -31,9 +31,7 @@ class ItemListViewColumn extends StatelessWidget {
                 child: ItemTile(
                   toggleSwitch: (_) => context
                       .read<PantryProvider>()
-                      .toggleItemAvailability(
-                          itemList,
-                          currentItem),
+                      .toggleItemAvailability(currentItem),
                   itemTitle: currentItem.title,
                   isAvailable: currentItem.isAvailable,
                 ),

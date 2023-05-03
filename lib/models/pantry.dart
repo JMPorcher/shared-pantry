@@ -5,6 +5,7 @@ class Pantry {
 
   List<ItemCategory> categoryList = [];
   String pantryTitle;
+  bool selected = true;
 
   void editTitle(String newTitle) {
     pantryTitle = newTitle;

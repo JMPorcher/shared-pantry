@@ -44,6 +44,7 @@ class _PantryScreenState extends State<PantryScreen> {
                       builder: (context) => const AddPantryDialog());
                 },
                 child: const Center(child: Text('Add your first pantry')),
+                //TODO Add pantry_welcome.svg
               ),
             ),
           );

@@ -73,8 +73,8 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleItemAvailability(List<Item> itemList, Item item) {
-    itemList[itemList.indexOf(item)].toggleAvailable();
+  void toggleItemAvailability(Item item) {
+    item.toggleAvailable();
     notifyListeners();
   }
 }
