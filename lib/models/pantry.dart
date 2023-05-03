@@ -5,7 +5,11 @@ class Pantry {
 
   List<ItemCategory> categoryList = [];
   String pantryTitle;
+
   bool selected = true;
+  // void toggleSelected() {
+  //   selected = !selected;
+  // }
 
   void editTitle(String newTitle) {
     pantryTitle = newTitle;

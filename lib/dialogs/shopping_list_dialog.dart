@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_pantry/models/item_category.dart';
@@ -16,148 +18,78 @@ class ShoppingListDialog extends StatefulWidget {
 }
 
 class _ShoppingListDialogState extends State<ShoppingListDialog> {
-  //The
-  //Shown items have to come from and point directly to the provider
+  //Load pantriesList from provider.
+  //Show the pantries list with switches. Flipping the switches will toggle the selected property of each pantry.
+  //From the start and upon each flicking of a switch the item list below will be filtered.
+  //The item filter will iterate over the pantries and their item lists and draw all unavailable items directly from the Provider.
+  //Checking a box will directly toggle the corresponding item in the provider.
 
 
-  Map<String, bool> pantrySwitchMap = <String, bool>{};
-  List<Pantry> pantries = [];
-  List<Item> itemsThatRanOut = [];
-  late List<String> pantryTitles;
-  Map<String, bool> relevantItemsMap = <String, bool>{};
-  List<Item> changedItems = [];
-
-  @override
-  void dispose() {
-    super.dispose();
-    for (Item item in changedItems) {
-      context.read<PantryProvider>().toggleItemAvailability(item);
-    }
-  }
 
   void filterItems() {
-    itemsThatRanOut.clear();
-
-    //Get all the KEY/VALUE-PAIRS of Pantries that are not selected
-    final Map<String, bool> selectedPantriesMap = Map.from(pantrySwitchMap)
-      ..removeWhere((key, value) => value == false);
-
-    //Get a list of the actual PANTRIES that are selected
-    final List<Pantry> selectedPantries = [];
-    for (var pantry in pantries) {
-      if (selectedPantriesMap.containsKey(pantry.pantryTitle)) {
-        selectedPantries.add(pantry);
-      }
-    }
-
-    //Add items from the selected Pantries to the list of items that ran out
-    for (Pantry pantry in selectedPantries) {
-      for (ItemCategory category in pantry.categoryList) {
-        itemsThatRanOut.addAll(
-            category.items.where((i) => i.isAvailable == false).toList());
-      }
-    }
-    for (var item in itemsThatRanOut) {
-      //relevantItemsMap.clear();
-      relevantItemsMap.putIfAbsent(item.title, () => false); }
-    print('Relevant items map: $relevantItemsMap - items: ${relevantItemsMap.length}');
+//TODO Filter items function
   }
 
 
 
   @override
   Widget build(BuildContext context) {
-    if (pantries.isEmpty) {
-      pantries.addAll(context.watch<PantryProvider>().pantriesList);
-      for (var pantry in pantries) {
-        pantrySwitchMap[pantry.pantryTitle] = true;
-      }
-      pantryTitles = pantrySwitchMap.keys.toList();
-    }
+    List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
     filterItems();
 
     return AlertDialog(
         title: const Text('Shopping list'),
         content: SingleChildScrollView(
-          child: SizedBox(
-            width: double.infinity,
-            height: double.maxFinite,
-            child: Column(
-              children: [
-                SizedBox(
-                  width: double.maxFinite,
-                  height: pantryTitles.length * 40 + 20,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: pantryTitles.length,
-                      itemExtent: 40,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                            leading: Text(pantryTitles[index]),
-                            trailing: Switch(
-                              value: pantrySwitchMap[pantryTitles[index]] ?? true,
-                              onChanged: (bool newValue) {
-                                setState(() {
-                                  pantrySwitchMap[pantryTitles[index]] =
-                                      newValue;
-                                  filterItems();
-                                });
-                              },
-                            ));
-                      }),
-                ), //Pantry selection
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: Divider(thickness: 2),
-                ),
-                SizedBox(
-                  width: double.maxFinite,
-                  height: itemsThatRanOut.length * 56,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: itemsThatRanOut.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                            leading: Text(itemsThatRanOut[index].title),
-                            trailing: Checkbox(
-                              value: false,
-                              onChanged: (bool? value) {  },),
-                        );
-                        //TODO Display filtered items as checklist instead of text list
-                      }),
-                ),
-                TextButton(
-                    onPressed: () async {
-                      String itemsThatRanOutString = '';
-                      for (Item item in itemsThatRanOut) {
-                        itemsThatRanOutString += '${item.title}\n';
-                      }
-                      if (itemsThatRanOutString.isNotEmpty) {
-                        await Clipboard.setData(
-                            ClipboardData(text: itemsThatRanOutString));
-                        Fluttertoast.showToast(
-                            msg: "Successfully copied to clipboard",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.green,
-                            textColor: Colors.black,
-                            fontSize: 16.0);
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: "No items to copy",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.green,
-                            textColor: Colors.black,
-                            fontSize: 16.0);
-                      }
-                    },
-                    child: const Text('Copy to clipboard')),//Copy list as text button
-              ],
-            ),
-          ),
+           child: Column(
+            children: [
+              SizedBox(
+                width: double.maxFinite,
+                height: pantryList.length * 40 + 20,
+                child: ListView.builder(
+                    itemCount: pantryList.length,
+                    //itemExtent: ,
+                    itemBuilder: (_, index) {
+                  Pantry currentPantry = pantryList[index];
+                  return ListTile(
+                      leading: Text(currentPantry.pantryTitle),
+                      trailing: Switch(
+                        value: currentPantry.selected,
+                        onChanged: (_) {
+                            setState(() {
+                              currentPantry.selected = !currentPantry.selected;
+                            });
+                          },
+                      ),
+                  );
+                }),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Divider(thickness: 2),
+              ),
+              SizedBox(
+                width: double.maxFinite,
+                height: pantryList.length * 60,
+                child: ListView.builder(
+                  //TODO Feed in actual filtered items
+                  itemCount: 1,
+                  itemBuilder: (_, index) {
+                    Item currentItem = Item('lol', true);
+                    return ListTile(
+                      leading: Text(currentItem.title),
+                      trailing: Checkbox(
+                        value: currentItem.isAvailable,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            //context.read<PantryProvider>().toggleItemAvailability(currentItem);
+                          });
+                        },),
+                    );
+                  },
+                )
+              )
+            ],
+           )
         )
     );
   }
