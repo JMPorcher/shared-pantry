@@ -33,6 +33,8 @@ class CategoryListViewColumn extends StatelessWidget {
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
       child: Scaffold(
+        resizeToAvoidBottomInset:
+          false,
           appBar: PantryAppBar(currentPantry: currentPantry),
           body: Column(
             children: [
@@ -97,7 +99,7 @@ class CategoryListViewColumn extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 margin: const EdgeInsets.only(top: 6, left: 20, right: 20),
-                decoration: const BoxDecoration(color: Colors.grey, boxShadow: [
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.grey, boxShadow: const [
                   BoxShadow(
                       offset: Offset(3, 3),
                       blurStyle: BlurStyle.normal,

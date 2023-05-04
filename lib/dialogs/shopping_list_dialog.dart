@@ -18,79 +18,99 @@ class ShoppingListDialog extends StatefulWidget {
 }
 
 class _ShoppingListDialogState extends State<ShoppingListDialog> {
-  //Load pantriesList from provider.
-  //Show the pantries list with switches. Flipping the switches will toggle the selected property of each pantry.
+  //CHECK Load pantriesList from provider.
+  //CHECK Show the pantries list with switches. Flipping the switches will toggle the selected property of each pantry.
   //From the start and upon each flicking of a switch the item list below will be filtered.
   //The item filter will iterate over the pantries and their item lists and draw all unavailable items directly from the Provider.
   //Checking a box will directly toggle the corresponding item in the provider.
 
+  List<Item> relevantItems = [];
 
-
-  void filterItems() {
-//TODO Filter items function
+  void filterItems(List<Pantry> pantryList) {
+    relevantItems.clear();
+    for (Pantry pantry in pantryList) {
+      if (pantry.selected) {
+        for (ItemCategory category in pantry.categoryList) {
+          for (Item item in category.items) {
+            if (!item.isAvailable) {
+              relevantItems.add(item);
+            }
+          }
+        }
+      }
+    }
   }
 
-
+  void addAllItems(List<Pantry> pantryList) {
+    for (Pantry pantry in pantryList) {
+      for (ItemCategory category in pantry.categoryList) {
+        for (Item item in category.items) {
+          if (!item.isAvailable) {
+            relevantItems.add(item);
+          }
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
-    filterItems();
+    filterItems(pantryList);
 
     return AlertDialog(
         title: const Text('Shopping list'),
         content: SingleChildScrollView(
-           child: Column(
-            children: [
-              SizedBox(
-                width: double.maxFinite,
-                height: pantryList.length * 40 + 20,
-                child: ListView.builder(
-                    itemCount: pantryList.length,
-                    //itemExtent: ,
-                    itemBuilder: (_, index) {
-                  Pantry currentPantry = pantryList[index];
-                  return ListTile(
+            child: Column(
+          children: [
+            SizedBox(
+              width: double.maxFinite,
+              height: pantryList.length * 40 + 20,
+              child: ListView.builder(
+                  itemCount: pantryList.length,
+                  itemExtent: 40,
+                  itemBuilder: (_, index) {
+                    Pantry currentPantry = pantryList[index];
+                    return ListTile(
                       leading: Text(currentPantry.pantryTitle),
                       trailing: Switch(
                         value: currentPantry.selected,
                         onChanged: (_) {
-                            setState(() {
-                              currentPantry.selected = !currentPantry.selected;
-                            });
-                          },
+                          setState(() {
+                            currentPantry.selected = !currentPantry.selected;
+                            filterItems(pantryList);
+                          });
+                        },
                       ),
-                  );
-                }),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: Divider(thickness: 2),
-              ),
-              SizedBox(
+                    );
+                  }),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              child: Divider(thickness: 2),
+            ),
+            SizedBox(
                 width: double.maxFinite,
-                height: pantryList.length * 60,
+                height: relevantItems.length * 60 <= 400 ? 400 : relevantItems.length * 60,
                 child: ListView.builder(
-                  //TODO Feed in actual filtered items
-                  itemCount: 1,
+                  itemCount: relevantItems.length,
                   itemBuilder: (_, index) {
-                    Item currentItem = Item('lol', true);
+                    Item currentItem = relevantItems[index];
                     return ListTile(
+                      visualDensity: const VisualDensity(vertical: -4),
                       leading: Text(currentItem.title),
                       trailing: Checkbox(
                         value: currentItem.isAvailable,
                         onChanged: (bool? value) {
                           setState(() {
-                            //context.read<PantryProvider>().toggleItemAvailability(currentItem);
+                            context.read<PantryProvider>().toggleItemAvailability(currentItem);
                           });
-                        },),
+                        },
+                      ),
                     );
                   },
-                )
-              )
-            ],
-           )
-        )
-    );
+                ))
+          ],
+        )));
   }
 }
