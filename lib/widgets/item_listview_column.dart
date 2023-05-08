@@ -14,29 +14,26 @@ class ItemListViewColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO Use Sliver instead of shrinkwrap, refer to YT video
     return Column(
       children: [
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: itemList.length,
-            itemBuilder: (context, itemIndex) {
-              Item currentItem = itemList[itemIndex];
-              return Dismissible(
-                onDismissed: (direction) {
-                  context.read<PantryProvider>().removeItem(
-                      itemList, currentItem);
-                },
-                key: UniqueKey(),
-                child: ItemTile(
-                  toggleSwitch: (_) => context
-                      .read<PantryProvider>()
-                      .toggleItemAvailability(currentItem),
-                  itemTitle: currentItem.title,
-                  isAvailable: currentItem.isAvailable,
-                ),
-              );
-            }),
+        SliverList(
+            delegate: SliverChildBuilderDelegate(childCount: itemList.length,
+                (context, itemIndex) {
+          Item currentItem = itemList[itemIndex];
+          return Dismissible(
+            onDismissed: (direction) {
+              context.read<PantryProvider>().removeItem(itemList, currentItem);
+            },
+            key: UniqueKey(),
+            child: ItemTile(
+              toggleSwitch: (_) => context
+                  .read<PantryProvider>()
+                  .toggleItemAvailability(currentItem),
+              itemTitle: currentItem.title,
+              isAvailable: currentItem.isAvailable,
+            ),
+          );
+        })),
         MaterialButton(
             onPressed: () => showDialog(
                 context: context,

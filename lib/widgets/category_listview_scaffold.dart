@@ -20,7 +20,7 @@ class CategoryListViewColumn extends StatelessWidget {
   final Pantry currentPantry;
   final List<ItemCategory> currentCategoryList;
   final String currentTitle;
-
+//TODO Use Sliver instead of shrinkwrap, refer to YT video
   @override
   Widget build(BuildContext context) {
     void showAddDialog() => showDialog(
