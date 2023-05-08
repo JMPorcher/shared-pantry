@@ -3,6 +3,8 @@ import 'item_category.dart';
 class Pantry {
   Pantry(this.categoryList, {required this.pantryTitle});
 
+  //TODO Add constructors for personal and shared
+
   List<ItemCategory> categoryList = [];
   String pantryTitle;
 
