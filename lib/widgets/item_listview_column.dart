@@ -14,7 +14,7 @@ class ItemListViewColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    //TODO Use Sliver instead of shrinkwrap, refer to YT video
     return Column(
       children: [
         ListView.builder(
