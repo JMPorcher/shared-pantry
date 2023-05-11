@@ -17,7 +17,8 @@ class ItemListViewColumn extends StatelessWidget {
     return Column(
       children: [
         SliverList(
-            delegate: SliverChildBuilderDelegate(childCount: itemList.length,
+            delegate: SliverChildBuilderDelegate(
+                childCount: itemList.length,
                 (context, itemIndex) {
           Item currentItem = itemList[itemIndex];
           return Dismissible(
