@@ -2,7 +2,6 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_pantry/models/item_category.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
