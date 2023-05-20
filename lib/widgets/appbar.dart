@@ -17,17 +17,7 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(currentTitle),
       actions: <Widget>[
-        IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) =>
-                  EditPantryDialog(pantry: currentPantry));
-            }
-        ),
         PopupMenuButton(
-
             itemBuilder: (context) {
           return [
             PopupMenuItem<int>(

@@ -28,6 +28,7 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
 
     return AlertDialog(
       content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
@@ -55,7 +56,9 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
                   icon: const Icon(Icons.save))
             ],
           ),
+          SizedBox(height: 12),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Delete Category'),
               IconButton(
