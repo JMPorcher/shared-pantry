@@ -45,9 +45,9 @@ class ItemListViewColumn extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) =>
                     AddItemDialog(currentItemList: itemList)),
-            child: Text(
+            child: const Text(
               'Add item',
-              style: TextStyle(color: Colors.blue.shade100),
+              style: TextStyle(color: Colors.black54),
             )),
         // Button that adds an item to a category
       ],

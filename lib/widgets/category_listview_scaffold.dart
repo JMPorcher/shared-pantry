@@ -44,19 +44,10 @@ class CategoryListViewColumn extends StatelessWidget {
                   ItemCategory currentCategory =
                       currentCategoryList[categoryIndex];
                   return Slidable(
-                      endActionPane: ActionPane(
+                    endActionPane: ActionPane(
                         extentRatio: 0.4,
                         motion: const BehindMotion(),
                         children: [
-                          SlidableAction(
-                            onPressed: (context) {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => EditCategoryDialog(
-                                      itemCategory: currentCategory));
-                            },
-                            icon: Icons.edit,
-                          ),
                           SlidableAction(
                             onPressed: (context) {
                               showDialog(
@@ -72,25 +63,32 @@ class CategoryListViewColumn extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Container(
-                        decoration: BoxDecoration(
+                    child: Container(
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.black12, width: 2),
                         ),
-                        margin: const EdgeInsets.only(bottom: 4),
+                      margin: const EdgeInsets.only(bottom: 4),
+                      child: GestureDetector(
+                        onLongPress: () {
+                          showDialog(context: context, builder: (BuildContext context) => EditCategoryDialog(itemCategoryList: currentCategoryList, itemCategory: currentCategory));
+                        },
                         child: ExpansionTile(
-                          initiallyExpanded:
-                              currentCategoryList[categoryIndex].isExpanded,
-                          onExpansionChanged: (_) {
-                            currentCategoryList[categoryIndex].toggleExpanded();
-                          },
-                          title: Center(child: Text(currentCategory.title)),
-                          collapsedBackgroundColor: const Color(0x5BAAD9FF),
-                          children: [
-                            ItemListViewColumn(itemList: currentCategory.items)
-                          ],
-                        ), //Category tile that can be expanded
-                      ));
+                            initiallyExpanded:
+                                currentCategoryList[categoryIndex].isExpanded,
+                            onExpansionChanged: (_) {
+                              currentCategoryList[categoryIndex].toggleExpanded();
+                            },
+                            title: Center(child: Text(currentCategory.title)),
+                            backgroundColor: const Color(0x5BAAD9FF),
+                            collapsedBackgroundColor: const Color(0x5BAAD9FF),
+                            children: [
+                              ItemListViewColumn(itemList: currentCategory.items)
+                            ],
+                          ),
+                      ),
+                    ),
+                  );
                 },
               ), //Contents of one Pantry
               Container(
