@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/widgets/appbar.dart';
 
 import '../dialogs/add_category_dialog.dart';
-import '../dialogs/delete_category_dialog.dart';
 import '../dialogs/edit_category_dialog.dart';
 import '../models/pantry.dart';
 import 'item_listview_column.dart';
@@ -26,7 +24,7 @@ class CategoryListViewColumn extends StatelessWidget {
     void showAddDialog() => showDialog(
         context: context,
         builder: (BuildContext context) => AddCategoryDialog(
-            currentCategoryList: currentCategoryList,
+              currentCategoryList: currentCategoryList,
             ));
 
     return SizedBox(
@@ -43,52 +41,35 @@ class CategoryListViewColumn extends StatelessWidget {
                 itemBuilder: (BuildContext context, int categoryIndex) {
                   ItemCategory currentCategory =
                       currentCategoryList[categoryIndex];
-                  return Slidable(
-                    endActionPane: ActionPane(
-                        extentRatio: 0.4,
-                        motion: const BehindMotion(),
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    DeleteCategoryDialog(
-                                        currentCategory: currentCategory,
-                                        currentCategoryList:
-                                            currentCategoryList),
-                              );
-                            },
-                            icon: Icons.delete,
-                          ),
-                        ],
-                      ),
-                    child: Container(
+                  return Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.black12, width: 2),
-                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.black12, width: 2),
+                      ),
                       margin: const EdgeInsets.only(bottom: 4),
                       child: GestureDetector(
                         onLongPress: () {
-                          showDialog(context: context, builder: (BuildContext context) => EditCategoryDialog(itemCategoryList: currentCategoryList, itemCategory: currentCategory));
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  EditCategoryDialog(
+                                      itemCategoryList: currentCategoryList,
+                                      itemCategory: currentCategory));
                         },
                         child: ExpansionTile(
-                            initiallyExpanded:
-                                currentCategoryList[categoryIndex].isExpanded,
-                            onExpansionChanged: (_) {
-                              currentCategoryList[categoryIndex].toggleExpanded();
-                            },
-                            title: Center(child: Text(currentCategory.title)),
-                            backgroundColor: const Color(0x5BAAD9FF),
-                            collapsedBackgroundColor: const Color(0x5BAAD9FF),
-                            children: [
-                              ItemListViewColumn(itemList: currentCategory.items)
-                            ],
-                          ),
-                      ),
-                    ),
-                  );
+                          initiallyExpanded:
+                              currentCategoryList[categoryIndex].isExpanded,
+                          onExpansionChanged: (_) {
+                            currentCategoryList[categoryIndex].toggleExpanded();
+                          },
+                          title: Center(child: Text(currentCategory.title)),
+                          backgroundColor: const Color(0x5BAAD9FF),
+                          collapsedBackgroundColor: const Color(0x5BAAD9FF),
+                          children: [
+                            ItemListViewColumn(itemList: currentCategory.items)
+                          ],
+                        ),
+                      ));
                 },
               ), //Contents of one Pantry
               Container(
