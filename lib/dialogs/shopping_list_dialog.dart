@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -15,102 +17,99 @@ class ShoppingListDialog extends StatefulWidget {
 }
 
 class _ShoppingListDialogState extends State<ShoppingListDialog> {
-//TODO Clicking a checkbox probably makes the build method re-run and resets the pantryCheckboxMap, making it impossible to uncheck a pantry
-  Map<String, bool?> pantryCheckboxMap = <String, bool>{};
-  List<Pantry> pantries = [];
-  late List<String> pantryTitles;
+  //CHECK Load pantriesList from provider.
+  //CHECK Show the pantries list with switches. Flipping the switches will toggle the selected property of each pantry.
+  //From the start and upon each flicking of a switch the item list below will be filtered.
+  //The item filter will iterate over the pantries and their item lists and draw all unavailable items directly from the Provider.
+  //Checking a box will directly toggle the corresponding item in the provider.
+
+  List<Item> relevantItems = [];
+
+  void filterItems(List<Pantry> pantryList) {
+    relevantItems.clear();
+    for (Pantry pantry in pantryList) {
+      if (pantry.selected) {
+        for (ItemCategory category in pantry.categoryList) {
+          for (Item item in category.items) {
+            if (!item.isAvailable) {
+              relevantItems.add(item);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  void addAllItems(List<Pantry> pantryList) {
+    for (Pantry pantry in pantryList) {
+      for (ItemCategory category in pantry.categoryList) {
+        for (Item item in category.items) {
+          if (!item.isAvailable) {
+            relevantItems.add(item);
+          }
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    if (pantries.isEmpty) {
-      pantries.addAll(context.watch<PantryProvider>().pantriesList);
-      for (var pantry in pantries) {
-        pantryCheckboxMap[pantry.pantryTitle] = true;
-      }
-      pantryTitles = pantryCheckboxMap.keys.toList();
-    }
-
-
-    List<Item> itemsThatRanOut = [];
-   //
-   // void filterItems() {
-   //   Map<String, bool> selectedPantries = Map.from(pantryCheckboxMap).removeWhere((key, value) => value == false);
-   //    //TODO Find a way to iterate through the selectedPantries map
-   //  selectedPantries.
-   //   {
-   //    for(ItemCategory category in pantry.categoryList) {
-   //      itemsThatRanOut.addAll(category.items.where((i) => i.isAvailable == false).toList());
-   //    }
-   //  }
-   //
-   //
-   // }
+    List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
+    filterItems(pantryList);
 
     return AlertDialog(
         title: const Text('Shopping list'),
         content: SingleChildScrollView(
-          child: SizedBox(
-            width: double.infinity,
-            height: double.maxFinite,
             child: Column(
-              children: [
-                SizedBox(
-                  width: double.maxFinite,
-                  height: pantryTitles.length * 40 + 20,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: pantryTitles.length,
-                      itemExtent: 40,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                            leading: Text(pantryTitles[index]),
-                            trailing: Checkbox(
-                              value: pantryCheckboxMap[pantryTitles[index]],
-                              onChanged: (bool? newValue) {
-                                setState(() {
-                                  pantryCheckboxMap[pantryTitles[index]] = newValue;
-                                });
-                              },
-                            ));
-                      }
-                  ),
-                ),//Pantry selection
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: Divider(thickness: 2),
-                ),
-                SizedBox(
-                  width: double.maxFinite,
-                  height: itemsThatRanOut.length * 20,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: itemsThatRanOut.length,
-                    itemBuilder: (context, index) {
-                      return Text(itemsThatRanOut[index].title);
-                    }),
-                ),
-                TextButton(
-                    onPressed: () async {
-                      await Clipboard.setData(const ClipboardData(text: 'lol'));
-                      Fluttertoast.showToast(
-                          msg: "Successfully copied to clipboard",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.green,
-                          textColor: Colors.black,
-                          fontSize: 16.0);
-                    },
-                    child: const Text('Copy to clipboard')),
-              ],
+          children: [
+            SizedBox(
+              width: double.maxFinite,
+              height: pantryList.length * 40 + 20,
+              child: ListView.builder(
+                  itemCount: pantryList.length,
+                  itemExtent: 40,
+                  itemBuilder: (_, index) {
+                    Pantry currentPantry = pantryList[index];
+                    return ListTile(
+                      leading: Text(currentPantry.pantryTitle),
+                      trailing: Switch(
+                        value: currentPantry.selected,
+                        onChanged: (_) {
+                          setState(() {
+                            currentPantry.selected = !currentPantry.selected;
+                            filterItems(pantryList);
+                          });
+                        },
+                      ),
+                    );
+                  }),
             ),
-          ),
-        ),
-        actions: [
-          TextButton(
-              onPressed: Navigator.of(context).pop,
-              child: const Text('Cancel')),
-        ]);
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              child: Divider(thickness: 2),
+            ),
+            SizedBox(
+                width: double.maxFinite,
+                height: relevantItems.length * 60 <= 400 ? 400 : relevantItems.length * 60,
+                child: ListView.builder(
+                  itemCount: relevantItems.length,
+                  itemBuilder: (_, index) {
+                    Item currentItem = relevantItems[index];
+                    return ListTile(
+                      visualDensity: const VisualDensity(vertical: -4),
+                      leading: Text(currentItem.title),
+                      trailing: Checkbox(
+                        value: currentItem.isAvailable,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            context.read<PantryProvider>().toggleItemAvailability(currentItem);
+                          });
+                        },
+                      ),
+                    );
+                  },
+                ))
+          ],
+        )));
   }
 }

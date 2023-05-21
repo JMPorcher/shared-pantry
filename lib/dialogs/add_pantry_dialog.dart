@@ -51,7 +51,7 @@ class _AddPantryDialogState extends State<AddPantryDialog> {
 
                         Navigator.pop(context);
                         Timer(const Duration(milliseconds: 0), () {
-                          // TODO: Make animation to new page less wonky?
+                          // TODO: Change to animateToPage() but make animation to new page less wonky?
                           pageController.jumpToPage(
                             pantryList.length-1,
                           );

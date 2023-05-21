@@ -18,14 +18,20 @@ Know which household items are currently in the house. Add more pantries: person
 --> implemented, but animation seems wonky
 [X] Make it possible to remove and rename Pantry
 
-[] Adjust ShoppingList for Pantries, with checkboxes vor which Pantries to include.
+[X] Adjust ShoppingList for Pantries, with checkboxes vor which Pantries to include.
 
 
-[] Welcome screen "Add your first pantry"
+[X] Welcome screen "Add your first pantry"
+
+[] Change shrinkWrap to Slivers and stuff. Refer to YT video.
 
 [] Delete option for Pantries: personal is archivable/deletable, shared can be erased by Pantry starter or left by every other user
 [] Firebase basic structure (I'm scared man)
 [] Firebase groups
+
+[] Localization for EN/GER
+[] Pre-available Pantries, Categories and Items
+
 
 
 
