@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/item.dart';
+import '../models/item_category.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_list_provider.dart';
 
