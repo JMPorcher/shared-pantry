@@ -14,35 +14,37 @@ class ItemListViewColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO Use Sliver instead of shrinkwrap, refer to YT video
     return Column(
       children: [
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-                childCount: itemList.length,
-                (context, itemIndex) {
-          Item currentItem = itemList[itemIndex];
-          return Dismissible(
-            onDismissed: (direction) {
-              context.read<PantryProvider>().removeItem(itemList, currentItem);
-            },
-            key: UniqueKey(),
-            child: ItemTile(
-              toggleSwitch: (_) => context
-                  .read<PantryProvider>()
-                  .toggleItemAvailability(currentItem),
-              itemTitle: currentItem.title,
-              isAvailable: currentItem.isAvailable,
-            ),
-          );
-        })),
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: itemList.length,
+            itemBuilder: (context, itemIndex) {
+              Item currentItem = itemList[itemIndex];
+              return Dismissible(
+                onDismissed: (direction) {
+                  context.read<PantryProvider>().removeItem(
+                      itemList, currentItem);
+                },
+                key: UniqueKey(),
+                child: ItemTile(
+                  toggleSwitch: (_) => context
+                      .read<PantryProvider>()
+                      .toggleItemAvailability(currentItem),
+                  itemTitle: currentItem.title,
+                  isAvailable: currentItem.isAvailable,
+                ),
+              );
+            }),
         MaterialButton(
             onPressed: () => showDialog(
                 context: context,
                 builder: (BuildContext context) =>
                     AddItemDialog(currentItemList: itemList)),
-            child: const Text(
+            child: Text(
               'Add item',
-              style: TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.blue.shade100),
             )),
         // Button that adds an item to a category
       ],

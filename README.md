@@ -23,6 +23,7 @@ Know which household items are currently in the house. Add more pantries: person
 
 [X] Welcome screen "Add your first pantry"
 
+[] Move AppBar from pantry to overall scaffold
 [] Change shrinkWrap to Slivers and stuff. Refer to YT video.
 
 [] Delete option for Pantries: personal is archivable/deletable, shared can be erased by Pantry starter or left by every other user
