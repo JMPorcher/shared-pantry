@@ -23,6 +23,7 @@ class ItemListViewColumn extends StatelessWidget {
             itemBuilder: (context, itemIndex) {
               Item currentItem = itemList[itemIndex];
               return Dismissible(
+                direction: DismissDirection.endToStart,
                 onDismissed: (direction) {
                   context.read<PantryProvider>().removeItem(
                       itemList, currentItem);
