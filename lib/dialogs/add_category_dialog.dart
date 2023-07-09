@@ -43,7 +43,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
               TextButton(
                   onPressed: () {
                     if (categoryTitle != '') {
-                      context.read<PantryProvider>().addCategory(currentCategoryList, ItemCategory(title: categoryTitle, items: []));
+                      context.read<PantryProvider>().addCategory(currentCategoryList, ItemCategory(categoryTitle, items: []));
                       Navigator.pop(context);
                     }
                   },

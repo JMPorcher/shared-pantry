@@ -9,18 +9,14 @@ import 'item_listview_column.dart';
 
 class CategoryListViewColumn extends StatelessWidget {
   const CategoryListViewColumn(
-      {required this.currentCategoryList,
-      required this.currentPantry,
-      Key? key,
-      required this.currentTitle})
-      : super(key: key);
+      {required this.currentPantry, Key? key}): super(key: key);
 
   final Pantry currentPantry;
-  final List<ItemCategory> currentCategoryList;
-  final String currentTitle;
 
   @override
   Widget build(BuildContext context) {
+    final List<ItemCategory> currentCategoryList = currentPantry.categoryList;
+
     void showAddDialog() => showDialog(
         context: context,
         builder: (BuildContext context) => AddCategoryDialog(

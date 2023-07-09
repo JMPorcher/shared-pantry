@@ -17,14 +17,16 @@ class EditCategoryDialog extends StatefulWidget {
 
 class _EditCategoryDialogState extends State<EditCategoryDialog> {
   bool itemInStock = false;
-  String newTitle = '';
 
   @override
   Widget build(BuildContext context) {
     ItemCategory itemCategory = widget.itemCategory;
     String categoryTitle = itemCategory.title;
     List<ItemCategory> itemCategoryList = widget.itemCategoryList;
-    newTitle = categoryTitle;
+
+    TextEditingController titleTextEditingController = TextEditingController(
+      text: categoryTitle
+    );
 
     return AlertDialog(
       content: Column(
@@ -34,29 +36,27 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
             children: [
               Expanded(
                 child: TextFormField(
+                  controller: titleTextEditingController,
                   maxLength: 20,
-                  initialValue: categoryTitle,
                   autofocus: true,
-                  onChanged: (newString) {
-                    setState(() {
-                      newTitle = newString;
-                    });
-                  },
                 ),
               ),
               IconButton(
                   onPressed: () {
-                    if (newTitle.isNotEmpty) {
-                      context
-                          .read<PantryProvider>()
-                          .editCategory(itemCategory, newTitle);
+                    if (titleTextEditingController.text.isNotEmpty) {
+                      print('Sending title ${titleTextEditingController.text}');
+                      setState(() =>
+                        context
+                            .read<PantryProvider>()
+                            .editCategoryName(itemCategory, titleTextEditingController.text)
+                      );
                       Navigator.pop(context);
                     }
                   },
                   icon: const Icon(Icons.save))
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

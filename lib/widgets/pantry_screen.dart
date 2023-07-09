@@ -31,8 +31,6 @@ class _PantryScreenState extends State<PantryScreen> {
 
               return SingleChildScrollView(
                   child: CategoryListViewColumn(
-                      currentCategoryList: currentPantry.categoryList,
-                      currentTitle: currentPantry.pantryTitle,
                       currentPantry: currentPantry));
             });
     } else {
@@ -52,7 +50,7 @@ class _PantryScreenState extends State<PantryScreen> {
                                     builder: (context) => const AddPantryDialog());
                               },
                             child: Container(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                   color: Colors.grey,
                                   borderRadius: BorderRadius.circular(8),
