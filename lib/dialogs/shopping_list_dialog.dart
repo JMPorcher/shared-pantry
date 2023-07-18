@@ -1,9 +1,7 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/item.dart';
 import '../models/item_category.dart';
@@ -18,11 +16,6 @@ class ShoppingListDialog extends StatefulWidget {
 }
 
 class _ShoppingListDialogState extends State<ShoppingListDialog> {
-  //CHECK Load pantriesList from provider.
-  //CHECK Show the pantries list with switches. Flipping the switches will toggle the selected property of each pantry.
-  //From the start and upon each flicking of a switch the item list below will be filtered.
-  //The item filter will iterate over the pantries and their item lists and draw all unavailable items directly from the Provider.
-  //Checking a box will directly toggle the corresponding item in the provider.
 
   List<Item> relevantItems = [];
 

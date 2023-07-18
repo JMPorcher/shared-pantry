@@ -14,7 +14,7 @@ class ItemListViewColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO Use Sliver instead of shrinkwrap, refer to YT video
+
     return Column(
       children: [
         ListView.builder(
@@ -32,7 +32,8 @@ class ItemListViewColumn extends StatelessWidget {
                 child: ItemTile(
                   toggleSwitch: (_) => context
                       .read<PantryProvider>()
-                      .toggleItemAvailability(currentItem),
+                      .toggleItemAvailability(
+                          currentItem),
                   itemTitle: currentItem.title,
                   isAvailable: currentItem.isAvailable,
                 ),

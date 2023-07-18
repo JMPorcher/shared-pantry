@@ -1,5 +1,4 @@
 import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/providers/pantry_list_provider.dart';
 
 import 'models/item.dart';
 import 'models/pantry.dart';
@@ -8,7 +7,7 @@ Pantry kTestPantry = Pantry([kTestCategory], pantryTitle: 'Persönlich');
 Pantry kTestPantry2 = Pantry([kTestCategory2], pantryTitle: 'WG');
 
 ItemCategory kTestCategory = ItemCategory(
-  title: 'Kühlschrank',
+  'Kühlschrank',
   items: kTestList,
 );
 
@@ -19,7 +18,7 @@ List<Item> kTestList = [
 ];
 
 ItemCategory kTestCategory2 = ItemCategory(
-  title: 'Putzmittel',
+  'Putzmittel',
   items: kTestList2
 );
 

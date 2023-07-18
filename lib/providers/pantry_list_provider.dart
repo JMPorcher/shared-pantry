@@ -51,8 +51,9 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void editCategory(ItemCategory itemCategory, String newTitle) {
+  void editCategoryName(ItemCategory itemCategory, String newTitle) {
     itemCategory.changeTitle(newTitle);
+    print('New title is: $newTitle');
     notifyListeners();
   }
 
