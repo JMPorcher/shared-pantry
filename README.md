@@ -24,35 +24,58 @@ Know which household items are currently in the house. Add more pantries: person
 [X] Welcome screen "Add your first pantry"
 
 [] Move AppBar from pantry to overall scaffold
-[] Change shrinkWrap to Slivers and stuff. Refer to YT video.
 
-[] Delete option for Pantries: personal is archivable/deletable, shared can be erased by Pantry starter or left by every other user
+[] Delete option for Pantries: personal Pantry is archivable/deletable, shared Pantry can be erased by Pantry starter or left by every other user
 [] Firebase basic structure (I'm scared man)
 [] Firebase groups
 
 [] Localization for EN/GER
 [] Pre-available Pantries, Categories and Items
 
-
+## Questions
+- How does Firebase store users? Do I get to structure that?
+- Do I store the user in a different provider? Or the same as PantryProvider or not at all?
 
 
 
 
 HOW TO STORE THIS IN FIREBASE???
-JSON Format Categories and Lists:
-[
-  {
-    category_title: "Category 1",
-    list: [
-      {"item" : bool}
-      {"item" : bool}
-    ]     
-  },
-  {
-    category_title: "Category 2",
-    list: [
-      {"item" : bool}
-      {"item" : bool}
-    ]     
-  },
-]
+
+How to add users
+JSON Pantry Model
+{
+ pantry: "Pantry Title",
+ pantry_id: "pantryHash",
+ users: [
+  "user_id_hash",
+  "user_id_hash",
+ ],
+ categories: [
+    {
+      category: "Category 1",
+      items: [
+        {"item" : bool}
+        {"item" : bool}
+      ]     
+    },
+    {
+      category: "Category 2",
+      items: [
+        {"item" : bool}
+        {"item" : bool}
+      ]     
+    },
+  ]
+}
+
+JSON User Model
+How does Firebase structure a user? Do I get to decide?
+{
+ id: "user_id_hash",
+ phone_number: 123456789,
+ subscribed_pantries: 
+   [
+     pantry_id: "pantryHash",
+     pantry_id: "pantryHash",
+   ]
+}
