@@ -8,8 +8,8 @@ import '../models/pantry.dart';
 import 'item_listview_column.dart';
 
 class CategoryListViewColumn extends StatelessWidget {
-  const CategoryListViewColumn(
-      {required this.currentPantry, Key? key}): super(key: key);
+  const CategoryListViewColumn({required this.currentPantry, Key? key})
+      : super(key: key);
 
   final Pantry currentPantry;
 
@@ -43,28 +43,30 @@ class CategoryListViewColumn extends StatelessWidget {
                         border: Border.all(color: Colors.black12, width: 2),
                       ),
                       margin: const EdgeInsets.only(bottom: 4),
-                      child: GestureDetector(
-                        onLongPress: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  EditCategoryDialog(
-                                      itemCategoryList: currentCategoryList,
-                                      itemCategory: currentCategory));
+                      child: ExpansionTile(
+                        initiallyExpanded:
+                            currentCategoryList[categoryIndex].isExpanded,
+                        onExpansionChanged: (_) {
+                          currentCategoryList[categoryIndex].toggleExpanded();
                         },
-                        child: ExpansionTile(
-                          initiallyExpanded:
-                              currentCategoryList[categoryIndex].isExpanded,
-                          onExpansionChanged: (_) {
-                            currentCategoryList[categoryIndex].toggleExpanded();
-                          },
-                          title: Center(child: Text(currentCategory.title)),
-                          backgroundColor: const Color(0x5BAAD9FF),
-                          collapsedBackgroundColor: const Color(0x5BAAD9FF),
-                          children: [
-                            ItemListViewColumn(itemList: currentCategory.items)
-                          ],
+                        backgroundColor: const Color(0x5BAAD9FF),
+                        collapsedBackgroundColor: const Color(0x5BAAD9FF),
+                        title: Center(
+                          child: GestureDetector(
+                              onLongPress: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        EditCategoryDialog(
+                                            itemCategoryList:
+                                                currentCategoryList,
+                                            itemCategory: currentCategory));
+                              },
+                              child: Text(currentCategory.title)),
                         ),
+                        children: [
+                          ItemListViewColumn(itemList: currentCategory.items)
+                        ],
                       ));
                 },
               ), //Contents of one Pantry
