@@ -21,24 +21,6 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
             itemBuilder: (context) {
           return [
             PopupMenuItem<int>(
-              value: 0,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  print('Add pantry tapped');
-                  Navigator.pop(context);
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                      const AddPantryDialog());
-                },
-                child: const ListTile(
-                  leading: Text('Add new Pantry', style: TextStyle(color: Colors.blue)),
-                  trailing: Icon(Icons.add, color: Colors.blue),
-                ),
-              ),
-            ),
-            PopupMenuItem<int>(
               value: 1,
               child: GestureDetector(
                 onTap: () {
@@ -53,7 +35,41 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                     trailing: Icon(Icons.shopping_cart, color: Colors.blue),
                 ),
               ),
-            )
+            ),
+            PopupMenuItem<int>(
+              value: 0,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                      EditPantryDialog(pantry: currentPantry,));
+                },
+                child: const ListTile(
+                  leading: Text('Edit Pantry', style: TextStyle(color: Colors.blue)),
+                  trailing: Icon(Icons.edit, color: Colors.blue),
+                ),
+              ),
+            ),
+            PopupMenuItem<int>(
+              value: 0,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                      const AddPantryDialog());
+                },
+                child: const ListTile(
+                  leading: Text('Add new Pantry', style: TextStyle(color: Colors.blue)),
+                  trailing: Icon(Icons.add, color: Colors.blue),
+                ),
+              ),
+            ),
           ];
         })
       ],

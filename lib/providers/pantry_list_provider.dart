@@ -18,18 +18,13 @@ class PantryProvider with ChangeNotifier {
 
 
   //===========PANTRY FUNCTIONS===========
-  void changeCurrentTitle(String onScreenTitle) {
-    currentPantryTitle = onScreenTitle;
-    notifyListeners();
-  }
-
   int addPantryWithTitle(String title) {
     _pantriesList.add(Pantry([], pantryTitle: title));
     notifyListeners();
     return _pantriesList.length-1;
   }
 
-  void editPantry(Pantry pantry, String newTitle) {
+  void renamePantry(Pantry pantry, String newTitle) {
     pantry.editTitle(newTitle);
     notifyListeners();
   }

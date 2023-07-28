@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/dialogs/add_pantry_dialog.dart';
-import 'package:shared_pantry/widgets/category_listview_scaffold.dart';
+import 'package:shared_pantry/widgets/pantry_scrollview.dart';
 import 'package:loop_page_view/loop_page_view.dart';
 
 import '../models/pantry.dart';
@@ -29,9 +29,7 @@ class _PantryScreenState extends State<PantryScreen> {
             itemBuilder: (context, pantryIndex) {
               Pantry currentPantry = pantryList[pantryIndex];
 
-              return SingleChildScrollView(
-                  child: CategoryListViewColumn(
-                      currentPantry: currentPantry));
+              return PantryScrollView(currentPantry: currentPantry);
             });
     } else {
       return Scaffold(

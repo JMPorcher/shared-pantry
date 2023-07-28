@@ -48,7 +48,7 @@ class _EditPantryDialogState extends State<EditPantryDialog> {
                           if (newTitle.isNotEmpty) {
                             context
                                 .read<PantryProvider>()
-                                .editPantry(pantry, newTitle);
+                                .renamePantry(pantry, newTitle);
                             Navigator.pop(context);
                           }
                         },
