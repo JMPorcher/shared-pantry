@@ -46,7 +46,7 @@ class ItemCategoryView extends StatelessWidget {
                     AddItemDialog(currentItemList: itemList)),
             child: Text(
               'Add item',
-              style: TextStyle(color: Colors.blue.shade100),
+              style: TextStyle(color: Colors.blue.shade600),
             )),
         // Button that adds an item to a category
       ],

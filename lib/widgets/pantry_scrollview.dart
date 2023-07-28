@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/widgets/appbar.dart';
+import 'package:shared_pantry/widgets/pantry_appbar.dart';
 
 import '../dialogs/add_category_dialog.dart';
 import '../dialogs/edit_category_dialog.dart';
@@ -59,9 +59,9 @@ class PantryScrollView extends StatelessWidget {
                             onExpansionChanged: (_) {
                               currentCategoryList[categoryIndex].toggleExpanded();
                             },
-                            title: Center(child: Text(currentCategory.title)),
-                            backgroundColor: const Color(0x5BAAD9FF),
-                            collapsedBackgroundColor: const Color(0x5BAAD9FF),
+                            title: Center(child: Text(currentCategory.title, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),)),
+                            backgroundColor: const Color(0x99AAD9FF),
+                            collapsedBackgroundColor: const Color(0x99AAD9FF),
                             children: [
                               ItemCategoryView(itemList: currentCategory.items)
                             ],

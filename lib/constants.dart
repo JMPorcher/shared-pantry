@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_pantry/models/item_category.dart';
 
 import 'models/item.dart';
@@ -28,3 +29,4 @@ List<Item> kTestList2 = [
   Item('Küchenrolle', true),
 ];
 
+TextStyle kTextStyleAppBarMenu = const TextStyle(color: Colors.blue);

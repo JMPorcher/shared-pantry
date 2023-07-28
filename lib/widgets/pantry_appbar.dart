@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/dialogs/shopping_list_dialog.dart';
 
 import '../dialogs/add_pantry_dialog.dart';
@@ -47,9 +48,9 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                       builder: (BuildContext context) =>
                       EditPantryDialog(pantry: currentPantry,));
                 },
-                child: const ListTile(
-                  leading: Text('Edit Pantry', style: TextStyle(color: Colors.blue)),
-                  trailing: Icon(Icons.edit, color: Colors.blue),
+                child: ListTile(
+                  leading: Text('Edit Pantry', style: kTextStyleAppBarMenu),
+                  trailing: const Icon(Icons.edit, color: Colors.blue),
                 ),
               ),
             ),

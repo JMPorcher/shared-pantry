@@ -15,11 +15,14 @@ class ItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Text(itemTitle),
-      trailing: CupertinoSwitch(
-        value: isAvailable,
-        onChanged: toggleSwitch,),
+    return Container(
+      color: const Color(0x99FFFFFF),
+      child: ListTile(
+        leading: Text(itemTitle),
+        trailing: CupertinoSwitch(
+          value: isAvailable,
+          onChanged: toggleSwitch,),
+      ),
     );
   }
 }
