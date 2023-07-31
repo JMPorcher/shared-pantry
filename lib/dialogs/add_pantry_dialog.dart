@@ -27,7 +27,7 @@ class _AddPantryDialogState extends State<AddPantryDialog> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AlertDialog(
-              title: const Text('Add another pantry:'),
+              title: const Text('Add new pantry:'),
               content: TextField(
                 autofocus: true,
                 onChanged: (newString) {

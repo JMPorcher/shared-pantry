@@ -8,14 +8,9 @@ import 'package:loop_page_view/loop_page_view.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_list_provider.dart';
 
-class PantryScreen extends StatefulWidget {
+class PantryScreen extends StatelessWidget {
   const PantryScreen({Key? key}) : super(key: key);
 
-  @override
-  State<PantryScreen> createState() => _PantryScreenState();
-}
-
-class _PantryScreenState extends State<PantryScreen> {
   @override
   Widget build(BuildContext context) {
     LoopPageController pageController =
