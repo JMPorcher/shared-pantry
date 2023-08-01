@@ -40,7 +40,7 @@ class PantryScreen extends StatelessWidget {
                             onPressed: () {
                                 showDialog(
                                     context: context,
-                                    builder: (context) => const AddPantryDialog());
+                                    builder: (context) => AddPantryDialog());
                               },
                             child: Container(
                               padding: const EdgeInsets.all(16),

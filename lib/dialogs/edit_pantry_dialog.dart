@@ -4,16 +4,17 @@ import '../providers/pantry_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class EditPantryDialog extends StatelessWidget {
-  EditPantryDialog({required this.pantry, super.key});
+  const EditPantryDialog({required this.pantry, super.key});
   final Pantry pantry;
   final bool itemInStock = false;
-  final _controller = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     ValueNotifier<String> textNotifier = ValueNotifier<String>(pantry.pantryTitle);
-    _controller.text = pantry.pantryTitle;
-    textNotifier.addListener(() => _controller.text = textNotifier.value);
+    final pantryTitleTextController = TextEditingController();
+    pantryTitleTextController.text = pantry.pantryTitle;
+    textNotifier.addListener(() => pantryTitleTextController.text = textNotifier.value);
 
     return AlertDialog(
         title: const Text('Edit Pantry name:'),
@@ -27,7 +28,7 @@ class EditPantryDialog extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: TextFormField(
-                      controller: _controller,
+                      controller: pantryTitleTextController,
                       autofocus: true,
                     ),
                   ),
@@ -35,10 +36,10 @@ class EditPantryDialog extends StatelessWidget {
                     flex: 1,
                     child: TextButton(
                         onPressed: () {
-                          if (_controller.text.isNotEmpty) {
+                          if (pantryTitleTextController.text.isNotEmpty) {
                             context
                                 .read<PantryProvider>()
-                                .renamePantry(pantry, _controller.text);
+                                .renamePantry(pantry, pantryTitleTextController.text);
                             Navigator.pop(context);
                           }
                         },
@@ -56,7 +57,7 @@ class EditPantryDialog extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 color: const Color(0x5BAAD9FF),
-                child: Row(children: const [
+                child: const Row(children: [
                   Expanded(flex: 3, child: Text('Delete Pantry')),
                   Expanded(flex: 1, child: Icon(Icons.delete)),
                 ]),

@@ -7,20 +7,17 @@ import 'package:shared_pantry/models/pantry.dart';
 
 import '../providers/pantry_list_provider.dart';
 
-class AddPantryDialog extends StatefulWidget {
-  const AddPantryDialog({super.key});
+class AddPantryDialog extends StatelessWidget {
+  AddPantryDialog({super.key});
 
-  @override
-  State<AddPantryDialog> createState() => _AddPantryDialogState();
-}
-
-class _AddPantryDialogState extends State<AddPantryDialog> {
-  String pantryTitle = '';
+  final ValueNotifier<String> pantryTitleValueNotifier = ValueNotifier<String>('');
+  final titleTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     LoopPageController pageController = context.watch<PantryProvider>().pageController;
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
+    titleTextController.text = pantryTitleValueNotifier.value;
 
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -29,12 +26,8 @@ class _AddPantryDialogState extends State<AddPantryDialog> {
           AlertDialog(
               title: const Text('Add new pantry:'),
               content: TextField(
+                controller: titleTextController,
                 autofocus: true,
-                onChanged: (newString) {
-                  setState(() {
-                    pantryTitle = newString;
-                  });
-                },
               ),
               actions: [
                 TextButton(
@@ -44,6 +37,7 @@ class _AddPantryDialogState extends State<AddPantryDialog> {
                     child: const Text('Cancel')),
                 TextButton(
                     onPressed: () {
+                      final String pantryTitle = titleTextController.text;
                       if (pantryTitle != '') {
                         context
                             .read<PantryProvider>()

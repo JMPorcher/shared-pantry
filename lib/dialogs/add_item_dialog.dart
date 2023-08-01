@@ -3,22 +3,20 @@ import '../models/item.dart';
 import '../providers/pantry_list_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddItemDialog extends StatefulWidget {
-  const AddItemDialog({required this.currentItemList, super.key});
+class AddItemDialog extends StatelessWidget {
+  AddItemDialog({required this.currentItemList, super.key});
 
   final List<Item> currentItemList;
 
-  @override
-  State<AddItemDialog> createState() => _AddItemDialogState();
-}
+  final ValueNotifier<String> itemTitleValueNotifier = ValueNotifier<String>('');
+  final titleTextController = TextEditingController();
 
-class _AddItemDialogState extends State<AddItemDialog> {
-  bool itemInStock = false;
-  String itemTitle = '';
 
   @override
   Widget build(BuildContext context) {
-    List<Item> currentItemList = widget.currentItemList;
+    titleTextController.text = itemTitleValueNotifier.value;
+    final ValueNotifier<bool> isInStock = ValueNotifier(false);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -27,22 +25,24 @@ class _AddItemDialogState extends State<AddItemDialog> {
           content: Column(
             children: [
               TextField(
+                controller: titleTextController,
                 autofocus: true,
-                onChanged: (newString) {
-                  setState(() {
-                    itemTitle = newString;
-                  });
-                },
               ),
               Row(
+                //mainAxisSize: MainAxisSize.min,
                 children: [
-                  Checkbox(
-                      value: itemInStock,
-                      onChanged: (value) {
-                        setState(() {
-                          itemInStock = value!;
-                        });
-                      }),
+                  ValueListenableBuilder(
+                    valueListenable: isInStock,
+                    builder: (_, bool value, Widget? child) {
+                      return Checkbox(
+                          value: isInStock.value,
+                          onChanged: (newValue) {
+                            if (newValue != null) {
+                              isInStock.value = newValue;
+                            }
+                          });
+                    },
+                  ),
                   const Text('Item is in stock')
                 ],
               )// In stock bool row
@@ -54,8 +54,9 @@ class _AddItemDialogState extends State<AddItemDialog> {
                 child: const Text('Cancel')),
             TextButton(
                 onPressed: () {
+                  final String itemTitle = titleTextController.text;
                   if (itemTitle != '') {
-                    context.read<PantryProvider>().addItem(currentItemList, Item(itemTitle, itemInStock));
+                    context.read<PantryProvider>().addItem(currentItemList, Item(itemTitle, isInStock.value));
                     Navigator.pop(context);
                   }
                 },

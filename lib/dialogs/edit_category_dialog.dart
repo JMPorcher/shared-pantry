@@ -4,7 +4,7 @@ import 'package:shared_pantry/models/item_category.dart';
 import '../providers/pantry_list_provider.dart';
 import 'package:provider/provider.dart';
 
-class EditCategoryDialog extends StatefulWidget {
+class EditCategoryDialog extends StatelessWidget {
   const EditCategoryDialog(
       {required this.itemCategoryList, required this.itemCategory, super.key});
 
@@ -12,21 +12,13 @@ class EditCategoryDialog extends StatefulWidget {
   final List<ItemCategory> itemCategoryList;
 
   @override
-  State<EditCategoryDialog> createState() => _EditCategoryDialogState();
-}
-
-class _EditCategoryDialogState extends State<EditCategoryDialog> {
-  bool itemInStock = false;
-
-  @override
   Widget build(BuildContext context) {
-    ItemCategory itemCategory = widget.itemCategory;
-    String categoryTitle = itemCategory.title;
-    List<ItemCategory> itemCategoryList = widget.itemCategoryList;
 
-    TextEditingController titleTextEditingController = TextEditingController(
-      text: categoryTitle
-    );
+    ValueNotifier<String> textValueNotifier = ValueNotifier(itemCategory.title);
+    final categoryTitleTextController = TextEditingController();
+    categoryTitleTextController.text = textValueNotifier.value;
+    textValueNotifier.addListener(() => categoryTitleTextController.text = textValueNotifier.value);
+
 
     return AlertDialog(
       content: Column(
@@ -36,20 +28,20 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
             children: [
               Expanded(
                 child: TextFormField(
-                  controller: titleTextEditingController,
+                  controller: categoryTitleTextController,
                   maxLength: 20,
                   autofocus: true,
                 ),
               ),
               IconButton(
                   onPressed: () {
-                    if (titleTextEditingController.text.isNotEmpty) {
-                      print('Sending title ${titleTextEditingController.text}');
-                      setState(() =>
+                    if (categoryTitleTextController.text.isNotEmpty) {
+                      print('Sending title ${categoryTitleTextController.text}');
+
                         context
                             .read<PantryProvider>()
-                            .editCategoryName(itemCategory, titleTextEditingController.text)
-                      );
+                            .editCategoryName(itemCategory, categoryTitleTextController.text);
+
                       Navigator.pop(context);
                     }
                   },

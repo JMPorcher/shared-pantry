@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/models/pantry.dart';
 
 import '../models/item_category.dart';
 import '../providers/pantry_list_provider.dart';
 
-class AddCategoryDialog extends StatefulWidget {
-    const AddCategoryDialog({required this.currentCategoryList, super.key, });
+class AddCategoryDialog extends StatelessWidget {
+    AddCategoryDialog({required this.currentCategoryList, super.key, });
 
     final List<ItemCategory> currentCategoryList;
 
-  @override
-  State<AddCategoryDialog> createState() => _AddCategoryDialogState();
-}
-
-class _AddCategoryDialogState extends State<AddCategoryDialog> {
-  bool itemInStock = false;
-  String categoryTitle = '';
-
+    final ValueNotifier<String> categoryTitleValueNotifier = ValueNotifier<String>('');
+    final titleTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    List<ItemCategory> currentCategoryList = widget.currentCategoryList;
+    titleTextController.text = categoryTitleValueNotifier.value;
 
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -29,12 +22,8 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
         children: [AlertDialog(
             title: const Text('Add item category to your pantry:'),
             content: TextField(
+              controller: titleTextController,
               autofocus: true,
-              onChanged: (newString) {
-                setState(() {
-                  categoryTitle = newString;
-                });
-              },
             ),
             actions: [
               TextButton(
@@ -42,6 +31,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                   child: const Text('Cancel')),
               TextButton(
                   onPressed: () {
+                    final String categoryTitle = titleTextController.text;
                     if (categoryTitle != '') {
                       context.read<PantryProvider>().addCategory(currentCategoryList, ItemCategory(categoryTitle, items: []));
                       Navigator.pop(context);
