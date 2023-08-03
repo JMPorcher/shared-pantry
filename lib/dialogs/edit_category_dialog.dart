@@ -13,12 +13,10 @@ class EditCategoryDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     ValueNotifier<String> textValueNotifier = ValueNotifier(itemCategory.title);
     final categoryTitleTextController = TextEditingController();
     categoryTitleTextController.text = textValueNotifier.value;
     textValueNotifier.addListener(() => categoryTitleTextController.text = textValueNotifier.value);
-
 
     return AlertDialog(
       content: Column(
