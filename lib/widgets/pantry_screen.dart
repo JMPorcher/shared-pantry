@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/dialogs/add_pantry_dialog.dart';
 import 'package:shared_pantry/widgets/pantry_scrollview.dart';
 import 'package:loop_page_view/loop_page_view.dart';
@@ -28,8 +29,10 @@ class PantryScreen extends StatelessWidget {
           });
     } else {
       return Scaffold(
+        floatingActionButton: null, //TODO Build a floating action button
+        //Start sign-up process
         body: Container(
-          color: Colors.blue,
+          color: Colors.white,
           child: Center(
             child: Stack(
               children: [
@@ -57,7 +60,7 @@ class PantryScreen extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: kColor5,
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: const [
                           BoxShadow(

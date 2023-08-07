@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/widgets/pantry_appbar.dart';
 
@@ -28,7 +29,8 @@ class PantryScrollView extends StatelessWidget {
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
         child: Scaffold(
-          backgroundColor: Colors.blue,
+
+          backgroundColor: kColor1,
             appBar: PantryAppBar(currentPantry: currentPantry),
             body: Column(
               children: [
@@ -40,10 +42,6 @@ class PantryScrollView extends StatelessWidget {
                     ItemCategory currentCategory =
                         currentCategoryList[categoryIndex];
                     return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.black12, width: 2),
-                        ),
                         margin: const EdgeInsets.only(bottom: 4),
                         child: GestureDetector(
                           onLongPress: () {
@@ -61,8 +59,8 @@ class PantryScrollView extends StatelessWidget {
                               currentCategoryList[categoryIndex].toggleExpanded();
                             },
                             title: Center(child: Text(currentCategory.title, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),)),
-                            backgroundColor: const Color(0x99AAD9FF),
-                            collapsedBackgroundColor: const Color(0x99AAD9FF),
+                            backgroundColor: kColor4,
+                            collapsedBackgroundColor: kColor4,
                             children: [
                               ItemCategoryView(itemList: currentCategory.items)
                             ],
@@ -75,7 +73,7 @@ class PantryScrollView extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   margin: const EdgeInsets.only(top: 6, left: 20, right: 20),
                   decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: kColor5,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: const [
                     BoxShadow(

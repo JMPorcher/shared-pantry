@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_pantry/constants.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_list_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class EditPantryDialog extends StatelessWidget {
     textNotifier.addListener(() => pantryTitleTextController.text = textNotifier.value);
 
     return AlertDialog(
-        title: const Text('Edit Pantry name:'),
+        title: const Text('Edit Pantry name:', style: TextStyle(color: kColor51),),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -28,6 +29,8 @@ class EditPantryDialog extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: TextFormField(
+                      decoration: const InputDecoration(
+                          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kColor51, width: 1.5))),
                       controller: pantryTitleTextController,
                       autofocus: true,
                     ),
@@ -43,7 +46,7 @@ class EditPantryDialog extends StatelessWidget {
                             Navigator.pop(context);
                           }
                         },
-                        child: const Icon(Icons.save)),
+                        child: const Icon(Icons.save, color: kColor51,)),
                   ),
                 ],
               ),
@@ -56,9 +59,9 @@ class EditPantryDialog extends StatelessWidget {
               },
               child: Container(
                 padding: const EdgeInsets.all(16),
-                color: const Color(0x5BAAD9FF),
+                color: kColor51,
                 child: const Row(children: [
-                  Expanded(flex: 3, child: Text('Delete Pantry')),
+                  Expanded(flex: 3, child: Text('Delete Pantry', style: TextStyle(color: Colors.white),)),
                   Expanded(flex: 1, child: Icon(Icons.delete)),
                 ]),
               ),
@@ -70,7 +73,7 @@ class EditPantryDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel')),
+              child: const Text('Cancel', style: TextStyle(color: kColor51)), ),
         ]);
   }
 }

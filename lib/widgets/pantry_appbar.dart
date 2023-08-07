@@ -16,6 +16,7 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     String currentTitle = currentPantry.pantryTitle;
     return AppBar(
+      backgroundColor: kColor5,
       title: Text(currentTitle),
       actions: <Widget>[
         PopupMenuButton(
@@ -32,8 +33,8 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                       const ShoppingListDialog());
                 },
                 child: const ListTile(
-                    leading: Text('Shopping List', style: TextStyle(color: Colors.blue)),
-                    trailing: Icon(Icons.shopping_cart, color: Colors.blue),
+                    leading: Text('Shopping List', style: TextStyle(color: kColor5)),
+                    trailing: Icon(Icons.shopping_cart, color: kColor5),
                 ),
               ),
             ),
@@ -48,9 +49,9 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                       builder: (BuildContext context) =>
                       EditPantryDialog(pantry: currentPantry,));
                 },
-                child: ListTile(
-                  leading: Text('Edit Pantry', style: kTextStyleAppBarMenu),
-                  trailing: const Icon(Icons.edit, color: Colors.blue),
+                child: const ListTile(
+                  leading: Text('Edit Pantry', style: TextStyle(color: kColor5)),
+                  trailing: Icon(Icons.edit, color: kColor5),
                 ),
               ),
             ),
@@ -66,8 +67,8 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                       AddPantryDialog());
                 },
                 child: const ListTile(
-                  leading: Text('Add new Pantry', style: TextStyle(color: Colors.blue)),
-                  trailing: Icon(Icons.add, color: Colors.blue),
+                  leading: Text('Add new Pantry', style: TextStyle(color: kColor5)),
+                  trailing: Icon(Icons.add, color: kColor5),
                 ),
               ),
             ),
