@@ -19,50 +19,77 @@ class PantryScreen extends StatelessWidget {
 
     if (pantryList.isNotEmpty) {
       return LoopPageView.builder(
-            controller: pageController,
-            itemCount: pantryList.length,
-            itemBuilder: (context, pantryIndex) {
-              Pantry currentPantry = pantryList[pantryIndex];
+          controller: pageController,
+          itemCount: pantryList.length,
+          itemBuilder: (context, pantryIndex) {
+            Pantry currentPantry = pantryList[pantryIndex];
 
-              return PantryScrollView(currentPantry: currentPantry);
-            });
+            return PantryScrollView(currentPantry: currentPantry);
+          });
     } else {
       return Scaffold(
-            body: SafeArea(
-              child: Center(
-                  child: Stack(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/pantry_welcome.svg',
-                          semanticsLabel: 'Food pantry',),
-                        Center(
-                          child: MaterialButton(
-                            onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AddPantryDialog());
-                              },
-                            child: Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: const [BoxShadow(
-                                      offset: Offset(3, 3),
-                                      blurStyle: BlurStyle.normal,
-                                      blurRadius: 5)]
-                              ),
-                              child: const Text(
-                                  'Add your first pantry',
-                                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-                              ),
+        body: SafeArea(
+          child: Container(
+            color: Colors.blue,
+            child: Center(
+              child: Stack(
+                children: [
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.all(32),
+                      child: AspectRatio(
+                        aspectRatio: 1, // Maintain aspect ratio (1:1 for square)
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(32),
+                          child: SvgPicture.asset(
+                            'assets/pantry_welcome.svg',
+                            semanticsLabel: 'Food pantry',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: MaterialButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AddPantryDialog(),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: const [
+                              BoxShadow(
+                                offset: Offset(3, 3),
+                                blurRadius: 5,
+                                color: Colors.black26,
+                              )
+                            ],
+                          ),
+                          child: const Text(
+                            'Add your first pantry',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
-                        )]
-                  )
-                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-          );
+            ),
+          ),
+        ),
+      );
     }
   }
 }

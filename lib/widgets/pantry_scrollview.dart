@@ -28,6 +28,7 @@ class PantryScrollView extends StatelessWidget {
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
         child: Scaffold(
+          backgroundColor: Colors.blue,
             appBar: PantryAppBar(currentPantry: currentPantry),
             body: Column(
               children: [
@@ -73,7 +74,10 @@ class PantryScrollView extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   margin: const EdgeInsets.only(top: 6, left: 20, right: 20),
-                  decoration: const BoxDecoration(color: Colors.grey, boxShadow: [
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: const [
                     BoxShadow(
                         offset: Offset(3, 3),
                         blurStyle: BlurStyle.normal,
