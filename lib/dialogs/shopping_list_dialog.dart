@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
@@ -16,7 +15,6 @@ class ShoppingListDialog extends StatefulWidget {
 }
 
 class _ShoppingListDialogState extends State<ShoppingListDialog> {
-
   List<Item> relevantItems = [];
 
   void filterItems(List<Pantry> pantryList) {
@@ -51,6 +49,8 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
     filterItems(pantryList);
 
+    final ValueNotifier<bool> pantryIsSelected = ValueNotifier(true);
+
     return AlertDialog(
         title: const Text('Shopping list'),
         content: SingleChildScrollView(
@@ -67,14 +67,12 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
                     return ListTile(
                       leading: Text(currentPantry.pantryTitle),
                       trailing: Switch(
-                        value: currentPantry.selected,
-                        onChanged: (_) {
-                          setState(() {
-                            currentPantry.selected = !currentPantry.selected;
-                            filterItems(pantryList);
-                          });
-                        },
-                      ),
+                          value: pantryIsSelected.value,
+                          onChanged: (newValue) {
+                            context.read<PantryProvider>().pantriesList
+                            pantryIsSelected.value = newValue;
+                            print(pantryIsSelected.value);
+                          }),
                     );
                   }),
             ),
@@ -84,7 +82,9 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
             ),
             SizedBox(
                 width: double.maxFinite,
-                height: relevantItems.length * 60 <= 400 ? 400 : relevantItems.length * 60,
+                height: relevantItems.length * 60 <= 400
+                    ? 400
+                    : relevantItems.length * 60,
                 child: ListView.builder(
                   itemCount: relevantItems.length,
                   itemBuilder: (_, index) {
@@ -96,7 +96,9 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
                         value: currentItem.isAvailable,
                         onChanged: (bool? value) {
                           setState(() {
-                            context.read<PantryProvider>().toggleItemAvailability(currentItem);
+                            context
+                                .read<PantryProvider>()
+                                .toggleItemAvailability(currentItem);
                           });
                         },
                       ),

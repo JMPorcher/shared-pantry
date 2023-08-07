@@ -8,12 +8,10 @@ class AddItemDialog extends StatelessWidget {
 
   final List<Item> currentItemList;
 
-  final ValueNotifier<String> itemTitleValueNotifier = ValueNotifier<String>('');
-  final titleTextController = TextEditingController();
-
-
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<String> itemTitleValueNotifier = ValueNotifier<String>('');
+    final titleTextController = TextEditingController();
     titleTextController.text = itemTitleValueNotifier.value;
     final ValueNotifier<bool> isInStock = ValueNotifier(false);
 

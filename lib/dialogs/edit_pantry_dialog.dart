@@ -12,7 +12,7 @@ class EditPantryDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<String> textNotifier = ValueNotifier<String>(pantry.pantryTitle);
+    final ValueNotifier<String> textNotifier = ValueNotifier<String>(pantry.pantryTitle);
     final pantryTitleTextController = TextEditingController();
     pantryTitleTextController.text = pantry.pantryTitle;
     textNotifier.addListener(() => pantryTitleTextController.text = textNotifier.value);
