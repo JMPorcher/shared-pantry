@@ -18,7 +18,7 @@ class ItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: kColor2,
+      color: kColor1,
       child: ListTile(
         leading: Text(itemTitle),
         trailing: CupertinoSwitch(

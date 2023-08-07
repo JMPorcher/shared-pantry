@@ -5,6 +5,7 @@ import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/dialogs/add_pantry_dialog.dart';
 import 'package:shared_pantry/widgets/pantry_scrollview.dart';
 import 'package:loop_page_view/loop_page_view.dart';
+import 'package:shared_pantry/widgets/profile_screen.dart';
 
 import '../models/pantry.dart';
 import '../providers/pantry_list_provider.dart';
@@ -29,8 +30,12 @@ class PantryScreen extends StatelessWidget {
           });
     } else {
       return Scaffold(
-        floatingActionButton: null, //TODO Build a floating action button
+        floatingActionButton: FloatingActionButton(onPressed: () { Navigator.pushNamed(context, ProfileScreen.id); }), //TODO Build a floating action button
         //Start sign-up process
+        //Full new screen.
+        // USER PRESENT? Profile screen. List all pantries with all participants. Option to delete account, thereby deleting all personal pantries and leaving shared ones.
+        // NO USER? Choose user name. Does not have to be unique. Enter mobile number and wait for code. Or cancel. After code is confirmed, proceed to profile screen.
+
         body: Container(
           color: Colors.white,
           child: Center(
@@ -58,7 +63,7 @@ class PantryScreen extends StatelessWidget {
                       );
                     },
                     child: Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
                         color: kColor5,
                         borderRadius: BorderRadius.circular(8),
@@ -73,7 +78,7 @@ class PantryScreen extends StatelessWidget {
                       child: const Text(
                         'Add your first pantry',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),

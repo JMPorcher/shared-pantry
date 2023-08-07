@@ -24,13 +24,17 @@ Know which household items are currently in the house. Add more pantries: person
 [X] Welcome screen "Add your first pantry"
 
 [] Move AppBar from pantry to overall scaffold
+--> Really necessary?
 
-[] Delete option for Pantries: personal Pantry is archivable/deletable, shared Pantry can be erased by Pantry starter or left by every other user
 [] Firebase basic structure (I'm scared man)
 [] Firebase groups
 
 [] Localization for EN/GER
 [] Pre-available Pantries, Categories and Items
+
+[] Make a plan for the UX
+[] Make a theme and apply it
+
 
 ## Questions
 - How does Firebase store users? Do I get to structure that?
@@ -73,13 +77,10 @@ How does Firebase structure a user? Do I get to decide?
 {
  id: "user_id_hash",
  phone_number: 123456789,
+ user_name: "name",
  subscribed_pantries: 
    [
      pantry_id: "pantryHash",
      pantry_id: "pantryHash",
    ]
 }
-
-
-Might use this palette:
-

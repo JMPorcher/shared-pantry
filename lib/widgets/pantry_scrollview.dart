@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/widgets/pantry_appbar.dart';
+import 'package:shared_pantry/widgets/profile_screen.dart';
 
 import '../dialogs/add_category_dialog.dart';
 import '../dialogs/edit_category_dialog.dart';
@@ -29,7 +30,7 @@ class PantryScrollView extends StatelessWidget {
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
         child: Scaffold(
-
+            floatingActionButton: FloatingActionButton(onPressed: () { Navigator.pushNamed(context, ProfileScreen.id); }),
           backgroundColor: kColor1,
             appBar: PantryAppBar(currentPantry: currentPantry),
             body: Column(
@@ -59,8 +60,8 @@ class PantryScrollView extends StatelessWidget {
                               currentCategoryList[categoryIndex].toggleExpanded();
                             },
                             title: Center(child: Text(currentCategory.title, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),)),
-                            backgroundColor: kColor4,
-                            collapsedBackgroundColor: kColor4,
+                            backgroundColor: kColor11,
+                            collapsedBackgroundColor: kColor11,
                             children: [
                               ItemCategoryView(itemList: currentCategory.items)
                             ],
