@@ -31,7 +31,7 @@ List<Item> kTestList2 = [
 
 
 // Colors:
-const Color kColor1 = Color(0xFFf8f7f3);
+const Color kColor1 = Color(0xFFFAF9F7);
 const Color kColor11 = Color(0xFFDDD8C4);
 const Color kColor2 = Color(0xFFA3C9A8);
 const Color kColor3 = Color(0xFF84B59F);

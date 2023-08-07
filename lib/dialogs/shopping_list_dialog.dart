@@ -69,7 +69,7 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
                       trailing: Switch(
                           value: pantryIsSelected.value,
                           onChanged: (newValue) {
-                            context.read<PantryProvider>().pantriesList
+                            context.read<PantryProvider>().pantriesList;
                             pantryIsSelected.value = newValue;
                             print(pantryIsSelected.value);
                           }),

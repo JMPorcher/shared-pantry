@@ -26,6 +26,9 @@ Know which household items are currently in the house. Add more pantries: person
 [] Move AppBar from pantry to overall scaffold
 --> Really necessary?
 
+[] Registration on first opening the app. Can be skipped.
+[] Registration can be done through FloatingActionButton at any time.
+
 [] Firebase basic structure (I'm scared man)
 [] Firebase groups
 
