@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_pantry/providers/pantry_list_provider.dart';
 
 import '../constants.dart';
+import '../models/pantry.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -9,6 +12,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
+
     return Scaffold(
       backgroundColor: kColor3,
         body: SafeArea(
@@ -17,11 +22,15 @@ class ProfileScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(40.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children:
                       [
                         const Text('Hello User_1', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),),
                         const Text('(+49) 123 456 789)', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
+                       ListView.builder(itemBuilder: (BuildContext context, int index) {
+                         final Pantry currentPantry = pantryList[index];
+                         return ListTile(title: Text(currentPantry.pantryTitle),);
+                       }),
                        //"Your pantries" box: ListView of Pantries, with nested ListViews of other users
                         MaterialButton(
                           onPressed: () {

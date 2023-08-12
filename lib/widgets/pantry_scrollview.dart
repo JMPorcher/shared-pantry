@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/widgets/pantry_appbar.dart';
-import 'package:shared_pantry/widgets/profile_screen.dart';
 
 import '../dialogs/add_category_dialog.dart';
 import '../dialogs/edit_category_dialog.dart';
@@ -10,8 +9,8 @@ import '../models/pantry.dart';
 import 'item_category_view.dart';
 
 class PantryScrollView extends StatelessWidget {
-  const PantryScrollView(
-      {required this.currentPantry, Key? key}): super(key: key);
+  const PantryScrollView({required this.currentPantry, Key? key})
+      : super(key: key);
 
   final Pantry currentPantry;
 
@@ -24,14 +23,12 @@ class PantryScrollView extends StatelessWidget {
         builder: (BuildContext context) => AddCategoryDialog(
               currentCategoryList: currentCategoryList,
             ));
-
     return SingleChildScrollView(
       child: SizedBox(
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
         child: Scaffold(
-            floatingActionButton: FloatingActionButton(onPressed: () { Navigator.pushNamed(context, ProfileScreen.id); }),
-          backgroundColor: kColor1,
+            backgroundColor: kColor1,
             appBar: PantryAppBar(currentPantry: currentPantry),
             body: Column(
               children: [
@@ -57,9 +54,16 @@ class PantryScrollView extends StatelessWidget {
                             initiallyExpanded:
                                 currentCategoryList[categoryIndex].isExpanded,
                             onExpansionChanged: (_) {
-                              currentCategoryList[categoryIndex].toggleExpanded();
+                              currentCategoryList[categoryIndex]
+                                  .toggleExpanded();
                             },
-                            title: Center(child: Text(currentCategory.title, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),)),
+                            title: Center(
+                                child: Text(
+                              currentCategory.title,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            )),
                             backgroundColor: kColor11,
                             collapsedBackgroundColor: kColor11,
                             children: [
@@ -77,11 +81,11 @@ class PantryScrollView extends StatelessWidget {
                       color: kColor5,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: const [
-                    BoxShadow(
-                        offset: Offset(3, 3),
-                        blurStyle: BlurStyle.normal,
-                        blurRadius: 5)
-                  ]),
+                        BoxShadow(
+                            offset: Offset(3, 3),
+                            blurStyle: BlurStyle.normal,
+                            blurRadius: 5)
+                      ]),
                   child: MaterialButton(
                       onPressed: () => showAddDialog(),
                       child: currentCategoryList.isEmpty

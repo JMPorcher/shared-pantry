@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
-  static const String id = 'profile';
+  static const String id = 'signup';
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,8 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children:
                       [
-                        const Text('Hello User_1', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),),
-                        const Text('(+49) 123 456 789)', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
+                        const Text('Signup Screen Hello User_1', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),),
+                        const Text('Signup Screen (+49) 123 456 789)', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
                         //"Your pantries" box: ListView of Pantries, with nested ListViews of other users
                         MaterialButton(
                           onPressed: () {

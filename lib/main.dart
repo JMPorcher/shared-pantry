@@ -1,18 +1,30 @@
 // import 'package:firebase_core/firebase_core.dart';
 // import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/providers/pantry_list_provider.dart';
 import 'package:shared_pantry/widgets/pantry_screen.dart';
 import 'package:shared_pantry/widgets/profile_screen.dart';
+import 'package:shared_pantry/widgets/signup_screen.dart';
+
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-  runApp(ChangeNotifierProvider(
-      create: (_) => PantryProvider(), child: const SharedPantry()));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => PantryProvider()),
+      ChangeNotifierProvider(
+        create: (_) => AuthProvider(),
+      )
+    ],
+    child: const SharedPantry(),
+  ));
 }
 
 class SharedPantry extends StatelessWidget {
@@ -28,6 +40,7 @@ class SharedPantry extends StatelessWidget {
         home: const PantryScreen(),
         routes: {
           ProfileScreen.id: (context) => const ProfileScreen(),
+          SignupScreen.id: (context) => const SignupScreen(),
         });
   }
 }
