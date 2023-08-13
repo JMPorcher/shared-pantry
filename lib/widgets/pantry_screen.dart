@@ -13,6 +13,8 @@ import '../providers/pantry_list_provider.dart';
 class PantryScreen extends StatelessWidget {
   const PantryScreen({Key? key}) : super(key: key);
 
+  static const String id = 'pantry screen';
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;

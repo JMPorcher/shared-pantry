@@ -39,9 +39,9 @@ Know which household items are currently in the house. Add more pantries: person
 [] Make a theme and apply it
 
 
+
 ## Questions
-- How does Firebase store users? Do I get to structure that?
-- Do I store the user in a different provider? Or the same as PantryProvider or not at all?
+--
 
 
 
