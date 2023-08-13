@@ -6,8 +6,8 @@ import '../models/item.dart';
 import '../providers/pantry_list_provider.dart';
 import 'item_tile.dart';
 
-class ItemCategoryView extends StatelessWidget {
-  const ItemCategoryView({required this.itemList, Key? key})
+class CategoryView extends StatelessWidget {
+  const CategoryView({required this.itemList, Key? key})
       : super(key: key);
 
   final List<Item> itemList;

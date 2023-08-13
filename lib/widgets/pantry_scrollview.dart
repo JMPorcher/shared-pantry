@@ -6,7 +6,9 @@ import 'package:shared_pantry/widgets/pantry_appbar.dart';
 import '../dialogs/add_category_dialog.dart';
 import '../dialogs/edit_category_dialog.dart';
 import '../models/pantry.dart';
-import 'item_category_view.dart';
+import 'add_category_button.dart';
+import 'category_tile.dart';
+import 'category_view.dart';
 
 class PantryScrollView extends StatelessWidget {
   const PantryScrollView({required this.currentPantry, Key? key})
@@ -50,55 +52,18 @@ class PantryScrollView extends StatelessWidget {
                                         itemCategoryList: currentCategoryList,
                                         itemCategory: currentCategory));
                           },
-                          child: ExpansionTile(
-                            initiallyExpanded:
-                                currentCategoryList[categoryIndex].isExpanded,
-                            onExpansionChanged: (_) {
-                              currentCategoryList[categoryIndex]
-                                  .toggleExpanded();
-                            },
-                            title: Center(
-                                child: Text(
-                              currentCategory.title,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                            backgroundColor: kColor11,
-                            collapsedBackgroundColor: kColor11,
-                            children: [
-                              ItemCategoryView(itemList: currentCategory.items)
-                            ],
-                          ),
+                          child: CategoryTile(currentCategoryList: currentCategoryList, currentCategory: currentCategory),
                         ));
                   },
                 ), //Contents of one Pantry
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(12),
-                  margin: const EdgeInsets.only(top: 6, left: 20, right: 20),
-                  decoration: BoxDecoration(
-                      color: kColor5,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [
-                        BoxShadow(
-                            offset: Offset(3, 3),
-                            blurStyle: BlurStyle.normal,
-                            blurRadius: 5)
-                      ]),
-                  child: MaterialButton(
-                      onPressed: () => showAddDialog(),
-                      child: currentCategoryList.isEmpty
-                          ? const Text(
-                              '(  Add your first category  )',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          : const Text('Add new category',
-                              style: TextStyle(color: Colors.white))),
-                )
+                AddCategoryButton(currentCategoryList: currentCategoryList)
               ],
             )),
       ),
     );
   }
 }
+
+
+
+
