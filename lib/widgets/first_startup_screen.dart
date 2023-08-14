@@ -52,7 +52,9 @@ class FirstStartupScreen extends StatelessWidget {
                         color: Colors.blue),
                   ),
                 )),
-          ]),
+          ]
+          //TODO: Add button for sign in for returning users.
+          ),
         ),
       ),
     );

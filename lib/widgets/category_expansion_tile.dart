@@ -4,8 +4,8 @@ import '../constants.dart';
 import '../models/item_category.dart';
 import 'category_view.dart';
 
-class CategoryTile extends StatelessWidget {
-  const CategoryTile({
+class CategoryExpansionTile extends StatelessWidget {
+  const CategoryExpansionTile({
     super.key,
     required this.currentCategoryList,
     required this.currentCategory,

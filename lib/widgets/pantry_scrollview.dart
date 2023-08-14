@@ -3,16 +3,14 @@ import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/widgets/pantry_appbar.dart';
 
-import '../dialogs/add_category_dialog.dart';
 import '../dialogs/edit_category_dialog.dart';
 import '../models/pantry.dart';
 import 'add_category_button.dart';
-import 'category_tile.dart';
-import 'category_view.dart';
+import 'category_expansion_tile.dart';
 
 class PantryScrollView extends StatelessWidget {
-  const PantryScrollView({required this.currentPantry, Key? key})
-      : super(key: key);
+  const PantryScrollView(
+      {required this.currentPantry, Key? key}): super(key: key);
 
   final Pantry currentPantry;
 
@@ -20,11 +18,6 @@ class PantryScrollView extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categoryList;
 
-    void showAddDialog() => showDialog(
-        context: context,
-        builder: (BuildContext context) => AddCategoryDialog(
-              currentCategoryList: currentCategoryList,
-            ));
     return SingleChildScrollView(
       child: SizedBox(
         width: double.infinity,
@@ -52,7 +45,7 @@ class PantryScrollView extends StatelessWidget {
                                         itemCategoryList: currentCategoryList,
                                         itemCategory: currentCategory));
                           },
-                          child: CategoryTile(currentCategoryList: currentCategoryList, currentCategory: currentCategory),
+                          child: CategoryExpansionTile(currentCategoryList: currentCategoryList, currentCategory: currentCategory),
                         ));
                   },
                 ), //Contents of one Pantry
