@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/widgets/pantry_screen.dart';
@@ -10,8 +11,8 @@ class FirstStartupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    
+    FirebaseAuth auth = FirebaseAuth.instance;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kColor1,
@@ -28,18 +29,24 @@ class FirstStartupScreen extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.0),
               child: Text(
-                'In Shared Pantry you can store Pantries for any of your household items, from foods to cleaning sponges. '
-                'You can mark any of your items as "run out" so you can check anytime what you need to buy while.'
+                'Store all your household items that might deplete: from foods to cleaning supplies. '
+                'Mark any item as "run out" and check anytime what you need to buy.'
                 '\n\n'
-                'Or share any number Pantries with others so everybody knows if they ran out. To use this feature sign up for free.',
+                'Sign up for free and share any number of Pantries with others.',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
               ),
             ),
             const SizedBox(height: 20.0),
-            RegistrationForm(formKey: formKey),
+            const RegistrationForm(),
             MaterialButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.pushNamed(context, PantryScreen.id);
+                  //Sign in anonymously
+                  try {
+                    await auth.signInAnonymously();
+                  } catch (e) {
+                    print(e);
+                  }
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(16.0),

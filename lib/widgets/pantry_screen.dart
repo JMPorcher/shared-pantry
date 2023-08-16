@@ -17,8 +17,9 @@ class PantryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-    final bool userIsLoggedIn = user != null;
+    // final user = FirebaseAuth.instance.currentUser;
+    const bool userIsLoggedIn = false; //user != null;
+
 
     LoopPageController pageController =
         context.watch<PantryProvider>().pageController;

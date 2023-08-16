@@ -1,5 +1,6 @@
 // import 'package:firebase_core/firebase_core.dart';
 // import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,7 @@ void main() async {
 
 class SharedPantry extends StatelessWidget {
   const SharedPantry({super.key});
+  FirebaseAuth user =
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class SharedPantry extends StatelessWidget {
   }
 }
 
-Future<bool> isFirstTime() async{
+Future<bool> isFirstTime() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   bool isFirstTime = sharedPreferences.getBool('is first time') ?? true;
   return isFirstTime;
@@ -69,5 +71,16 @@ Future<bool> isFirstTime() async{
 
 Future<void> setFirstTimeFlagToFalse() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //await sharedPreferences.setBool('is first time', false);
+  await sharedPreferences.setBool('is first time', false);
+}
+
+Future<bool> userSignedInAnonymouslyBefore() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  bool hasSignedInBefore = sharedPreferences.getBool('has signed in before') ?? true;
+  return hasSignedInBefore;
+}
+
+Future<void> setUserSignedInBeforeToFalse() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  await sharedPreferences.setBool('has signed in before', false);
 }
