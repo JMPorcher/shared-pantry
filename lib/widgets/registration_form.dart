@@ -89,4 +89,3 @@ class RegistrationForm extends StatelessWidget {
     );
   }
 }
-//TODO: Make error messages appear

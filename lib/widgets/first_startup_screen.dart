@@ -46,7 +46,7 @@ class FirstStartupScreen extends StatelessWidget {
                   try {
                     await auth.signInAnonymously();
                     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-                    sharedPreferences.setBool('user signed in anonymously before', true);
+                    await sharedPreferences.setBool('user signed in anonymously before', true);
                   } catch (e) {
                     print(e);
                   }

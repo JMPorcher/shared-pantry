@@ -21,9 +21,9 @@ void main() async {
   );
 
   final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  if (sharedPreferences.getBool('user signed in anonymously before') == true) {
+  final bool? signedInAnonymouslyBefore = sharedPreferences.getBool('user signed in anonymously before');
+  if (signedInAnonymouslyBefore == true) {
     FirebaseAuth.instance.signInAnonymously();
-    //This should anonymously sign in the user if they have been signed in anonymously before
     //TODO: What's missing is that this is only important if the user has not registered an account. Maybe the whole thing should be handled through the AuthProvider?
   }
 
@@ -82,15 +82,4 @@ Future<bool> isFirstTime() async {
 Future<void> setFirstTimeFlagToFalse() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   await sharedPreferences.setBool('is first time', false);
-}
-
-Future<bool> userSignedInAnonymouslyBefore() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  bool hasSignedInBefore = sharedPreferences.getBool('has signed in before') ?? true;
-  return hasSignedInBefore;
-}
-
-Future<void> setUserSignedInBeforeToFalse() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  await sharedPreferences.setBool('has signed in before', false);
 }
