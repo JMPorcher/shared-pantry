@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/widgets/pantry_screen.dart';
 import 'package:shared_pantry/widgets/registration_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirstStartupScreen extends StatelessWidget {
   const FirstStartupScreen({super.key});
@@ -44,6 +45,8 @@ class FirstStartupScreen extends StatelessWidget {
                   //Sign in anonymously
                   try {
                     await auth.signInAnonymously();
+                    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                    sharedPreferences.setBool('user signed in anonymously before', true);
                   } catch (e) {
                     print(e);
                   }

@@ -19,6 +19,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  if (sharedPreferences.getBool('user signed in anonymously before') == true) {
+    FirebaseAuth.instance.signInAnonymously();
+    //This should anonymously sign in the user if they have been signed in anonymously before
+    //TODO: What's missing is that this is only important if the user has not registered an account. Maybe the whole thing should be handled through the AuthProvider?
+  }
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => PantryProvider()),
@@ -32,7 +40,7 @@ void main() async {
 
 class SharedPantry extends StatelessWidget {
   const SharedPantry({super.key});
-  FirebaseAuth user =
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +51,14 @@ class SharedPantry extends StatelessWidget {
         ),
         home: FutureBuilder<bool>(
           future: isFirstTime(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
+          builder: (BuildContext context, AsyncSnapshot snapshot)  {
             if (snapshot.data == true) {
               setFirstTimeFlagToFalse();
               return const FirstStartupScreen();
             }
             else {
+
+
               return const PantryScreen();
             }
           },
