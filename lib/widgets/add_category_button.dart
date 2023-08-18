@@ -23,7 +23,7 @@ class AddCategoryButton extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.only(top: 6, left: 20, right: 20),
+      margin: const EdgeInsets.only(top: 6, left: 20, right: 20, bottom: 20),
       decoration: BoxDecoration(
           color: kColor5,
           borderRadius: BorderRadius.circular(12),

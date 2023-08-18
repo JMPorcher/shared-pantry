@@ -9,8 +9,8 @@ import 'add_category_button.dart';
 import 'category_expansion_tile.dart';
 
 class PantryScrollView extends StatelessWidget {
-  const PantryScrollView(
-      {required this.currentPantry, Key? key}): super(key: key);
+  const PantryScrollView({required this.currentPantry, Key? key})
+      : super(key: key);
 
   final Pantry currentPantry;
 
@@ -18,45 +18,45 @@ class PantryScrollView extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categoryList;
 
-    return SingleChildScrollView(
-      child: SizedBox(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height,
-        child: Scaffold(
-            backgroundColor: kColor1,
-            appBar: PantryAppBar(currentPantry: currentPantry),
-            body: Column(
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: currentCategoryList.length,
-                  key: UniqueKey(),
-                  itemBuilder: (BuildContext context, int categoryIndex) {
-                    ItemCategory currentCategory =
-                        currentCategoryList[categoryIndex];
-                    return Container(
-                        margin: const EdgeInsets.only(bottom: 4),
-                        child: GestureDetector(
-                          onLongPress: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    EditCategoryDialog(
-                                        itemCategoryList: currentCategoryList,
-                                        itemCategory: currentCategory));
-                          },
-                          child: CategoryExpansionTile(currentCategoryList: currentCategoryList, currentCategory: currentCategory),
-                        ));
-                  },
-                ), //Contents of one Pantry
-                AddCategoryButton(currentCategoryList: currentCategoryList)
-              ],
-            )),
+    return Scaffold(
+      backgroundColor: kColor1,
+      appBar: PantryAppBar(currentPantry: currentPantry),
+      body: ListView(
+        children: [
+          // Categories
+          Column(
+            children: List.generate(
+              currentCategoryList.length,
+                  (index) {
+                ItemCategory currentCategory = currentCategoryList[index];
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 4),
+                  child: GestureDetector(
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => EditCategoryDialog(
+                          itemCategoryList: currentCategoryList,
+                          itemCategory: currentCategory,
+                        ),
+                      );
+                    },
+                    child: CategoryExpansionTile(
+                      currentCategoryList: currentCategoryList,
+                      currentCategory: currentCategory,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          // Button at the bottom
+          AddCategoryButton(currentCategoryList: currentCategoryList),
+        ],
       ),
     );
   }
 }
-
 
 
 

@@ -31,9 +31,9 @@ class FirstStartupScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 24.0),
               child: Text(
                 'Store all your household items that might deplete: from foods to cleaning supplies. '
-                'Mark any item as "run out" and check anytime what you need to buy.'
-                '\n\n'
-                'Sign up for free and share any number of Pantries with others.',
+                    'Mark any item as "run out" and check anytime what you need to buy.'
+                    '\n\n'
+                    'Sign up for free and share any number of Pantries with others.',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
               ),
             ),
@@ -56,14 +56,14 @@ class FirstStartupScreen extends StatelessWidget {
                   child: Text(
                     'No thanks, I can sign up later at any time',
                     style: TextStyle(
-                      decoration: TextDecoration.underline,
+                        decoration: TextDecoration.underline,
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue),
                   ),
                 )),
           ]
-          //TODO: Add button for sign in for returning users.
+            //TODO: Add button for sign in for returning users.
           ),
         ),
       ),

@@ -17,28 +17,24 @@ class CategoryView extends StatelessWidget {
 
     return Column(
       children: [
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: itemList.length,
-            itemBuilder: (context, itemIndex) {
-              Item currentItem = itemList[itemIndex];
-              return Dismissible(
-                direction: DismissDirection.endToStart,
-                onDismissed: (direction) {
-                  context.read<PantryProvider>().removeItem(
-                      itemList, currentItem);
-                },
-                key: UniqueKey(),
-                child: ItemTile(
-                  toggleSwitch: (_) => context
-                      .read<PantryProvider>()
-                      .toggleItemAvailability(
-                          currentItem),
-                  itemTitle: currentItem.title,
-                  isAvailable: currentItem.isAvailable,
-                ),
+        for (var currentItem in itemList)
+          Dismissible(
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) {
+              context.read<PantryProvider>().removeItem(
+                itemList,
+                currentItem,
               );
-            }),
+            },
+            key: UniqueKey(),
+            child: ItemTile(
+              toggleSwitch: (_) => context
+                  .read<PantryProvider>()
+                  .toggleItemAvailability(currentItem),
+              itemTitle: currentItem.title,
+              isAvailable: currentItem.isAvailable,
+            ),
+          ),
         MaterialButton(
             onPressed: () => showDialog(
                 context: context,
