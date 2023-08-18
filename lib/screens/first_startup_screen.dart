@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
-import 'package:shared_pantry/widgets/pantry_screen.dart';
+import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/widgets/registration_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,8 +30,7 @@ class FirstStartupScreen extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.0),
               child: Text(
-                'Store all your household items that might deplete: from foods to cleaning supplies. '
-                    'Mark any item as "run out" and check anytime what you need to buy.'
+                'Keep track all your household items that might deplete: from foods to cleaning supplies. '
                     '\n\n'
                     'Sign up for free and share any number of Pantries with others.',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
@@ -44,9 +43,8 @@ class FirstStartupScreen extends StatelessWidget {
                   Navigator.pushNamed(context, PantryScreen.id);
                   //Sign in anonymously
                   try {
-                    await auth.signInAnonymously();
                     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-                    await sharedPreferences.setBool('user signed in anonymously before', true);
+                    sharedPreferences.setBool('user is not registered', true);
                   } catch (e) {
                     print(e);
                   }

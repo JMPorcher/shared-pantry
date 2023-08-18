@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/providers/pantry_list_provider.dart';
-import 'package:shared_pantry/widgets/first_startup_screen.dart';
-import 'package:shared_pantry/widgets/pantry_screen.dart';
-import 'package:shared_pantry/widgets/profile_screen.dart';
+import 'package:shared_pantry/screens/first_startup_screen.dart';
+import 'package:shared_pantry/screens/pantry_screen.dart';
+import 'package:shared_pantry/screens/profile_screen.dart';
 import 'package:shared_pantry/widgets/signup_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,18 +20,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  final bool? signedInAnonymouslyBefore = sharedPreferences.getBool('user signed in anonymously before');
-  if (signedInAnonymouslyBefore == true) {
-    FirebaseAuth.instance.signInAnonymously();
-    //TODO: What's missing is that this is only important if the user has not registered an account. Maybe the whole thing should be handled through the AuthProvider?
-  }
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => PantryProvider()),
       ChangeNotifierProvider(
-        create: (_) => AuthProvider(),
+        create: (_) => AuthProviderRegistered(),
       )
     ],
     child: const SharedPantry(),

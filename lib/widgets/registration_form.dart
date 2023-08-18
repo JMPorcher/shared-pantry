@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_pantry/widgets/pantry_screen.dart';
+import 'package:shared_pantry/screens/pantry_screen.dart';
 
 import '../constants.dart';
 

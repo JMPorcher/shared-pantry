@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/widgets/pantry_scrollview.dart';
 import 'package:loop_page_view/loop_page_view.dart';
-import 'package:shared_pantry/widgets/profile_screen.dart';
+import 'package:shared_pantry/screens/profile_screen.dart';
 import 'package:shared_pantry/widgets/signup_screen.dart';
-import 'package:shared_pantry/widgets/welcome_screen.dart';
+import 'package:shared_pantry/screens/welcome_screen.dart';
 
 import '../models/pantry.dart';
 import '../providers/pantry_list_provider.dart';

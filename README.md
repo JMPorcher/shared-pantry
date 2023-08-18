@@ -44,11 +44,6 @@ Know which household items are currently in the house. Add more pantries: person
 --
 
 
-
-
-HOW TO STORE THIS IN FIREBASE???
-
-How to add users
 JSON Pantry Model
 {
  pantry: "Pantry Title",
@@ -76,10 +71,9 @@ JSON Pantry Model
 }
 
 JSON User Model
-How does Firebase structure a user? Do I get to decide?
 {
- id: "user_id_hash",
- phone_number: 123456789,
+ id: "user_id",
+ email: test@test.de,
  user_name: "name",
  subscribed_pantries: 
    [
