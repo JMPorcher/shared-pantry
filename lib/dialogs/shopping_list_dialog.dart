@@ -20,8 +20,8 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
   void filterItems(List<Pantry> pantryList) {
     relevantItems.clear();
     for (Pantry pantry in pantryList) {
-      if (pantry.selected) {
-        for (ItemCategory category in pantry.categoryList) {
+      if (pantry.selectedForShopping) {
+        for (ItemCategory category in pantry.categories) {
           for (Item item in category.items) {
             if (!item.isAvailable) {
               relevantItems.add(item);
@@ -34,7 +34,7 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
 
   void addAllItems(List<Pantry> pantryList) {
     for (Pantry pantry in pantryList) {
-      for (ItemCategory category in pantry.categoryList) {
+      for (ItemCategory category in pantry.categories) {
         for (Item item in category.items) {
           if (!item.isAvailable) {
             relevantItems.add(item);

@@ -4,8 +4,8 @@ import 'package:shared_pantry/models/item_category.dart';
 import 'models/item.dart';
 import 'models/pantry.dart';
 
-Pantry kTestPantry = Pantry([kTestCategory, kTestCategory2, kTestCategory], pantryTitle: 'Persönlich');
-Pantry kTestPantry2 = Pantry([kTestCategory2], pantryTitle: 'WG');
+Pantry kTestPantry = Pantry(pantryTitle: 'Persönlich', categories: [kTestCategory, kTestCategory2, kTestCategory]);
+Pantry kTestPantry2 = Pantry(pantryTitle: 'WG', categories: [kTestCategory2]);
 
 ItemCategory kTestCategory = ItemCategory(
   'Kühlschrank',
@@ -13,9 +13,9 @@ ItemCategory kTestCategory = ItemCategory(
 );
 
 List<Item> kTestList = [
-  Item('Hafermilch', false),
-  Item('Margarine', false),
-  Item('Tofu', true),
+  Item('Hafermilch', isAvailable: false),
+  Item('Margarine', isAvailable: false),
+  Item('Tofu', isAvailable: true),
 ];
 
 ItemCategory kTestCategory2 = ItemCategory(
@@ -24,9 +24,9 @@ ItemCategory kTestCategory2 = ItemCategory(
 );
 
 List<Item> kTestList2 = [
-  Item('Kloreiniger', false),
-  Item('Schwämme', false),
-  Item('Küchenrolle', true),
+  Item('Kloreiniger', isAvailable: false),
+  Item('Schwämme', isAvailable: false),
+  Item('Küchenrolle', isAvailable: true),
 ];
 
 

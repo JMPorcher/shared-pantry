@@ -20,7 +20,7 @@ class CategoryView extends StatelessWidget {
         for (var currentItem in itemList)
           Dismissible(
             direction: DismissDirection.endToStart,
-            onDismissed: (direction) {
+            onDismissed: (_) {
               context.read<PantryProvider>().removeItem(
                 itemList,
                 currentItem,

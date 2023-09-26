@@ -54,7 +54,7 @@ class AddItemDialog extends StatelessWidget {
                 onPressed: () {
                   final String itemTitle = titleTextController.text;
                   if (itemTitle != '') {
-                    context.read<PantryProvider>().addItem(currentItemList, Item(itemTitle, isInStock.value));
+                    context.read<PantryProvider>().addItem(currentItemList, Item(itemTitle, isAvailable: isInStock.value));
                     Navigator.pop(context);
                   }
                 },

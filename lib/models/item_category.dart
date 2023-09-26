@@ -1,7 +1,8 @@
 import 'package:shared_pantry/models/item.dart';
 
 class ItemCategory {
-  ItemCategory(this.title, {required , required this.items});
+  ItemCategory(this.title, {List<Item>? items}) : items = items ?? [];
+  //TODO Remove items argument altogether
 
   String title;
   bool isExpanded = false;
@@ -11,7 +12,7 @@ class ItemCategory {
     isExpanded = !isExpanded;
   }
 
-  void changeTitle(String newTitle) {
+  void editTitle(String newTitle) {
     title = newTitle;
   }
 }

@@ -16,10 +16,10 @@ class PantryScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<ItemCategory> currentCategoryList = currentPantry.categoryList;
+    final List<ItemCategory> currentCategoryList = currentPantry.categories;
 
     return Scaffold(
-      backgroundColor: kColor1,
+      backgroundColor: Colors.transparent,
       appBar: PantryAppBar(currentPantry: currentPantry),
       body: ListView(
         children: [
@@ -30,7 +30,8 @@ class PantryScrollView extends StatelessWidget {
                   (index) {
                 ItemCategory currentCategory = currentCategoryList[index];
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 4),
+                  color: kColor1,
+                  margin: const EdgeInsets.only(bottom: 10),
                   child: GestureDetector(
                     onLongPress: () {
                       showDialog(

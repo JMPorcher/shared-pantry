@@ -1,10 +1,15 @@
 class Item {
-  Item(this.title, this.isAvailable);
+  Item(this.title, {this.isAvailable = false});
 
   String title;
-  bool isAvailable = false;
+  bool isAvailable;
 
   void toggleAvailable() {
     isAvailable = !isAvailable;
   }
+
+  void editTitle(String newTitle) {
+    title = newTitle;
+  }
+  //TODO Implement editTitle feature
 }

@@ -69,7 +69,7 @@ class SharedPantry extends StatelessWidget {
 Future<bool> isFirstTime() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   bool isFirstTime = sharedPreferences.getBool('is first time') ?? true;
-  return isFirstTime;
+  return true;
 }
 
 Future<void> setFirstTimeFlagToFalse() async {

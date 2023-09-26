@@ -33,7 +33,11 @@ class FirstStartupScreen extends StatelessWidget {
                 'Keep track all your household items that might deplete: from foods to cleaning supplies. '
                     '\n\n'
                     'Sign up for free and share any number of Pantries with others.',
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
+                style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.normal,
+                    height: 1.5
+                    ),
               ),
             ),
             const SizedBox(height: 20.0),

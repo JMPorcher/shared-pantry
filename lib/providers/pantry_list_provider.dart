@@ -19,7 +19,7 @@ class PantryProvider with ChangeNotifier {
 
   //===========PANTRY FUNCTIONS===========
   int addPantryWithTitle(String title) {
-    _pantriesList.add(Pantry([], pantryTitle: title));
+    _pantriesList.add(Pantry(pantryTitle: title));
     notifyListeners();
     return _pantriesList.length-1;
   }
@@ -47,7 +47,7 @@ class PantryProvider with ChangeNotifier {
   }
 
   void editCategoryName(ItemCategory itemCategory, String newTitle) {
-    itemCategory.changeTitle(newTitle);
+    itemCategory.editTitle(newTitle);
     notifyListeners();
   }
 
@@ -58,8 +58,8 @@ class PantryProvider with ChangeNotifier {
 
 
   //===========ITEM FUNCTIONS===========
-  void addItem(List<Item> itemList, Item item) {
-    itemList.add(item);
+  void addItem(List<Item> itemCategory, Item item) {
+    itemCategory.add(item);
     notifyListeners();
   }
 

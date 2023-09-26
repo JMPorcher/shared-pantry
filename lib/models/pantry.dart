@@ -1,14 +1,21 @@
 import 'item_category.dart';
 
 class Pantry {
-  Pantry(this.categoryList, {required this.pantryTitle});
+  Pantry(
+      {required this.pantryTitle,
+        List<ItemCategory>? categories,}) : categories = categories ?? [];
+      //TODO make categories required once testing phase is over
+      //TODO required String pantryId;
+      //TODO required String(userId) founder
+      //TODO optional SvgPicture backgroundImage = default_image_asset
 
-  //TODO Add constructors for personal and shared
+  //TODO: Add ID generator for pantries somewhere
 
-  List<ItemCategory> categoryList = [];
+  List<ItemCategory> categories = [];
   String pantryTitle;
+  //TODO List<String(userId), Item> activityHistory = []
 
-  bool selected = true;
+  bool selectedForShopping = true;
   // void toggleSelected() {
   //   selected = !selected;
   // }
@@ -19,13 +26,4 @@ class Pantry {
 
 
 
-  // Pantry.private({});
-  // Pantry.shared({});
-
-  // const EdgeInsets.only({
-  //   this.left = 0.0,
-  //   this.top = 0.0,
-  //   this.right = 0.0,
-  //   this.bottom = 0.0,
-  // });
 }
