@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_pantry/screens/pantry_screen.dart';
+import 'package:shared_pantry/screens/main_screen.dart';
 
 import '../constants.dart';
 
@@ -62,7 +62,7 @@ class RegistrationForm extends StatelessWidget {
                         // Manually validate the form and update the ValueNotifier
                         final currentState = formKey.currentState;
                         if (currentState != null && currentState.validate()) {
-                          Navigator.pushNamed(context, PantryScreen.id);
+                          Navigator.pushNamed(context, MainScreen.id);
                         } else {
                           // Form is not valid, trigger re-build to show error messages
                           isFormValidNotifier.value = false;

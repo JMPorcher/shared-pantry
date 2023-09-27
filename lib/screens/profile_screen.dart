@@ -70,3 +70,5 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
+//TODO Registration and Sign-in have to happen here too. Maybe show a section that is either blank when signed in and "sign in or register" section when signed out

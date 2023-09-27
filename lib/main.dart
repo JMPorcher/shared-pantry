@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/providers/pantry_list_provider.dart';
 import 'package:shared_pantry/screens/first_startup_screen.dart';
-import 'package:shared_pantry/screens/pantry_screen.dart';
+import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
 import 'package:shared_pantry/widgets/signup_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,7 +52,7 @@ class SharedPantry extends StatelessWidget {
             else {
 
 
-              return const PantryScreen();
+              return const MainScreen();
             }
           },
         ),
@@ -61,7 +61,7 @@ class SharedPantry extends StatelessWidget {
         routes: {
           ProfileScreen.id: (context) => const ProfileScreen(),
           SignupScreen.id: (context) => const SignupScreen(),
-          PantryScreen.id: (context) => const PantryScreen(),
+          MainScreen.id: (context) => const MainScreen(),
         });
   }
 }
