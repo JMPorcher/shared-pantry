@@ -11,9 +11,10 @@ import '../models/pantry.dart';
 import '../providers/pantry_list_provider.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  MainScreen({Key? key}) : super(key: key);
 
   static const String id = 'pantry screen';
+  final ValueNotifier<int> currentIndexNotifier = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +23,37 @@ class MainScreen extends StatelessWidget {
     Pantry currentPantry = context.watch<PantryProvider>().pantriesList[0];
 
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home_filled)),
-          BottomNavigationBarItem(icon: Icon(Icons.summarize_outlined), activeIcon: Icon(Icons.summarize)),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_basket_outlined), activeIcon: Icon(Icons.shopping_basket)),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined), activeIcon: Icon(Icons.account_circle)),
-        ],
-        elevation: 6,
-        backgroundColor: kColor51,
-        unselectedItemColor: kColor1,
-        selectedItemColor: kColor4,
-      ),
+      bottomNavigationBar: ValueListenableBuilder<int>(
+        valueListenable: currentIndexNotifier,
+        builder: (context, currentIndex, child) {
+          return BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            items: const [
+              BottomNavigationBarItem(label: 'lol',
+                  icon: Icon(Icons.home_outlined),
+                  activeIcon: Icon(Icons.home_filled)),
+              BottomNavigationBarItem(label: 'lol',
+                  icon: Icon(Icons.summarize_outlined),
+                  activeIcon: Icon(Icons.summarize)),
+              BottomNavigationBarItem(label: 'lol',
+                  icon: Icon(Icons.shopping_basket_outlined),
+                  activeIcon: Icon(Icons.shopping_basket)),
+              BottomNavigationBarItem(label: 'lol',
+                  icon: Icon(Icons.account_circle_outlined),
+                  activeIcon: Icon(Icons.account_circle)),
+            ],
+            currentIndex: currentIndex,
+            onTap: (index) {
+              currentIndexNotifier.value = index;
+              pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
+            },
+            //Needs to be linked with a provider(?)
+            elevation: 6,
+            backgroundColor: kColor51,
+            unselectedItemColor: kColor1,
+            selectedItemColor: kColor4,
+          );
+        }),
         body: PageView(
         controller: pageController,
         children: [

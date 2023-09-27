@@ -52,7 +52,7 @@ class SharedPantry extends StatelessWidget {
             else {
 
 
-              return const MainScreen();
+              return MainScreen();
             }
           },
         ),
@@ -61,7 +61,7 @@ class SharedPantry extends StatelessWidget {
         routes: {
           ProfileScreen.id: (context) => const ProfileScreen(),
           SignupScreen.id: (context) => const SignupScreen(),
-          MainScreen.id: (context) => const MainScreen(),
+          MainScreen.id: (context) => MainScreen(),
         });
   }
 }
@@ -69,7 +69,7 @@ class SharedPantry extends StatelessWidget {
 Future<bool> isFirstTime() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   bool isFirstTime = sharedPreferences.getBool('is first time') ?? true;
-  return true;
+  return false;
 }
 
 Future<void> setFirstTimeFlagToFalse() async {
