@@ -13,13 +13,12 @@ class PantryProvider with ChangeNotifier {
   final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2];
   List<Pantry> get pantriesList => _pantriesList;
 
-  String currentPantryTitle = '';
   LoopPageController pageController = LoopPageController();
 
 
   //===========PANTRY FUNCTIONS===========
   int addPantryWithTitle(String title) {
-    _pantriesList.add(Pantry(pantryTitle: title));
+    _pantriesList.add(Pantry(title: title));
     notifyListeners();
     return _pantriesList.length-1;
   }

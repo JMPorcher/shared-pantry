@@ -65,7 +65,7 @@ class _ShoppingListDialogState extends State<ShoppingListDialog> {
                   itemBuilder: (_, index) {
                     Pantry currentPantry = pantryList[index];
                     return ListTile(
-                      leading: Text(currentPantry.pantryTitle),
+                      leading: Text(currentPantry.title),
                       trailing: Switch(
                           value: pantryIsSelected.value,
                           onChanged: (newValue) {

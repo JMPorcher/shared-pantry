@@ -2,7 +2,7 @@ import 'item_category.dart';
 
 class Pantry {
   Pantry(
-      {required this.pantryTitle,
+      {required this.title,
         List<ItemCategory>? categories,}) : categories = categories ?? [];
       //TODO make categories required once testing phase is over
       //TODO required String pantryId;
@@ -12,7 +12,7 @@ class Pantry {
   //TODO: Add ID generator for pantries somewhere
 
   List<ItemCategory> categories = [];
-  String pantryTitle;
+  String title;
   //TODO List<String(userId), Item> activityHistory = []
 
   bool selectedForShopping = true;
@@ -21,7 +21,7 @@ class Pantry {
   // }
 
   void editTitle(String newTitle) {
-    pantryTitle = newTitle;
+    title = newTitle;
   }
 
 

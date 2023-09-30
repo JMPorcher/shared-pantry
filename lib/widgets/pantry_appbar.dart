@@ -14,7 +14,7 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    String currentTitle = currentPantry.pantryTitle;
+    String currentTitle = currentPantry.title;
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: kColor5,

@@ -7,6 +7,7 @@ import '../models/pantry.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+  //TODO add User to constructor. User has to have name, avatar and e-mail
 
   static const String id = 'profile';
 
@@ -26,11 +27,7 @@ class ProfileScreen extends StatelessWidget {
                     children:
                       [
                         const Text('Hello User_1', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),),
-                        const Text('(+49) 123 456 789)', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
-                       ListView.builder(itemBuilder: (BuildContext context, int index) {
-                         final Pantry currentPantry = pantryList[index];
-                         return ListTile(title: Text(currentPantry.pantryTitle),);
-                       }),
+                        const Text('(+49) 123 456 789', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
                        //"Your pantries" box: ListView of Pantries, with nested ListViews of other users
                         MaterialButton(
                           onPressed: () {

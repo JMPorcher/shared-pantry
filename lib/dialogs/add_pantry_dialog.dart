@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:loop_page_view/loop_page_view.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/models/pantry.dart';
 
 import '../providers/pantry_list_provider.dart';
 
@@ -15,8 +11,6 @@ class AddPantryDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoopPageController pageController = context.watch<PantryProvider>().pageController;
-    List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
     titleTextController.text = pantryTitleValueNotifier.value;
 
     return Column(
@@ -44,12 +38,6 @@ class AddPantryDialog extends StatelessWidget {
                             .addPantryWithTitle(pantryTitle);
 
                         Navigator.pop(context);
-                        Timer(const Duration(milliseconds: 0), () {
-                          // TODO: Change to animateToPage() but make animation to new page less wonky?
-                          pageController.jumpToPage(
-                            pantryList.length-1,
-                          );
-                        });
                       }
                     },
                     child: const Text('Add'))

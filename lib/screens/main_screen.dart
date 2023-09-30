@@ -65,5 +65,3 @@ class MainScreen extends StatelessWidget {
                 )
     );  }
 }
-
-//TODO Bottom navigation bar
