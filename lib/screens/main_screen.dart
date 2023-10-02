@@ -63,7 +63,7 @@ class MainScreen extends StatelessWidget {
           controller: pageController,
           children: [
             const OverviewScreen(),
-            pantryList.isNotEmpty ? PantryScrollView(currentPantry: context.watch<PantryProvider>().pantriesList[0]) : const WelcomeScreen(),
+            pantryList.isNotEmpty ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[0]) : const WelcomeScreen(),
             const ShoppingScreen(),
             const ProfileScreen()
           ],

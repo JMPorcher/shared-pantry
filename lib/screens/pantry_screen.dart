@@ -8,8 +8,8 @@ import '../models/pantry.dart';
 import '../widgets/add_category_button.dart';
 import '../widgets/category_expansion_tile.dart';
 
-class PantryScrollView extends StatelessWidget {
-  const PantryScrollView({required this.currentPantry, Key? key})
+class PantryScreen extends StatelessWidget {
+  const PantryScreen({required this.currentPantry, Key? key})
       : super(key: key);
 
   final Pantry currentPantry;
