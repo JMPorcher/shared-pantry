@@ -50,16 +50,13 @@ class MainScreen extends StatelessWidget {
                 switchIndex(index);
                 pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
               },
-              elevation: 6,
+              elevation: 8,
               backgroundColor: kColor51,
               unselectedItemColor: kColor1,
               selectedItemColor: kColor4,
           ),
           body: PageView(
-            onPageChanged: (index) {
-              switchIndex(index);
-              print(activePantryIndex);
-            },
+            onPageChanged: (index) => switchIndex(index),
           controller: pageController,
           children: [
             const OverviewScreen(),

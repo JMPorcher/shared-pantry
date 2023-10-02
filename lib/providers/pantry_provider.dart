@@ -10,7 +10,7 @@ class PantryProvider with ChangeNotifier {
   final List<ItemCategory> _categoriesList = [kTestCategory];
   List<ItemCategory> get categoriesList => _categoriesList;
 
-  final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2];
+  final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2, kTestPantry3];
   List<Pantry> get pantriesList => _pantriesList;
 
   final LoopPageController pageController = LoopPageController();

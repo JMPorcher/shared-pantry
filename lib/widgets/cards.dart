@@ -21,7 +21,7 @@ class PantryCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        elevation: 4.0,
+        elevation: 8.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         child: Center(child: Padding(
           padding: const EdgeInsets.all(16.0),

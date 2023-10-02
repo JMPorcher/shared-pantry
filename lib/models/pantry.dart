@@ -4,7 +4,6 @@ class Pantry {
   Pantry(
       {required this.title,
         List<ItemCategory>? categories,}) : categories = categories ?? [];
-      //TODO make categories required once testing phase is over
       //TODO required String pantryId;
       //TODO required String(userId) founder
       //TODO optional SvgPicture backgroundImage = default_image_asset

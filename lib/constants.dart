@@ -6,6 +6,7 @@ import 'models/pantry.dart';
 
 Pantry kTestPantry = Pantry(title: 'Persönlich', categories: [kTestCategory, kTestCategory2, kTestCategory]);
 Pantry kTestPantry2 = Pantry(title: 'WG', categories: [kTestCategory2]);
+Pantry kTestPantry3 = Pantry(title: 'Werkzeug', categories: [kTestCategory3]);
 
 ItemCategory kTestCategory = ItemCategory(
   'Kühlschrank',
@@ -27,6 +28,17 @@ List<Item> kTestList2 = [
   Item('Kloreiniger', isAvailable: false),
   Item('Schwämme', isAvailable: false),
   Item('Küchenrolle', isAvailable: true),
+];
+
+ItemCategory kTestCategory3 = ItemCategory(
+    'Putzmittel',
+    items: kTestList2
+);
+
+List<Item> kTestList3 = [
+  Item('Äxte', isAvailable: false),
+  Item('Nägel', isAvailable: false),
+  Item('Hammer', isAvailable: true),
 ];
 
 
