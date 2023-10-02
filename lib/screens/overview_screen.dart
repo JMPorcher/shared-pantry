@@ -24,7 +24,12 @@ class OverviewScreen extends StatelessWidget {
               Pantry currentPantry = pantryList[index];
               return SizedBox(
                 height: 200,
-                child: PantryCard.pantry(currentPantry),
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<PantryProvider>().switchPantry(index);
+                    //TODO Wanted to change card color onTap here, but will have to think of a new way.
+                  },
+                    child: PantryCard.pantry(currentPantry)),
               );
             } else {
               return const Column(
@@ -39,7 +44,7 @@ class OverviewScreen extends StatelessWidget {
             }
           },
         ),
-        ListBottomGradient(),
+        const ListBottomGradient(),
       ],
     );
   }

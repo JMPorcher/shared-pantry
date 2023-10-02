@@ -31,7 +31,7 @@ class PantryAppBar extends StatelessWidget implements PreferredSizeWidget {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                      const ShoppingListDialog());
+                      const ShoppingList());
                 },
                 child: const ListTile(
                     leading: Text('Shopping List', style: TextStyle(color: kColor5)),

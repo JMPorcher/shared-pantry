@@ -21,8 +21,14 @@ class MainScreen extends StatelessWidget {
 
     PageController pageController = PageController(initialPage: 0);
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
+
+    int activeScreenIndex = context.watch<PantryProvider>().activeScreenIndex;
+    void switchScreen(int newIndex){
+      Provider.of<PantryProvider>(context, listen: false).switchActiveScreen(newIndex);
+    }
+
     int activePantryIndex = context.watch<PantryProvider>().activePantryIndex;
-    void switchIndex(int newIndex){
+    void switchPantry(int newIndex){
       Provider.of<PantryProvider>(context, listen: false).switchPantry(newIndex);
     }
 
@@ -45,9 +51,9 @@ class MainScreen extends StatelessWidget {
                     icon: Icon(Icons.account_circle_outlined),
                     activeIcon: Icon(Icons.account_circle)),
               ],
-              currentIndex: activePantryIndex,
+              currentIndex: activeScreenIndex,
               onTap: (index) {
-                switchIndex(index);
+                switchScreen(index);
                 pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
               },
               elevation: 8,
@@ -56,11 +62,11 @@ class MainScreen extends StatelessWidget {
               selectedItemColor: kColor4,
           ),
           body: PageView(
-            onPageChanged: (index) => switchIndex(index),
+            onPageChanged: (index) => switchScreen(index),
           controller: pageController,
           children: [
             const OverviewScreen(),
-            pantryList.isNotEmpty ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[0]) : const WelcomeScreen(),
+            pantryList.isNotEmpty ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[activePantryIndex]) : const WelcomeScreen(),
             const ShoppingScreen(),
             const ProfileScreen()
           ],

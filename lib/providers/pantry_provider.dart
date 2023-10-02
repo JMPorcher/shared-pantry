@@ -8,20 +8,29 @@ import '../models/pantry.dart';
 
 class PantryProvider with ChangeNotifier {
   final List<ItemCategory> _categoriesList = [kTestCategory];
+
   List<ItemCategory> get categoriesList => _categoriesList;
 
   final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2, kTestPantry3];
+
   List<Pantry> get pantriesList => _pantriesList;
 
   final LoopPageController pageController = LoopPageController();
   int activePantryIndex = 0;
+  int activeScreenIndex = 0;
 
+  //===========GENERAL FUNCTIONS===========
 
-  //===========PANTRY FUNCTIONS===========
+  void switchActiveScreen(newIndex) {
+    activeScreenIndex = newIndex;
+    notifyListeners();
+  }
+
+  // ===========PANTRY FUNCTIONS===========
   int addPantryWithTitle(String title) {
     _pantriesList.add(Pantry(title: title));
     notifyListeners();
-    return _pantriesList.length-1;
+    return _pantriesList.length - 1;
   }
 
   void renamePantry(Pantry pantry, String newTitle) {
@@ -40,12 +49,14 @@ class PantryProvider with ChangeNotifier {
   }
 
   //===========CATEGORY FUNCTIONS===========
-  void addCategory(List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {
+  void addCategory(
+      List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {
     itemCategoryList.add(itemCategory);
     notifyListeners();
   }
 
-  void removeCategory(List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {
+  void removeCategory(
+      List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {
     itemCategoryList.remove(itemCategory);
     notifyListeners();
   }
@@ -55,11 +66,11 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleCategoryIsExpanded(List<ItemCategory> categoryList, ItemCategory itemCategory) {
+  void toggleCategoryIsExpanded(
+      List<ItemCategory> categoryList, ItemCategory itemCategory) {
     categoryList[categoryList.indexOf(itemCategory)].toggleExpanded();
     notifyListeners();
   }
-
 
   //===========ITEM FUNCTIONS===========
   void addItem(List<Item> itemCategory, Item item) {

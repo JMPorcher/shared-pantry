@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
+import 'package:shared_pantry/widgets/cards.dart';
 import 'package:shared_pantry/widgets/list_bottom_gradient.dart';
-import 'package:shared_pantry/widgets/pantry_appbar.dart';
 
 import '../dialogs/edit_category_dialog.dart';
 import '../models/pantry.dart';
@@ -21,13 +21,12 @@ class PantryScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: PantryAppBar(currentPantry: currentPantry),
-      //TODO Replace AppBar with PantryCard
       body: Stack(
         alignment: Alignment.bottomCenter,
         children:
         [ListView(
           children: [
+            PantryCard.pantry(currentPantry),
             // Categories
             Column(
               children: List.generate(
@@ -60,7 +59,7 @@ class PantryScreen extends StatelessWidget {
             AddCategoryButton(currentCategoryList: currentCategoryList),
           ],
         ),
-        ListBottomGradient()
+        const ListBottomGradient()
         ]
       ),
     );

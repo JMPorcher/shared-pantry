@@ -7,14 +7,14 @@ import '../models/item_category.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
-class ShoppingListDialog extends StatefulWidget {
-  const ShoppingListDialog({super.key});
+class ShoppingList extends StatefulWidget {
+  const ShoppingList({super.key});
 
   @override
-  State<ShoppingListDialog> createState() => _ShoppingListDialogState();
+  State<ShoppingList> createState() => _ShoppingListState();
 }
 
-class _ShoppingListDialogState extends State<ShoppingListDialog> {
+class _ShoppingListState extends State<ShoppingList> {
   List<Item> relevantItems = [];
 
   void filterItems(List<Pantry> pantryList) {
