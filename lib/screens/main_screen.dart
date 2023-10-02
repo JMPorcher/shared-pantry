@@ -5,30 +5,31 @@ import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
 import 'package:shared_pantry/screens/welcome_screen.dart';
-import 'package:shared_pantry/widgets/pantry_scrollview.dart';
+import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
 
 import '../models/pantry.dart';
-import '../providers/pantry_list_provider.dart';
+import '../providers/pantry_provider.dart';
 
 class MainScreen extends StatelessWidget {
-  MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   static const String id = 'pantry screen';
-  final ValueNotifier<int> currentIndexNotifier = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
 
     PageController pageController = PageController(initialPage: 0);
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
+    int activePantryIndex = context.watch<PantryProvider>().activePantryIndex;
+    void switchIndex(int newIndex){
+      Provider.of<PantryProvider>(context, listen: false).switchPantry(newIndex);
+    }
 
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: ValueListenableBuilder<int>(
-          valueListenable: currentIndexNotifier,
-          builder: (context, currentIndex, child) {
-            return BottomNavigationBar(
+        bottomNavigationBar:
+          BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               items: const [
                 BottomNavigationBarItem(label: 'lol',
@@ -44,19 +45,21 @@ class MainScreen extends StatelessWidget {
                     icon: Icon(Icons.account_circle_outlined),
                     activeIcon: Icon(Icons.account_circle)),
               ],
-              currentIndex: currentIndex,
+              currentIndex: activePantryIndex,
               onTap: (index) {
-                currentIndexNotifier.value = index;
+                switchIndex(index);
                 pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
               },
-              //Needs to be linked with a provider(?)
               elevation: 6,
               backgroundColor: kColor51,
               unselectedItemColor: kColor1,
               selectedItemColor: kColor4,
-            );
-          }),
+          ),
           body: PageView(
+            onPageChanged: (index) {
+              switchIndex(index);
+              print(activePantryIndex);
+            },
           controller: pageController,
           children: [
             const OverviewScreen(),
@@ -66,5 +69,7 @@ class MainScreen extends StatelessWidget {
           ],
                   )
       ),
-    );  }
+    );
+
+  }
 }

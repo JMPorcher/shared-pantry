@@ -5,8 +5,8 @@ import 'package:shared_pantry/widgets/pantry_appbar.dart';
 
 import '../dialogs/edit_category_dialog.dart';
 import '../models/pantry.dart';
-import 'add_category_button.dart';
-import 'category_expansion_tile.dart';
+import '../widgets/add_category_button.dart';
+import '../widgets/category_expansion_tile.dart';
 
 class PantryScrollView extends StatelessWidget {
   const PantryScrollView({required this.currentPantry, Key? key})
@@ -21,6 +21,7 @@ class PantryScrollView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: PantryAppBar(currentPantry: currentPantry),
+      //TODO Replace AppBar with PantryCard
       body: ListView(
         children: [
           // Categories

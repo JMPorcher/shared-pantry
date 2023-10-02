@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/providers/pantry_list_provider.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
 
 class DeleteCategoryDialog extends StatelessWidget {
   const DeleteCategoryDialog(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/providers/pantry_list_provider.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
 
 import '../constants.dart';
 import '../models/pantry.dart';

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../dialogs/add_item_dialog.dart';
 import '../models/item.dart';
-import '../providers/pantry_list_provider.dart';
+import '../providers/pantry_provider.dart';
 import 'item_tile.dart';
 
 class CategoryView extends StatelessWidget {

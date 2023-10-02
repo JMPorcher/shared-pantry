@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../models/item.dart';
 import '../models/item_category.dart';
 import '../models/pantry.dart';
-import '../providers/pantry_list_provider.dart';
+import '../providers/pantry_provider.dart';
 
 class ShoppingListDialog extends StatefulWidget {
   const ShoppingListDialog({super.key});

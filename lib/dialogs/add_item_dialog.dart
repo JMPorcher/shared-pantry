@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/item.dart';
-import '../providers/pantry_list_provider.dart';
+import '../providers/pantry_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddItemDialog extends StatelessWidget {

@@ -13,7 +13,8 @@ class PantryProvider with ChangeNotifier {
   final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2];
   List<Pantry> get pantriesList => _pantriesList;
 
-  LoopPageController pageController = LoopPageController();
+  final LoopPageController pageController = LoopPageController();
+  int activePantryIndex = 0;
 
 
   //===========PANTRY FUNCTIONS===========
@@ -33,6 +34,10 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void switchPantry(int newIndex) {
+    activePantryIndex = newIndex;
+    notifyListeners();
+  }
 
   //===========CATEGORY FUNCTIONS===========
   void addCategory(List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {

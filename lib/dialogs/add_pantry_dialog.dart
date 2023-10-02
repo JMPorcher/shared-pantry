@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/pantry_list_provider.dart';
+import '../providers/pantry_provider.dart';
 
 class AddPantryDialog extends StatelessWidget {
   AddPantryDialog({super.key});

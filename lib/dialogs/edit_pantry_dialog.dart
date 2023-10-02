@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import '../models/pantry.dart';
-import '../providers/pantry_list_provider.dart';
+import '../providers/pantry_provider.dart';
 import 'package:provider/provider.dart';
 
 class EditPantryDialog extends StatelessWidget {
