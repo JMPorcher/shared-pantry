@@ -8,21 +8,18 @@ import '../models/pantry.dart';
 
 class PantryProvider with ChangeNotifier {
   final List<ItemCategory> _categoriesList = [kTestCategory];
-
   List<ItemCategory> get categoriesList => _categoriesList;
 
   final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2, kTestPantry3];
-
   List<Pantry> get pantriesList => _pantriesList;
 
-  final LoopPageController pageController = LoopPageController();
-  int activePantryIndex = 0;
-  int activeScreenIndex = 0;
+  int selectedPantryIndex = 0;
+  int shownScreenIndex = 0;
 
   //===========GENERAL FUNCTIONS===========
 
   void switchActiveScreen(newIndex) {
-    activeScreenIndex = newIndex;
+    shownScreenIndex = newIndex;
     notifyListeners();
   }
 
@@ -44,7 +41,7 @@ class PantryProvider with ChangeNotifier {
   }
 
   void switchPantry(int newIndex) {
-    activePantryIndex = newIndex;
+    selectedPantryIndex = newIndex;
     notifyListeners();
   }
 

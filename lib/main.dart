@@ -52,7 +52,7 @@ class SharedPantry extends StatelessWidget {
             else {
 
 
-              return MainScreen();
+              return const MainScreen();
             }
           },
         ),
@@ -61,7 +61,7 @@ class SharedPantry extends StatelessWidget {
         routes: {
           ProfileScreen.id: (context) => const ProfileScreen(),
           SignupScreen.id: (context) => const SignupScreen(),
-          MainScreen.id: (context) => MainScreen(),
+          MainScreen.id: (context) => const MainScreen(),
         });
   }
 }

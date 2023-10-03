@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/widgets/cards.dart';
+import 'package:shared_pantry/widgets/sp_cards.dart';
 import 'package:shared_pantry/widgets/list_bottom_gradient.dart';
 
 import '../dialogs/edit_category_dialog.dart';
@@ -26,7 +26,7 @@ class PantryScreen extends StatelessWidget {
         children:
         [ListView(
           children: [
-            PantryCard.pantry(currentPantry),
+            SpCard.pantry(currentPantry, isSelected: true),
             // Categories
             Column(
               children: List.generate(

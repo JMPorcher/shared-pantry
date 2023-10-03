@@ -4,29 +4,28 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../models/pantry.dart';
 
-class PantryCard extends StatelessWidget {
-  const PantryCard.text(
+class SpCard extends StatelessWidget {
+   SpCard.text(
       this.cardText,
       {Key? key}
       ) : pantry = null, super(key: key);
 
-  const PantryCard.pantry(
+   SpCard.pantry(
       this.pantry,
-      {Key? key}
+      {Key? key, this.isSelected = false}
       ) : cardText = null, super(key: key);
 
   final String? cardText;
   final Pantry? pantry;
-
+  bool? isSelected;
 
   @override
   Widget build(BuildContext context) {
-    final ValueNotifier<bool> isSelected = ValueNotifier(false);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        color: isSelected.value ? kColor3 : Colors.white,
+        color: isSelected ?? false ? kColor3 : Colors.white,
         elevation: 8.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         child: Center(child: Padding(

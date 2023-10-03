@@ -47,10 +47,10 @@ Know which household items are currently in the house. Add more pantries: person
 JSON Pantry Model
 {
  pantry: "Pantry Title",
- pantry_id: "pantryHash",
+ pantry_id: "uniquePantryId",
  users: [
-  "user_id_hash",
-  "user_id_hash",
+  "user_id",
+  "user_id",
  ],
  categories: [
     {
@@ -77,7 +77,13 @@ JSON User Model
  user_name: "name",
  subscribed_pantries: 
    [
-     pantry_id: "pantryHash",
-     pantry_id: "pantryHash",
+      {
+         pantry_id: "uniquePantryId",
+         isSelected: bool
+      },
+      {
+         pantry_id: "uniquePantryId",
+         isSelected: bool
+      },
    ]
 }

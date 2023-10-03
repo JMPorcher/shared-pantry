@@ -22,12 +22,12 @@ class MainScreen extends StatelessWidget {
     PageController pageController = PageController(initialPage: 0);
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
 
-    int activeScreenIndex = context.watch<PantryProvider>().activeScreenIndex;
+    int activeScreenIndex = context.watch<PantryProvider>().shownScreenIndex;
     void switchScreen(int newIndex){
       Provider.of<PantryProvider>(context, listen: false).switchActiveScreen(newIndex);
     }
 
-    int activePantryIndex = context.watch<PantryProvider>().activePantryIndex;
+    int activePantryIndex = context.watch<PantryProvider>().selectedPantryIndex;
     void switchPantry(int newIndex){
       Provider.of<PantryProvider>(context, listen: false).switchPantry(newIndex);
     }
@@ -66,7 +66,7 @@ class MainScreen extends StatelessWidget {
           controller: pageController,
           children: [
             const OverviewScreen(),
-            pantryList.isNotEmpty ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[activePantryIndex]) : const WelcomeScreen(),
+            pantryList.isNotEmpty ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[activePantryIndex]) : const WelcomeScreen(), //TODO Replace choice by index with choice through identity
             const ShoppingScreen(),
             const ProfileScreen()
           ],
