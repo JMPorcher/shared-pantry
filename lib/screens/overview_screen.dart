@@ -5,7 +5,6 @@ import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../utilities/card_selector.dart';
 import '../widgets/list_bottom_gradient.dart';
 
 class OverviewScreen extends StatelessWidget {
@@ -14,10 +13,9 @@ class OverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
-
-    //Build a SingleItemSelected class. Give it a list of items. When an item is clicked, at first every item is de-selected,
-    // then one is selected. Based on this, change the look of the UI list.
-    CardSelector cardSelector = CardSelector(pantryList);
+    ValueNotifier<Map<Pantry, bool>> pantrySelectionStatesNotifier =
+        ValueNotifier<Map<Pantry, bool>>(
+            {for (Pantry pantry in pantryList) pantry: false});
 
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -28,14 +26,23 @@ class OverviewScreen extends StatelessWidget {
             if (index < pantryList.length) {
               Pantry currentPantry = pantryList[index];
               return SizedBox(
-                height: 200,
-                child: GestureDetector(
-                  onTap: () {
-                    context.read<PantryProvider>().switchPantry(index);
-                    cardSelector.selectPantry(currentPantry);
-                  },
-                    child: SpCard.pantry(currentPantry, isSelected: cardSelector.pantrySelectionStates[index])),
-              );
+                  height: 200,
+                  child: GestureDetector(
+                      onTap: () {
+                        context.read<PantryProvider>().switchPantry(index);
+                        Map<Pantry, bool> newSelectionStates = {
+                          for (Pantry pantry in pantryList) pantry: false
+                        };
+                        newSelectionStates[currentPantry] = true;
+                        pantrySelectionStatesNotifier.value =
+                            newSelectionStates;
+                      },
+                      child: ValueListenableBuilder<Map<Pantry, bool>>(
+                          valueListenable: pantrySelectionStatesNotifier,
+                          builder: (context, pantrySelectionStates, child) =>
+                              SpCard.pantry(currentPantry,
+                                  isSelected:
+                                      pantrySelectionStates[currentPantry]))));
             } else {
               return Column(
                 children: [

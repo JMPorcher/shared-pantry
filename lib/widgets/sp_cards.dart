@@ -8,7 +8,7 @@ class SpCard extends StatelessWidget {
    SpCard.text(
       this.cardText,
       {Key? key}
-      ) : pantry = null, super(key: key);
+      ) : pantry = null, isSelected = null, super(key: key);
 
    SpCard.pantry(
       this.pantry,
