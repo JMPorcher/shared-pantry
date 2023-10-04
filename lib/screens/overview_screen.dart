@@ -36,17 +36,23 @@ class OverviewScreen extends StatelessWidget {
                         newSelectionStates[currentPantry] = true;
                         pantrySelectionStatesNotifier.value =
                             newSelectionStates;
+                        pantrySelectionStatesNotifier.value.forEach((key, value) {print('onTap: $key, $value');});
                       },
                       child: ValueListenableBuilder<Map<Pantry, bool>>(
-                          valueListenable: pantrySelectionStatesNotifier,
-                          builder: (context, pantrySelectionStates, child) =>
-                              SpCard.pantry(currentPantry,
-                                  isSelected:
-                                      pantrySelectionStates[currentPantry]))));
+                        valueListenable: pantrySelectionStatesNotifier,
+                        builder: (context, pantrySelectionStates, child) {
+                          pantrySelectionStatesNotifier.value.forEach((key, value) {print('build: $key, $value');});
+                          //pantrySelectionStates.forEach((key, value) {print('build: $key, $value}');});
+                          return SpCard.pantry(currentPantry,
+                              isSelected: pantrySelectionStatesNotifier.value[currentPantry], key: UniqueKey(),);
+                        },
+                      ),
+                    )
+              );
             } else {
-              return Column(
+              return const Column(
                 children: [
-                  const SizedBox(height: 50),
+                  SizedBox(height: 50),
                   SizedBox(
                     height: 100,
                     child: SpCard.text('Add a pantry'),
