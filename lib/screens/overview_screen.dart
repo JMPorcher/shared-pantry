@@ -8,14 +8,14 @@ import 'package:provider/provider.dart';
 import '../widgets/list_bottom_gradient.dart';
 
 class OverviewScreen extends StatelessWidget {
-  const OverviewScreen({super.key});
+  OverviewScreen({super.key});
+
+  final ValueNotifier<Map<Pantry, bool>> pantrySelectionStatesNotifier =  ValueNotifier<Map<Pantry, bool>>({});
 
   @override
   Widget build(BuildContext context) {
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
-    ValueNotifier<Map<Pantry, bool>> pantrySelectionStatesNotifier =
-        ValueNotifier<Map<Pantry, bool>>(
-            {for (Pantry pantry in pantryList) pantry: false});
+    print('OS build: ${identityHashCode(pantrySelectionStatesNotifier)}');
 
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -36,15 +36,16 @@ class OverviewScreen extends StatelessWidget {
                         newSelectionStates[currentPantry] = true;
                         pantrySelectionStatesNotifier.value =
                             newSelectionStates;
+                        print(identityHashCode(pantrySelectionStatesNotifier));
                         pantrySelectionStatesNotifier.value.forEach((key, value) {print('onTap: $key, $value');});
                       },
                       child: ValueListenableBuilder<Map<Pantry, bool>>(
                         valueListenable: pantrySelectionStatesNotifier,
                         builder: (context, pantrySelectionStates, child) {
-                          pantrySelectionStatesNotifier.value.forEach((key, value) {print('build: $key, $value');});
-                          //pantrySelectionStates.forEach((key, value) {print('build: $key, $value}');});
+                          print(identityHashCode(pantrySelectionStatesNotifier));
+                          pantrySelectionStates.forEach((key, value) {print('build States: $key, $value');});
                           return SpCard.pantry(currentPantry,
-                              isSelected: pantrySelectionStatesNotifier.value[currentPantry], key: UniqueKey(),);
+                              isSelected: pantrySelectionStates[currentPantry]);
                         },
                       ),
                     )
