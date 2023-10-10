@@ -13,7 +13,8 @@ class PantryProvider with ChangeNotifier {
   final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2, kTestPantry3];
   List<Pantry> get pantriesList => _pantriesList;
 
-  int selectedPantryIndex = 0;
+  int _selectedPantryIndex = 0;
+  int get selectedPantryIndex => _selectedPantryIndex;
   int shownScreenIndex = 0;
 
   //===========GENERAL FUNCTIONS===========
@@ -41,7 +42,7 @@ class PantryProvider with ChangeNotifier {
   }
 
   void switchPantry(int newIndex) {
-    selectedPantryIndex = newIndex;
+    _selectedPantryIndex = newIndex;
     notifyListeners();
   }
 

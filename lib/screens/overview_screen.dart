@@ -3,19 +3,17 @@ import 'package:shared_pantry/widgets/sp_cards.dart';
 
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/list_bottom_gradient.dart';
 
 class OverviewScreen extends StatelessWidget {
-  OverviewScreen({super.key});
-
-  final ValueNotifier<Map<Pantry, bool>> pantrySelectionStatesNotifier =  ValueNotifier<Map<Pantry, bool>>({});
+  const OverviewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
-    print('OS build: ${identityHashCode(pantrySelectionStatesNotifier)}');
+    PantryProvider pantryProvider = PantryProvider();
+    List<Pantry> pantryList = pantryProvider.pantriesList;
+    int activePantry = pantryProvider.selectedPantryIndex;
 
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -29,26 +27,12 @@ class OverviewScreen extends StatelessWidget {
                   height: 200,
                   child: GestureDetector(
                       onTap: () {
-                        context.read<PantryProvider>().switchPantry(index);
-                        Map<Pantry, bool> newSelectionStates = {
-                          for (Pantry pantry in pantryList) pantry: false
-                        };
-                        newSelectionStates[currentPantry] = true;
-                        pantrySelectionStatesNotifier.value =
-                            newSelectionStates;
-                        print(identityHashCode(pantrySelectionStatesNotifier));
-                        pantrySelectionStatesNotifier.value.forEach((key, value) {print('onTap: $key, $value');});
+                        activePantry = index;
+                        print('index: $index - activePantry: $activePantry');
                       },
-                      child: ValueListenableBuilder<Map<Pantry, bool>>(
-                        valueListenable: pantrySelectionStatesNotifier,
-                        builder: (context, pantrySelectionStates, child) {
-                          print(identityHashCode(pantrySelectionStatesNotifier));
-                          pantrySelectionStates.forEach((key, value) {print('build States: $key, $value');});
-                          return SpCard.pantry(currentPantry,
-                              isSelected: pantrySelectionStates[currentPantry]);
-                        },
+                      child: SpCard.pantry(currentPantry,
+                              isSelected: index == activePantry)
                       ),
-                    )
               );
             } else {
               return const Column(

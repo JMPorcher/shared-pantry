@@ -28,9 +28,6 @@ class MainScreen extends StatelessWidget {
     }
 
     int activePantryIndex = context.watch<PantryProvider>().selectedPantryIndex;
-    void switchPantry(int newIndex){
-      Provider.of<PantryProvider>(context, listen: false).switchPantry(newIndex);
-    }
 
     return SafeArea(
       child: Scaffold(

@@ -18,6 +18,7 @@ class PantryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categories;
+    print('PS called');
 
     return Scaffold(
       backgroundColor: Colors.transparent,
