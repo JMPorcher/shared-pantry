@@ -72,5 +72,8 @@ class FirstStartupScreen extends StatelessWidget {
     );
   }
 }
-// PageView first page: Asks you to sign up or do so later (implement "later" after firebase sign-up functionalities are added)
-// PageView second page: Asks you to add pre-build pantries, categories and items. Implement later.
+
+//TODO Need FirstStartupScreen to be a PageView with 3 pages: 1) ask for name - 2) skippable sign-up - 3) skippable choose pre-built pantries, categories and items
+// PageView first page: Asks for a name. Registers a user with this user name and nothing else.
+// PageView second page: Asks you to sign up or do so later (implement "later" after firebase sign-up functionalities are added)
+// PageView third page: Asks you to add pre-build pantries, categories and items. Implement later.

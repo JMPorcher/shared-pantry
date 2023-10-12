@@ -5,32 +5,8 @@ Know which household items are currently in the house. Add more pantries: person
 
 ## TO-DOs
 
-[X] save opened/closed state for category tiles
---> Used ExpansionTile's initiallyExpanded parameter that gets triggered every time the list is rebuilt. The parameter gets fed by the isExpanded boolean in the provider.
-[X] Move "add category" button from list_screen.dart bottom to top, "Add first category" label if there are none yet
---> Button moved to expandable_category_list.dart
-
-[X] Add Pantry to Provider
-[X] PageView for Pantries
-[X] Add Pantry title to AppBar
-[X] Make it possible to add Pantry
-[X] Implement PageController so the PageView switches to the new page upon adding 
---> implemented, but animation seems wonky
-[X] Make it possible to remove and rename Pantry
-
-[X] Adjust ShoppingList for Pantries, with checkboxes vor which Pantries to include.
-
-
-[X] Welcome screen "Add your first pantry"
-
-[] Move AppBar from pantry to overall scaffold
---> Really necessary?
-
 [] Registration on first opening the app. Can be skipped.
-[] Registration can be done through FloatingActionButton at any time.
-
-[] Firebase basic structure (I'm scared man)
-[] Firebase groups
+[] Firebase basic structure. User is created in first_startup_screen and can be registered (registered is used later for shared pantries)
 
 [] Localization for EN/GER
 [] Pre-available Pantries, Categories and Items

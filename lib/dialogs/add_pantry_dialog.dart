@@ -49,3 +49,5 @@ class AddPantryDialog extends StatelessWidget {
         ]);
   }
 }
+
+//TODO For Add Pantry dialog: Give option to use assistant with pre-built pantries, categories and items

@@ -63,6 +63,7 @@ class RegistrationForm extends StatelessWidget {
                         final currentState = formKey.currentState;
                         if (currentState != null && currentState.validate()) {
                           Navigator.pushNamed(context, MainScreen.id);
+                          //TODO Implement registration. Sign-in user afterwards.
                         } else {
                           // Form is not valid, trigger re-build to show error messages
                           isFormValidNotifier.value = false;
