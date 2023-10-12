@@ -48,8 +48,6 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
     filterItems(pantryList);
 
-    final ValueNotifier<bool> pantryIsSelected = ValueNotifier(true);
-
     return SingleChildScrollView(
         child: Column(
       children: [
@@ -64,10 +62,9 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                 return ListTile(
                   leading: Text(currentPantry.title),
                   trailing: Switch(
-                      value: pantryIsSelected.value,
+                      value: currentPantry.selectedForShopping,
                       onChanged: (newValue) {
-                        context.read<PantryProvider>().pantriesList;
-                        pantryIsSelected.value = newValue;
+                        context.read<PantryProvider>().switchPantrySelectedForShopping(currentPantry, newValue);
                       }),
                 );
               }),

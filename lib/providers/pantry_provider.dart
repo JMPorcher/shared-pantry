@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loop_page_view/loop_page_view.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 
@@ -15,7 +14,7 @@ class PantryProvider with ChangeNotifier {
 
   int _selectedPantryIndex = 0;
   int get selectedPantryIndex => _selectedPantryIndex;
-  int shownScreenIndex = 0;
+  int shownScreenIndex = 0; //TODO Move shown screen index to responsibility of MainScreen
 
   //===========GENERAL FUNCTIONS===========
 
@@ -43,6 +42,11 @@ class PantryProvider with ChangeNotifier {
 
   void switchPantry(int newIndex) {
     _selectedPantryIndex = newIndex;
+    notifyListeners();
+  }
+
+  void switchPantrySelectedForShopping(Pantry pantry, bool newValue){
+    pantry.toggleSelectedForShopping(newValue);
     notifyListeners();
   }
 

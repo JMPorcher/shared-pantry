@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
-import 'package:shared_pantry/dialogs/shopping_list_dialog.dart';
+import 'package:shared_pantry/old/shopping_list_dialog.dart';
 
 import '../dialogs/add_pantry_dialog.dart';
 import '../dialogs/edit_pantry_dialog.dart';

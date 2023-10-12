@@ -11,5 +11,5 @@ class Item {
   void editTitle(String newTitle) {
     title = newTitle;
   }
-  //TODO Implement editTitle feature
+  //TODO Implement editTitle feature, depends on layout
 }

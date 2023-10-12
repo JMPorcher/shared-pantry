@@ -7,6 +7,7 @@ class Pantry {
       //TODO required String pantryId;
       //TODO required String(userId) founder
       //TODO optional SvgPicture backgroundImage = default_image_asset
+      //TODO selectedForShopping
 
   //TODO: Add ID generator for pantries somewhere
 
@@ -14,10 +15,11 @@ class Pantry {
   String title;
   //TODO List<String(userId), Item> activityHistory = []
 
-  bool selectedForShopping = true;
-  // void toggleSelected() {
-  //   selected = !selected;
-  // }
+  bool _selectedForShopping = true;
+  bool get selectedForShopping => _selectedForShopping;
+  void toggleSelectedForShopping(bool newValue) {
+    _selectedForShopping = newValue;
+  }
 
   void editTitle(String newTitle) {
     title = newTitle;

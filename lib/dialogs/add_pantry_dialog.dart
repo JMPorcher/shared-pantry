@@ -12,6 +12,8 @@ class AddPantryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     titleTextController.text = pantryTitleValueNotifier.value;
+    //TODO Background image picker
+    //
 
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -36,7 +38,9 @@ class AddPantryDialog extends StatelessWidget {
                         context
                             .read<PantryProvider>()
                             .addPantryWithTitle(pantryTitle);
-
+                            //TODO Should add with background image
+                            //TODO Should add with user name of founder ID, get ID from FirebaseAuth.instance.currentUser.uid
+                            //TODO Should add with generated unique ID
                         Navigator.pop(context);
                       }
                     },
