@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
 import '../models/pantry.dart';
@@ -11,9 +12,8 @@ class OverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PantryProvider pantryProvider = PantryProvider();
+    PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
     List<Pantry> pantryList = pantryProvider.pantriesList;
-    int activePantry = pantryProvider.selectedPantryIndex;
 
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -23,25 +23,20 @@ class OverviewScreen extends StatelessWidget {
           itemBuilder: (_, index) {
             if (index < pantryList.length) {
               Pantry currentPantry = pantryList[index];
-              return SizedBox(
-                  height: 200,
-                  child: GestureDetector(
-                      onTap: () {
-                        activePantry = index;
-                        print('index: $index - activePantry: $activePantry');
-                      },
-                      child: SpCard.pantry(currentPantry,
-                              isSelected: index == activePantry)
-                      ),
-              );
+              return GestureDetector(
+                  onTap: () {
+                    pantryProvider.switchPantry(index);
+
+                    print('index: $index - activePantry: ${pantryProvider.selectedPantryIndex}');
+                  },
+                  child: SpCard.pantry(currentPantry,
+                          isSelected: index == pantryProvider.selectedPantryIndex)
+                  );
             } else {
               return const Column(
                 children: [
                   SizedBox(height: 50),
-                  SizedBox(
-                    height: 100,
-                    child: SpCard.text('Add a pantry'),
-                  ),
+                  SpCard.text('Add a pantry'),
                 ],
               );
             }

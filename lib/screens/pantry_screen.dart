@@ -10,62 +10,55 @@ import '../widgets/add_category_button.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryScreen extends StatelessWidget {
-  const PantryScreen({required this.currentPantry, Key? key})
-      : super(key: key);
+  const PantryScreen({required this.currentPantry, Key? key}) : super(key: key);
 
   final Pantry currentPantry;
 
   @override
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categories;
-    print('PS called');
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children:
-        [ListView(
-          children: [
-            SpCard.pantry(currentPantry, isSelected: true),
+      body: Column(
+        children: [
+          SpCard.pantry(currentPantry, isSelected: false),
+          Stack(alignment: Alignment.bottomCenter, children: [
             // Categories
-            Column(
-              children: List.generate(
-                currentCategoryList.length,
-                    (index) {
-                  ItemCategory currentCategory = currentCategoryList[index];
-                  return Container(
-                    color: kColor1,
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: GestureDetector(
-                      onLongPress: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) => EditCategoryDialog(
-                            itemCategoryList: currentCategoryList,
-                            itemCategory: currentCategory,
-                          ),
-                        );
-                      },
-                      child: CategoryExpansionTile(
-                        currentCategoryList: currentCategoryList,
-                        currentCategory: currentCategory,
-                      ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: currentCategoryList.length,
+              itemBuilder: (context, index) {
+                ItemCategory currentCategory = currentCategoryList[index];
+                return Container(
+                  color: kColor1,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: GestureDetector(
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => EditCategoryDialog(
+                          itemCategoryList: currentCategoryList,
+                          itemCategory: currentCategory,
+                        ),
+                      );
+                    },
+                    child: CategoryExpansionTile(
+                      currentCategoryList: currentCategoryList,
+                      currentCategory: currentCategory,
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
+
             // Button at the bottom
-            AddCategoryButton(currentCategoryList: currentCategoryList),
-          ],
-        ),
-        const ListBottomGradient()
-        ]
+
+            const ListBottomGradient()
+          ]),
+          AddCategoryButton(currentCategoryList: currentCategoryList),
+        ],
       ),
     );
   }
 }
-
-
-
