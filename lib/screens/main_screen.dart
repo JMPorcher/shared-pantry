@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
@@ -26,7 +26,7 @@ class MainScreen extends StatelessWidget {
     void switchScreen(int newIndex){
       Provider.of<PantryProvider>(context, listen: false).switchActiveScreen(newIndex);
     }
-
+//TODO Figure out if activePantryIndex is actually necessary
     int activePantryIndex = context.watch<PantryProvider>().selectedPantryIndex;
 
     return SafeArea(
@@ -62,7 +62,7 @@ class MainScreen extends StatelessWidget {
             onPageChanged: (index) => switchScreen(index),
           controller: pageController,
           children: [
-            OverviewScreen(),
+            const OverviewScreen(),
             pantryList.isNotEmpty ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[activePantryIndex]) : const WelcomeScreen(), //TODO Replace choice by index with choice through identity
             const ShoppingScreen(),
             const ProfileScreen()
