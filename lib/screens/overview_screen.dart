@@ -26,8 +26,6 @@ class OverviewScreen extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     pantryProvider.switchPantry(index);
-
-                    print('index: $index - activePantry: ${pantryProvider.selectedPantryIndex}');
                   },
                   child: SpCard.pantry(currentPantry,
                           isSelected: index == pantryProvider.selectedPantryIndex)

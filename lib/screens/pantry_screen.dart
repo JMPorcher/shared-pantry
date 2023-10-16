@@ -23,40 +23,48 @@ class PantryScreen extends StatelessWidget {
       body: Column(
         children: [
           SpCard.pantry(currentPantry, isSelected: false),
-          Stack(alignment: Alignment.bottomCenter, children: [
-            // Categories
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: currentCategoryList.length,
-              itemBuilder: (context, index) {
-                ItemCategory currentCategory = currentCategoryList[index];
-                return Container(
-                  color: kColor1,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: GestureDetector(
-                    onLongPress: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => EditCategoryDialog(
-                          itemCategoryList: currentCategoryList,
-                          itemCategory: currentCategory,
+          Expanded(
+            child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+              // Categories
+              Column(
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: currentCategoryList.length,
+                    itemBuilder: (context, index) {
+                      ItemCategory currentCategory = currentCategoryList[index];
+                      return Container(
+                        color: kColor1,
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: GestureDetector(
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => EditCategoryDialog(
+                                itemCategoryList: currentCategoryList,
+                                itemCategory: currentCategory,
+                              ),
+                            );
+                          },
+                          child: CategoryExpansionTile(
+                            currentCategoryList: currentCategoryList,
+                            currentCategory: currentCategory,
+                          ),
                         ),
                       );
                     },
-                    child: CategoryExpansionTile(
-                      currentCategoryList: currentCategoryList,
-                      currentCategory: currentCategory,
-                    ),
                   ),
-                );
-              },
-            ),
+                  AddCategoryButton(currentCategoryList: currentCategoryList),
+                ],
+              ),
+              const Align(
+                alignment: Alignment.bottomCenter,
+                  child: ListBottomGradient()),
+            ]),
+          ),
 
-            // Button at the bottom
-
-            const ListBottomGradient()
-          ]),
-          AddCategoryButton(currentCategoryList: currentCategoryList),
         ],
       ),
     );
