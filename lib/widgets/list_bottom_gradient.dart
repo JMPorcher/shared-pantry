@@ -13,13 +13,13 @@ class ListBottomGradient extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Colors.black.withOpacity(0.5), // Start with transparent
-              Colors.black.withOpacity(0.0), // Transition to white or any other color
+              Colors.black.withOpacity(0.5),
+              Colors.black.withOpacity(0.0),
             ],
           ),
         ),
-        width: double.infinity, // Width as per your requirements
-        height: 50.0, // Height as per your requirements
+        width: double.infinity,
+        height: 50.0,
       ),
     );
   }

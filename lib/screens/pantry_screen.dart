@@ -18,55 +18,69 @@ class PantryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categories;
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Column(
+    return Column(
         children: [
           SpCard.pantry(currentPantry, isSelected: false),
           Expanded(
-            child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-              // Categories
-              Column(
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: currentCategoryList.length,
-                    itemBuilder: (context, index) {
-                      ItemCategory currentCategory = currentCategoryList[index];
-                      return Container(
-                        color: kColor1,
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: GestureDetector(
-                          onLongPress: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) => EditCategoryDialog(
-                                itemCategoryList: currentCategoryList,
-                                itemCategory: currentCategory,
-                              ),
-                            );
-                          },
-                          child: CategoryExpansionTile(
-                            currentCategoryList: currentCategoryList,
-                            currentCategory: currentCategory,
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                double stackHeight = constraints.maxHeight;
+
+                return Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    // Categories
+                    Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: currentCategoryList.length,
+                            itemBuilder: (context, index) {
+                              ItemCategory currentCategory = currentCategoryList[index];
+                              return Container(
+                                color: kColor1,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                child: GestureDetector(
+                                  onLongPress: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) => EditCategoryDialog(
+                                        itemCategoryList: currentCategoryList,
+                                        itemCategory: currentCategory,
+                                      ),
+                                    );
+                                  },
+                                  child: CategoryExpansionTile(
+                                    currentCategoryList: currentCategoryList,
+                                    currentCategory: currentCategory,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      );
-                    },
-                  ),
-                  AddCategoryButton(currentCategoryList: currentCategoryList),
-                ],
-              ),
-              const Align(
-                alignment: Alignment.bottomCenter,
-                  child: ListBottomGradient()),
-            ]),
-          ),
+                        AddCategoryButton(currentCategoryList: currentCategoryList),
+                      ],
+                    ),
+                    LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        double columnHeight = constraints.maxHeight;
+                        if (columnHeight > stackHeight) {
+                          return const Align(
+                              alignment: Alignment.bottomCenter,
+                              child: ListBottomGradient());
+                        } else {
+                          return const SizedBox();
+                        }
 
+                      },
+                    ),
+                  ]); },
+            ),
+          )
         ],
-      ),
-    );
+      );
   }
 }
+//TODO Add ValueNotifier construction to make dynamic checks for the height of column and stack and show/hide bottom gradient accordingly."
