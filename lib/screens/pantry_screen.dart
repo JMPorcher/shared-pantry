@@ -17,6 +17,9 @@ class PantryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categories;
+    final ScrollController scrollController = ScrollController();
+    ValueNotifier<bool> showGradientShadow = ValueNotifier(false);
+    ValueNotifier<bool> endOfListIsReached = ValueNotifier(false);
 
     return Column(
         children: [
@@ -34,6 +37,7 @@ class PantryScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ListView.builder(
+                            controller: scrollController,
                             shrinkWrap: true,
                             itemCount: currentCategoryList.length,
                             itemBuilder: (context, index) {
@@ -63,18 +67,23 @@ class PantryScreen extends StatelessWidget {
                         AddCategoryButton(currentCategoryList: currentCategoryList),
                       ],
                     ),
-                    LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) {
-                        double columnHeight = constraints.maxHeight;
-                        if (columnHeight > stackHeight) {
-                          return const Align(
-                              alignment: Alignment.bottomCenter,
-                              child: ListBottomGradient());
-                        } else {
-                          return const SizedBox();
-                        }
-
+                    ValueListenableBuilder(
+                      valueListenable: showGradientShadow,
+                      builder: (BuildContext context, bool value, Widget? child) {
+                        return LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            double columnHeight = constraints.maxHeight;
+                            if (showGradientShadow.value) {
+                              return const Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: ListBottomGradient());
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        );
                       },
+
                     ),
                   ]); },
             ),
