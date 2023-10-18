@@ -10,16 +10,32 @@ import '../widgets/add_category_button.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryScreen extends StatelessWidget {
-  const PantryScreen({required this.currentPantry, Key? key}) : super(key: key);
+  PantryScreen({required this.currentPantry, Key? key}) : super(key: key);
 
   final Pantry currentPantry;
+
+  final ValueNotifier<bool> showGradientShadow = ValueNotifier(false);
+
+  final ValueNotifier<double> categoryColumnHeightNotifier = ValueNotifier(0.0);
+  final ValueNotifier<double> stackHeightNotifier = ValueNotifier(0.0);
+
 
   @override
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categories;
     final ScrollController scrollController = ScrollController();
-    ValueNotifier<bool> showGradientShadow = ValueNotifier(false);
-    ValueNotifier<bool> endOfListIsReached = ValueNotifier(false);
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        showGradientShadow.value = false;
+      } else {
+        showGradientShadow.value = true;
+      }
+    });
+
+    GlobalKey stackKey = GlobalKey();
+    GlobalKey categoryColumnKey = GlobalKey();
+
+
 
     return Column(
         children: [
@@ -27,9 +43,18 @@ class PantryScreen extends StatelessWidget {
           Expanded(
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                double stackHeight = constraints.maxHeight;
+                double categoryColumnHeight = constraints.maxHeight;
+                double stackHeight = stackKey.currentContext?.findRenderObject()?.paintBounds.height ?? 0.0;
+
+                stackHeightNotifier.value = stackHeight;
+                categoryColumnHeightNotifier.value = categoryColumnHeight;
+                categoryColumnHeightNotifier.addListener(() {
+
+                });
+
 
                 return Stack(
+                  key: stackKey,
                   alignment: Alignment.bottomCenter,
                   children: [
                     // Categories
@@ -37,6 +62,7 @@ class PantryScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ListView.builder(
+                            key: categoryColumnKey,
                             controller: scrollController,
                             shrinkWrap: true,
                             itemCount: currentCategoryList.length,
@@ -72,7 +98,13 @@ class PantryScreen extends StatelessWidget {
                       builder: (BuildContext context, bool value, Widget? child) {
                         return LayoutBuilder(
                           builder: (BuildContext context, BoxConstraints constraints) {
-                            double columnHeight = constraints.maxHeight;
+
+                            if (categoryColumnHeight > stackHeight) {
+                              showGradientShadow.value = true;
+                            } else {
+                              showGradientShadow.value = false;
+                            }
+
                             if (showGradientShadow.value) {
                               return const Align(
                                   alignment: Alignment.bottomCenter,
@@ -92,4 +124,3 @@ class PantryScreen extends StatelessWidget {
       );
   }
 }
-//TODO Add ValueNotifier construction to make dynamic checks for the height of column and stack and show/hide bottom gradient accordingly."
