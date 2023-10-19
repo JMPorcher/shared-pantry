@@ -61,7 +61,7 @@ class MainScreen extends StatelessWidget {
             onPageChanged: (index) => switchScreen(index),
           controller: pageController,
           children: [
-            const OverviewScreen(),
+            OverviewScreen(pageController),
             pantryList.isNotEmpty ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[activePantryIndex]) : const WelcomeScreen(), //TODO Replace choice by index with choice through identity
             const ShoppingScreen(),
             const ProfileScreen()

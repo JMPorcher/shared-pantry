@@ -6,7 +6,9 @@ import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
 class OverviewScreen extends StatelessWidget {
-  const OverviewScreen({super.key});
+  final PageController pageController;
+
+  const OverviewScreen(this.pageController, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,8 @@ class OverviewScreen extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     pantryProvider.switchPantry(index);
+                    pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
+                    //TODO When developing the Card, add a tappable area to switch directly to pantry_screen instead of switching wherever the card is tapped.
                   },
                   child: SpCard.pantry(currentPantry,
                           isSelected: index == pantryProvider.selectedPantryIndex)
