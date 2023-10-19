@@ -5,8 +5,6 @@ import 'package:shared_pantry/widgets/sp_cards.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
-import '../widgets/list_bottom_gradient.dart';
-
 class OverviewScreen extends StatelessWidget {
   const OverviewScreen({super.key});
 
@@ -40,7 +38,6 @@ class OverviewScreen extends StatelessWidget {
             }
           },
         ),
-        const ListBottomGradient(),
       ],
     );
   }
