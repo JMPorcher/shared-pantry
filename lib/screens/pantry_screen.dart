@@ -5,19 +5,14 @@ import 'package:shared_pantry/widgets/sp_cards.dart';
 
 import '../dialogs/edit_category_dialog.dart';
 import '../models/pantry.dart';
-import '../widgets/add_category_button.dart';
+import '../widgets/add_button.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryScreen extends StatelessWidget {
   PantryScreen({required this.currentPantry, Key? key}) : super(key: key);
 
   final Pantry currentPantry;
-
   final ValueNotifier<bool> showGradientShadow = ValueNotifier(false);
-
-  final ValueNotifier<double> categoryColumnHeightNotifier = ValueNotifier(0.0);
-  final ValueNotifier<double> stackHeightNotifier = ValueNotifier(0.0);
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +61,7 @@ class PantryScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                AddCategoryButton(currentCategoryList: currentCategoryList),
+                AddButton.category(currentCategoryList: currentCategoryList),
               ],
             ),
           )

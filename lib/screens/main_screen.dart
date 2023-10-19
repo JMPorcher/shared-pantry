@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
-import 'package:shared_pantry/screens/welcome_screen.dart';
+import 'package:shared_pantry/widgets/empty_pantry_splash.dart';
+import 'package:shared_pantry/widgets/no_pantries_splash.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
 
@@ -18,57 +19,64 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     PageController pageController = PageController(initialPage: 0);
     List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
 
     int activeScreenIndex = context.watch<PantryProvider>().shownScreenIndex;
-    void switchScreen(int newIndex){
-      Provider.of<PantryProvider>(context, listen: false).switchActiveScreen(newIndex);
+    void switchScreen(int newIndex) {
+      Provider.of<PantryProvider>(context, listen: false)
+          .switchActiveScreen(newIndex);
     }
+
     int activePantryIndex = context.watch<PantryProvider>().selectedPantryIndex;
 
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar:
-          BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              items: const [
-                BottomNavigationBarItem(label: 'lol',
-                    icon: Icon(Icons.home_outlined),
-                    activeIcon: Icon(Icons.home_filled)),
-                BottomNavigationBarItem(label: 'lol',
-                    icon: Icon(Icons.summarize_outlined),
-                    activeIcon: Icon(Icons.summarize)),
-                BottomNavigationBarItem(label: 'lol',
-                    icon: Icon(Icons.shopping_basket_outlined),
-                    activeIcon: Icon(Icons.shopping_basket)),
-                BottomNavigationBarItem(label: 'lol',
-                    icon: Icon(Icons.account_circle_outlined),
-                    activeIcon: Icon(Icons.account_circle)),
-              ],
-              currentIndex: activeScreenIndex,
-              onTap: (index) {
-                switchScreen(index);
-                pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
-              },
-              elevation: 8,
-              backgroundColor: kColor51,
-              unselectedItemColor: kColor1,
-              selectedItemColor: kColor4,
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            items: const [
+              BottomNavigationBarItem(
+                  label: 'lol',
+                  icon: Icon(Icons.home_outlined),
+                  activeIcon: Icon(Icons.home_filled)),
+              BottomNavigationBarItem(
+                  label: 'lol',
+                  icon: Icon(Icons.summarize_outlined),
+                  activeIcon: Icon(Icons.summarize)),
+              BottomNavigationBarItem(
+                  label: 'lol',
+                  icon: Icon(Icons.shopping_basket_outlined),
+                  activeIcon: Icon(Icons.shopping_basket)),
+              BottomNavigationBarItem(
+                  label: 'lol',
+                  icon: Icon(Icons.account_circle_outlined),
+                  activeIcon: Icon(Icons.account_circle)),
+            ],
+            currentIndex: activeScreenIndex,
+            onTap: (index) {
+              switchScreen(index);
+              pageController.animateToPage(index,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease);
+            },
+            elevation: 8,
+            backgroundColor: kColor51,
+            unselectedItemColor: kColor1,
+            selectedItemColor: kColor4,
           ),
           body: PageView(
             onPageChanged: (index) => switchScreen(index),
-          controller: pageController,
-          children: [
-            OverviewScreen(pageController),
-            pantryList.isNotEmpty ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[activePantryIndex]) : const WelcomeScreen(), //TODO Replace choice by index with choice through identity
-            const ShoppingScreen(),
-            const ProfileScreen()
-          ],
-                  )
-      ),
+            controller: pageController,
+            children: [
+              OverviewScreen(pageController),
+              pantryList.isNotEmpty
+                  ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[activePantryIndex])
+                  : const EmptyPantrySplash(message: 'Nothing here yet.'),
+              //TODO Replace choice by index with choice through identity. Why again?
+              const ShoppingScreen(),
+              const ProfileScreen()
+            ],
+          )),
     );
-
   }
 }

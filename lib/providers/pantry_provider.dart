@@ -50,6 +50,12 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  //TODO Remove this again later. Just for test purposes
+  void removePantryByIndex(int index) {
+    pantriesList.removeAt(index);
+    notifyListeners();
+  }
+
   //===========CATEGORY FUNCTIONS===========
   void addCategory(
       List<ItemCategory> itemCategoryList, ItemCategory itemCategory) {
