@@ -9,22 +9,22 @@ import '../widgets/add_button.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryScreen extends StatelessWidget {
-  PantryScreen({required this.currentPantry, Key? key}) : super(key: key);
+  const PantryScreen({required this.currentPantry, Key? key}) : super(key: key);
 
   final Pantry currentPantry;
-  final ValueNotifier<bool> showGradientShadow = ValueNotifier(false);
+  // final ValueNotifier<bool> showGradientShadow = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categories;
     final ScrollController scrollController = ScrollController();
-    scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-        showGradientShadow.value = false;
-      } else {
-        showGradientShadow.value = true;
-      }
-    });
+    // scrollController.addListener(() {
+    //   if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    //     showGradientShadow.value = false;
+    //   } else {
+    //     showGradientShadow.value = true;
+    //   }
+    // });
 
     return Column(
         children: [
@@ -69,3 +69,4 @@ class PantryScreen extends StatelessWidget {
       );
   }
 }
+//TODO Build splash for case of no categories.

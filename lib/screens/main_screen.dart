@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
-import 'package:shared_pantry/widgets/no_pantries_splash.dart';
+import 'package:shared_pantry/screens/no_pantries_splash_screen.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
 
@@ -44,8 +44,8 @@ class MainScreen extends StatelessWidget {
                   activeIcon: Icon(Icons.summarize)),
               BottomNavigationBarItem(
                   label: 'lol',
-                  icon: Icon(Icons.shopping_basket_outlined),
-                  activeIcon: Icon(Icons.shopping_basket)),
+                  icon: Icon(Icons.shopping_cart_outlined),
+                  activeIcon: Icon(Icons.shopping_cart)),
               BottomNavigationBarItem(
                   label: 'lol',
                   icon: Icon(Icons.account_circle_outlined),
@@ -69,10 +69,10 @@ class MainScreen extends StatelessWidget {
             children: [
               pantryList.isNotEmpty
               ? OverviewScreen(pageController)
-              : const NoPantriesSplash(),
+              : const NoPantriesSplashScreen(),
               pantryList.isNotEmpty
                   ? PantryScreen(currentPantry: context.watch<PantryProvider>().pantriesList[activePantryIndex])
-                  : const NoPantriesSplash(),
+                  : const NoPantriesSplashScreen(),
               //TODO Replace choice by index with choice through identity. Why again?
               const ShoppingScreen(),
               const ProfileScreen()

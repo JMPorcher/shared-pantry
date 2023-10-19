@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/widgets/no_pantries_splash.dart';
+import 'package:shared_pantry/screens/no_pantries_splash_screen.dart';
 import 'package:shared_pantry/widgets/add_button.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
@@ -22,7 +22,7 @@ class OverviewScreen extends StatelessWidget {
         children: [
           Expanded(
             child: ListView.builder(
-                itemCount: pantryList.length,
+                itemCount: pantryList.length + 1,
                 itemBuilder: (_, index) {
                   if (index < pantryList.length) {
                     Pantry currentPantry = pantryList[index];
@@ -40,10 +40,10 @@ class OverviewScreen extends StatelessWidget {
                         child: SpCard.pantry(currentPantry,
                             isSelected:
                             index == pantryProvider.selectedPantryIndex));
-                  }else {const AddButton.pantry();}
+                  }
                 } ),
           ),
-
+          const AddButton.pantry()
         ]);
   }
 }
