@@ -20,7 +20,7 @@ class OverviewScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (pantryList.isEmpty) const NoPantriesSplash(message: 'You haven\'t started or joined any pantries yet.') else Expanded(
+          Expanded(
             child: ListView.builder(
                 itemCount: pantryList.length,
                 itemBuilder: (_, index) {
@@ -40,10 +40,10 @@ class OverviewScreen extends StatelessWidget {
                         child: SpCard.pantry(currentPantry,
                             isSelected:
                             index == pantryProvider.selectedPantryIndex));
-                  }
+                  }else {const AddButton.pantry();}
                 } ),
           ),
-          const AddButton.pantry()
+
         ]);
   }
 }
