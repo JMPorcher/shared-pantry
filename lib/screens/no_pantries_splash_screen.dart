@@ -12,7 +12,7 @@ class NoPantriesSplashScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
       Expanded(
-        child: SizedBox(
+        child: Center(
           child: Stack(children: [
             Container(
               margin: const EdgeInsets.all(32),

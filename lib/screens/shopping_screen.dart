@@ -49,56 +49,59 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     filterItems(pantryList);
 
     return SingleChildScrollView(
-        child: Column(
+        child: Padding(
+          padding: EdgeInsets.all(32),
+          child: Column(
       children: [
-        SizedBox(
-          width: double.maxFinite,
-          height: pantryList.length * 40 + 20,
-          child: ListView.builder(
-              itemCount: pantryList.length,
-              itemExtent: 40,
-              itemBuilder: (_, index) {
-                Pantry currentPantry = pantryList[index];
-                return ListTile(
-                  leading: Text(currentPantry.title),
-                  trailing: Switch(
-                      value: currentPantry.selectedForShopping,
-                      onChanged: (newValue) {
-                        context.read<PantryProvider>().switchPantrySelectedForShopping(currentPantry, newValue);
-                      }),
-                );
-              }),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: Divider(thickness: 2),
-        ),
-        SizedBox(
+          SizedBox(
             width: double.maxFinite,
-            height: relevantItems.length * 60 <= 400
-                ? 400
-                : relevantItems.length * 60,
+            height: pantryList.length * 40 + 20,
             child: ListView.builder(
-              itemCount: relevantItems.length,
-              itemBuilder: (_, index) {
-                Item currentItem = relevantItems[index];
-                return ListTile(
-                  visualDensity: const VisualDensity(vertical: -4),
-                  leading: Text(currentItem.title),
-                  trailing: Checkbox(
-                    value: currentItem.isAvailable,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        context
-                            .read<PantryProvider>()
-                            .toggleItemAvailability(currentItem);
-                      });
-                    },
-                  ),
-                );
-              },
-            ))
+                itemCount: pantryList.length,
+                itemExtent: 40,
+                itemBuilder: (_, index) {
+                  Pantry currentPantry = pantryList[index];
+                  return ListTile(
+                    leading: Text(currentPantry.title),
+                    trailing: Switch(
+                        value: currentPantry.selectedForShopping,
+                        onChanged: (newValue) {
+                          context.read<PantryProvider>().switchPantrySelectedForShopping(currentPantry, newValue);
+                        }),
+                  );
+                }),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            child: Divider(thickness: 2),
+          ),
+          SizedBox(
+              width: double.maxFinite,
+              height: relevantItems.length * 60 <= 400
+                  ? 400
+                  : relevantItems.length * 60,
+              child: ListView.builder(
+                itemCount: relevantItems.length,
+                itemBuilder: (_, index) {
+                  Item currentItem = relevantItems[index];
+                  return ListTile(
+                    visualDensity: const VisualDensity(vertical: -4),
+                    leading: Text(currentItem.title),
+                    trailing: Checkbox(
+                      value: currentItem.isAvailable,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          context
+                              .read<PantryProvider>()
+                              .toggleItemAvailability(currentItem);
+                        });
+                      },
+                    ),
+                  );
+                },
+              ))
       ],
-    ));
+    ),
+        ));
   }
 }
