@@ -22,7 +22,8 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
         items: widget.items.map((item) {
             return BottomNavigationBarItem(
                 label: item.label,
-                icon: item.active ? item.activeIcon : item.inactiveIcon,
+                icon: item.active ? item.activatedIcon : item.deactivatedIcon,
+              activeIcon: item.selectedIcon
             );
           }).toList(),
       currentIndex: widget.currentIndex,
@@ -38,15 +39,17 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
 
 class SpBottomNavigationBarItem {
   final String label;
-  final Icon activeIcon;
-  final Icon inactiveIcon;
+  final Icon activatedIcon;
+  final Icon deactivatedIcon;
+  final Icon selectedIcon;
   final Color activeIconColor;
   final bool active;
 
-  SpBottomNavigationBarItem({
+  SpBottomNavigationBarItem( {
     required this.label,
-    required this.activeIcon,
-    required this.inactiveIcon,
+    required this.activatedIcon,
+    required this.deactivatedIcon,
+    required this.selectedIcon,
     required this.activeIconColor,
     required this.active,
   });

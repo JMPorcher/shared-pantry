@@ -38,36 +38,40 @@ class MainScreen extends StatelessWidget {
             items: [
               SpBottomNavigationBarItem(
                   label: 'lol',
-                  activeIcon: const Icon(Icons.home_filled),
-                  inactiveIcon: const Icon(Icons.home_outlined),
+                  activatedIcon: const Icon(Icons.home_outlined),
+                  deactivatedIcon: const Icon(Icons.home_outlined),
                   active: true,
-                  activeIconColor: kColor4),
+                  activeIconColor: kColor4,
+                  selectedIcon: const Icon(Icons.home_filled)),
               SpBottomNavigationBarItem(
                   label: 'lol',
-                  activeIcon: const Icon(Icons.summarize),
-                  inactiveIcon: Icon(Icons.summarize_outlined,
+                  activatedIcon: const Icon(Icons.summarize_outlined),
+                  deactivatedIcon: Icon(Icons.summarize_outlined,
                       color: Colors.grey.shade700),
                   active: pantryList.isNotEmpty,
-                  activeIconColor: kColor4),
+                  activeIconColor: kColor4,
+                  selectedIcon: const Icon(Icons.summarize)),
               SpBottomNavigationBarItem(
                   label: 'lol',
-                  activeIcon: const Icon(Icons.shopping_cart),
-                  inactiveIcon: Icon(Icons.shopping_cart_outlined,
+                  activatedIcon: const Icon(Icons.shopping_cart_outlined),
+                  deactivatedIcon: Icon(Icons.shopping_cart_outlined,
                       color: Colors.grey.shade700),
                   activeIconColor: kColor3,
-                  active: pantryList.isNotEmpty),
+                  active: pantryList.isNotEmpty,
+                  selectedIcon: const Icon(Icons.shopping_cart)),
               SpBottomNavigationBarItem(
                   label: 'lol',
-                  activeIcon: const Icon(
+                  activatedIcon: const Icon(
                     Icons.account_circle_outlined,
                   ),
-                  inactiveIcon: const Icon(Icons.account_circle),
+                  deactivatedIcon: const Icon(Icons.account_circle_outlined),
                   active: true,
-                  activeIconColor: kColor4),
+                  activeIconColor: kColor4,
+                  selectedIcon: const Icon(Icons.account_circle)),
             ],
             currentIndex: pantryList.isNotEmpty
                 ? activeScreenIndex
-                : activePantryIndex == 0
+                : activeScreenIndex == 0
                     ? 0
                     : 3,
             onTap: (index) {
