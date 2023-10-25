@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/models/pantry.dart';
 
 import '../providers/pantry_provider.dart';
 
@@ -12,6 +13,8 @@ class AddPantryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     titleTextController.text = pantryTitleValueNotifier.value;
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
+
     //TODO Background image picker
     //
 
@@ -35,9 +38,8 @@ class AddPantryDialog extends StatelessWidget {
                     onPressed: () {
                       final String pantryTitle = titleTextController.text;
                       if (pantryTitle != '') {
-                        context
-                            .read<PantryProvider>()
-                            .addPantryWithTitle(pantryTitle);
+                        pantryProvider.addPantryWithTitle(pantryTitle);
+                        pantryProvider.switchPantry(pantryProvider.pantriesList.length-1);
                             //TODO Should add with background image
                             //TODO Should add with user name of founder ID, get ID from FirebaseAuth.instance.currentUser.uid
                             //TODO Should add with generated unique ID

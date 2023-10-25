@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/item.dart';
 import '../models/pantry.dart';
 
 class PantryProvider with ChangeNotifier {
+  PantryProvider(this.lastShownScreen) {
+      shownScreenIndex = lastShownScreen;
+  }
+
   final List<ItemCategory> _categoriesList = [kTestCategory];
   List<ItemCategory> get categoriesList => _categoriesList;
 
@@ -14,18 +19,22 @@ class PantryProvider with ChangeNotifier {
 
   int _selectedPantryIndex = 0;
   int get selectedPantryIndex => _selectedPantryIndex;
-  int shownScreenIndex = 0; //TODO Move shown screen index to responsibility of MainScreen
+  final int lastShownScreen;
+  int shownScreenIndex = 0;
 
   //===========GENERAL FUNCTIONS===========
 
-  void switchActiveScreen(newIndex) {
+  void switchActiveScreen(newIndex) async {
     shownScreenIndex = newIndex;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setInt('Last shown screen', newIndex);
     notifyListeners();
   }
 
   // ===========PANTRY FUNCTIONS===========
   int addPantryWithTitle(String title) {
     _pantriesList.add(Pantry(title: title));
+    switchActiveScreen(1);
     notifyListeners();
     return _pantriesList.length - 1;
   }

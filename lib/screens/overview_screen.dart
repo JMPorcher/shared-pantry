@@ -43,7 +43,7 @@ class OverviewScreen extends StatelessWidget {
                   }
                 } ),
           ),
-          const AddButton.pantry()
+          const AddButton.pantry(pageController)
         ]);
   }
 }

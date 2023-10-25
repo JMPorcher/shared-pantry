@@ -7,6 +7,7 @@ import 'package:shared_pantry/screens/shopping_screen.dart';
 import 'package:shared_pantry/screens/no_pantries_splash_screen.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
@@ -17,17 +18,20 @@ class MainScreen extends StatelessWidget {
 
   static const String id = 'pantry screen';
 
+
   @override
   Widget build(BuildContext context) {
-    PageController pageController =
-        PageController(initialPage: 0); //TODO Save index in Shared Preferences
-    List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
-
     int activeScreenIndex = context.watch<PantryProvider>().shownScreenIndex;
 
-    void switchScreen(int newIndex) {
+    PageController pageController =
+        PageController(initialPage: activeScreenIndex);
+    List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
+
+    void switchScreen(int newIndex) async {
       Provider.of<PantryProvider>(context, listen: false)
           .switchActiveScreen(newIndex);
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setInt('Screen last opened', activeScreenIndex);
     }
 
     int activePantryIndex = context.watch<PantryProvider>().selectedPantryIndex;
@@ -100,7 +104,6 @@ class MainScreen extends StatelessWidget {
                           currentPantry: context
                               .watch<PantryProvider>()
                               .pantriesList[activePantryIndex]),
-                      //TODO Replace choice by index with choice through identity. Why again?
                       const ShoppingScreen(),
                       const ProfileScreen()
                     ]

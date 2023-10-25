@@ -1,6 +1,7 @@
 // import 'package:firebase_core/firebase_core.dart';
 // import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,23 +21,28 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  final int lastShownScreen = sharedPreferences.getInt('Last shown screen') ?? 0;
+
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => PantryProvider()),
+      ChangeNotifierProvider(create: (_) => PantryProvider(lastShownScreen)),
       ChangeNotifierProvider(
         create: (_) => AuthProviderRegistered(),
       )
     ],
     child: const SharedPantry(),
   ));
+
+
 }
 
 class SharedPantry extends StatelessWidget {
   const SharedPantry({super.key});
 
-
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
         title: 'Shared Pantry',
         theme: ThemeData(
@@ -50,7 +56,7 @@ class SharedPantry extends StatelessWidget {
               return const FirstStartupScreen();
             }
             else {
-              return MainScreen();
+              return const MainScreen();
             }
           },
         ),
@@ -59,7 +65,7 @@ class SharedPantry extends StatelessWidget {
         routes: {
           ProfileScreen.id: (context) => const ProfileScreen(),
           SignupScreen.id: (context) => const SignupScreen(),
-          MainScreen.id: (context) => MainScreen(),
+          MainScreen.id: (context) => const MainScreen(),
         });
   }
 }

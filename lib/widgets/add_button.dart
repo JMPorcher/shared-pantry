@@ -15,9 +15,11 @@ class AddButton extends StatelessWidget {
 
   const AddButton.pantry({
     super.key,
+    required this.pageController
   })  : currentCategoryList = const [],
         isCategoryButton = false;
 
+  final PageController pageController;
   final List<ItemCategory> currentCategoryList;
   final bool isCategoryButton;
 
@@ -32,7 +34,7 @@ class AddButton extends StatelessWidget {
             ));
 
     void showAddPantryDialog() => showDialog(
-        context: context, builder: (BuildContext context) => AddPantryDialog());
+        context: context, builder: (BuildContext context) => AddPantryDialog(pageC));
 
     return Container(
         width: double.infinity,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
+import 'package:shared_pantry/screens/no_categories_splash_screen.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
 import '../dialogs/edit_category_dialog.dart';
@@ -9,7 +10,7 @@ import '../widgets/add_button.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryScreen extends StatelessWidget {
-  const PantryScreen({required this.currentPantry, Key? key}) : super(key: key);
+  const PantryScreen({required this.currentPantry, super.key});
 
   final Pantry currentPantry;
   // final ValueNotifier<bool> showGradientShadow = ValueNotifier(false);
@@ -26,7 +27,10 @@ class PantryScreen extends StatelessWidget {
     //   }
     // });
 
-    return Column(
+    return currentCategoryList.isEmpty
+    //TODO Implement empty category screen so that add category button says "add (first) category" and PantryCard is shown at the top
+    ? NoCategoriesSplashScreen(currentCategoryList: currentCategoryList)
+    : Column(
         children: [
           SpCard.pantry(currentPantry, isSelected: false),
           Expanded(
@@ -69,4 +73,3 @@ class PantryScreen extends StatelessWidget {
       );
   }
 }
-//TODO Build splash for case of no categories.
