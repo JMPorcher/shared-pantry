@@ -18,7 +18,6 @@ class MainScreen extends StatelessWidget {
 
   static const String id = 'pantry screen';
 
-
   @override
   Widget build(BuildContext context) {
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
@@ -30,14 +29,14 @@ class MainScreen extends StatelessWidget {
     void switchScreen(int newIndex) async {
       pantryProvider.switchActiveScreen(newIndex);
       final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      sharedPreferences.setInt('Screen last opened', activeScreenIndex);
+      sharedPreferences.setInt('Last shown screen', activeScreenIndex);
     }
 
     List<Widget> buildPages() {
       if (pantryList.isNotEmpty) {
         return [
           const OverviewScreen(),
-          PantryScreen(currentPantryIndex: activePantryIndex),
+          const PantryScreen(), //currentPantry: (activePantryIndex < pantryList.length) ? pantryList[activePantryIndex] : pantryList[0]
           const ShoppingScreen(),
           const ProfileScreen(),
         ];

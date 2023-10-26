@@ -14,6 +14,7 @@ class AddPantryDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     titleTextController.text = pantryTitleValueNotifier.value;
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
+    final PageController pageController = context.watch<PantryProvider>().mainScreenPageController;
 
     //TODO Background image picker
     //
@@ -40,6 +41,7 @@ class AddPantryDialog extends StatelessWidget {
                       if (pantryTitle != '') {
                         pantryProvider.addPantryWithTitle(pantryTitle);
                         pantryProvider.switchPantry(pantryProvider.pantriesList.length-1);
+                        pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
                             //TODO Should add with background image
                             //TODO Should add with user name of founder ID, get ID from FirebaseAuth.instance.currentUser.uid
                             //TODO Should add with generated unique ID

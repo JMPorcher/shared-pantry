@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
-import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/widgets/no_categories_splash.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
@@ -13,18 +12,18 @@ import '../widgets/add_button.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryScreen extends StatelessWidget {
-  const PantryScreen({required this.currentPantryIndex, super.key});
-
-  final int currentPantryIndex;
+  const PantryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
-    final List<ItemCategory> currentCategoryList = pantryProvider.pantriesList[currentPantryIndex].categories;
+    final int currentPantryIndex = pantryProvider.selectedPantryIndex;
+    final Pantry currentPantry = pantryProvider.pantriesList[currentPantryIndex];
+    final List<ItemCategory> currentCategoryList = currentPantry.categories;
 
     return Column(
         children: [
-          SpCard.pantry(currentPantryIndex, isSelected: false),
+          SpCard.pantry(currentPantry, isSelected: false),
           Expanded(
             child: Column(
               children: [
