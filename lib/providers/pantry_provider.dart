@@ -9,6 +9,7 @@ import '../models/pantry.dart';
 class PantryProvider with ChangeNotifier {
   PantryProvider(this.lastShownScreen) {
       shownScreenIndex = lastShownScreen;
+      mainScreenPageController = PageController(initialPage: shownScreenIndex);
   }
 
   final List<ItemCategory> _categoriesList = [kTestCategory];
@@ -19,8 +20,11 @@ class PantryProvider with ChangeNotifier {
 
   int _selectedPantryIndex = 0;
   int get selectedPantryIndex => _selectedPantryIndex;
+
   final int lastShownScreen;
   int shownScreenIndex = 0;
+
+  late final PageController mainScreenPageController;
 
   //===========GENERAL FUNCTIONS===========
 

@@ -15,11 +15,8 @@ class AddButton extends StatelessWidget {
 
   const AddButton.pantry({
     super.key,
-    required this.pageController
   })  : currentCategoryList = const [],
         isCategoryButton = false;
-
-  final PageController pageController;
   final List<ItemCategory> currentCategoryList;
   final bool isCategoryButton;
 
@@ -34,7 +31,33 @@ class AddButton extends StatelessWidget {
             ));
 
     void showAddPantryDialog() => showDialog(
-        context: context, builder: (BuildContext context) => AddPantryDialog(pageC));
+        context: context, builder: (BuildContext context) => AddPantryDialog());
+
+    MaterialButton buildAddPantryButton() {
+      return MaterialButton(
+          onPressed: () => showAddPantryDialog(),
+          child: pantryList.isEmpty
+              ? const Text(
+            'Add your first pantry',
+            style: TextStyle(color: Colors.white),
+          )
+              : const Text(
+            'Add a pantry',
+            style: TextStyle(color: Colors.white),
+          ));
+    }
+
+    MaterialButton buildAddCategoryButton() {
+      return MaterialButton(
+          onPressed: () => showAddCategoryDialog(),
+          child: currentCategoryList.isEmpty
+              ? const Text(
+            'Add your first category',
+            style: TextStyle(color: Colors.white),
+          )
+              : const Text('Add new category',
+              style: TextStyle(color: Colors.white)));
+    }
 
     return Container(
         width: double.infinity,
@@ -50,25 +73,9 @@ class AddButton extends StatelessWidget {
                   blurRadius: 5)
             ]),
         child: isCategoryButton
-            ? MaterialButton(
-                onPressed: () => showAddCategoryDialog(),
-                child: currentCategoryList.isEmpty
-                    ? const Text(
-                        'Add your first category',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    : const Text('Add new category',
-                        style: TextStyle(color: Colors.white)))
-            : MaterialButton(
-                onPressed: () => showAddPantryDialog(),
-                child: pantryList.isEmpty
-                    ? const Text(
-                        'Add your first pantry',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    : const Text(
-                        'Add a pantry',
-                        style: TextStyle(color: Colors.white),
-                      )));
+            ? buildAddCategoryButton()
+            : buildAddPantryButton());
   }
+
+
 }

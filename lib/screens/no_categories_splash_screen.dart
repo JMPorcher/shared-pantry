@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_pantry/widgets/add_button.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
-import '../models/item_category.dart';
-
 class NoCategoriesSplashScreen extends StatelessWidget {
-  const NoCategoriesSplashScreen({super.key, required this.currentCategoryList});
+  const NoCategoriesSplashScreen({super.key});
 
-  final List<ItemCategory> currentCategoryList;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +41,6 @@ class NoCategoriesSplashScreen extends StatelessWidget {
           ]),
         ),
       ),
-      AddButton.category(currentCategoryList: currentCategoryList)
     ]);
   }
 }

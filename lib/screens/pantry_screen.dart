@@ -13,32 +13,21 @@ class PantryScreen extends StatelessWidget {
   const PantryScreen({required this.currentPantry, super.key});
 
   final Pantry currentPantry;
-  // final ValueNotifier<bool> showGradientShadow = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
     final List<ItemCategory> currentCategoryList = currentPantry.categories;
-    final ScrollController scrollController = ScrollController();
-    // scrollController.addListener(() {
-    //   if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-    //     showGradientShadow.value = false;
-    //   } else {
-    //     showGradientShadow.value = true;
-    //   }
-    // });
 
-    return currentCategoryList.isEmpty
-    //TODO Implement empty category screen so that add category button says "add (first) category" and PantryCard is shown at the top
-    ? NoCategoriesSplashScreen(currentCategoryList: currentCategoryList)
-    : Column(
+    return Column(
         children: [
           SpCard.pantry(currentPantry, isSelected: false),
           Expanded(
             child: Column(
               children: [
-                Expanded(
-                  child: ListView.builder(
-                    controller: scrollController,
+               Expanded(
+                  child:  currentCategoryList.isEmpty
+                ? const NoCategoriesSplashScreen()
+                : ListView.builder(
                     shrinkWrap: true,
                     itemCount: currentCategoryList.length,
                     itemBuilder: (context, index) {
