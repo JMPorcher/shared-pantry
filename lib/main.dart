@@ -23,10 +23,11 @@ void main() async {
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   final int lastShownScreen = sharedPreferences.getInt('Last shown screen') ?? 0;
+  final int lastShownPantryIndex = sharedPreferences.getInt('Last shown pantry') ?? 0;
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => PantryProvider(lastShownScreen)),
+      ChangeNotifierProvider(create: (_) => PantryProvider(lastShownScreen, lastShownPantryIndex)),
       ChangeNotifierProvider(
         create: (_) => AuthProviderRegistered(),
       )

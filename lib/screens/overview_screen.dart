@@ -23,7 +23,7 @@ class OverviewScreen extends StatelessWidget {
                 itemCount: pantryList.length + 1,
                 itemBuilder: (_, index) {
                   if (index < pantryList.length) {
-                    Pantry currentPantry = pantryList[index];
+                    int currentPantryIndex = index;
                     return GestureDetector(
                         onTap: () {
                           pantryProvider.switchPantry(index);
@@ -35,7 +35,7 @@ class OverviewScreen extends StatelessWidget {
                         onLongPress: () {
                           pantryProvider.removePantryByIndex(index);
                         },
-                        child: SpCard.pantry(currentPantry,
+                        child: SpCard.pantry(currentPantryIndex,
                             isSelected:
                             index == pantryProvider.selectedPantryIndex));
                   } else {

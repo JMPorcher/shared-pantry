@@ -31,12 +31,12 @@ List<Item> kTestList2 = [
 ];
 
 ItemCategory kTestCategory3 = ItemCategory(
-    'Putzmittel',
-    items: kTestList2
+    'Eisenwaren',
+    items: kTestList3
 );
 
 List<Item> kTestList3 = [
-  Item('Äxte', isAvailable: false),
+  Item('So viele Äxte, dass es schwierig wird zu erklären', isAvailable: false),
   Item('Nägel', isAvailable: false),
   Item('Hammer', isAvailable: true),
 ];

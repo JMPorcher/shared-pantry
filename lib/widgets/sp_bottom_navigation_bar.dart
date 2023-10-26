@@ -18,10 +18,13 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      selectedFontSize: 0,
+      unselectedFontSize: 0,
+      iconSize: 30,
       type: BottomNavigationBarType.fixed,
         items: widget.items.map((item) {
             return BottomNavigationBarItem(
-                label: item.label,
+              label: '',
                 icon: item.active ? item.activatedIcon : item.deactivatedIcon,
               activeIcon: item.selectedIcon
             );
@@ -38,7 +41,6 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
 }
 
 class SpBottomNavigationBarItem {
-  final String label;
   final Icon activatedIcon;
   final Icon deactivatedIcon;
   final Icon selectedIcon;
@@ -46,7 +48,6 @@ class SpBottomNavigationBarItem {
   final bool active;
 
   SpBottomNavigationBarItem( {
-    required this.label,
     required this.activatedIcon,
     required this.deactivatedIcon,
     required this.selectedIcon,

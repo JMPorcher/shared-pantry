@@ -7,8 +7,10 @@ import '../models/item.dart';
 import '../models/pantry.dart';
 
 class PantryProvider with ChangeNotifier {
-  PantryProvider(this.lastShownScreen) {
+
+  PantryProvider(this.lastShownScreen, this.lastShownPantryIndex) {
       shownScreenIndex = lastShownScreen;
+      _selectedPantryIndex = lastShownPantryIndex;
       mainScreenPageController = PageController(initialPage: shownScreenIndex);
   }
 
@@ -18,6 +20,7 @@ class PantryProvider with ChangeNotifier {
   final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2, kTestPantry3];
   List<Pantry> get pantriesList => _pantriesList;
 
+  final int lastShownPantryIndex;
   int _selectedPantryIndex = 0;
   int get selectedPantryIndex => _selectedPantryIndex;
 
@@ -53,8 +56,10 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void switchPantry(int newIndex) {
+  void switchPantry(int newIndex) async {
     _selectedPantryIndex = newIndex;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setInt('Last shown pantry', newIndex);
     notifyListeners();
   }
 

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
-import 'package:shared_pantry/screens/no_pantries_splash_screen.dart';
+import 'package:shared_pantry/widgets/no_pantries_splash.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,8 +28,7 @@ class MainScreen extends StatelessWidget {
     final int activePantryIndex = pantryProvider.selectedPantryIndex;
 
     void switchScreen(int newIndex) async {
-      Provider.of<PantryProvider>(context, listen: false)
-          .switchActiveScreen(newIndex);
+      pantryProvider.switchActiveScreen(newIndex);
       final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       sharedPreferences.setInt('Screen last opened', activeScreenIndex);
     }
@@ -38,7 +37,7 @@ class MainScreen extends StatelessWidget {
       if (pantryList.isNotEmpty) {
         return [
           const OverviewScreen(),
-          PantryScreen(currentPantry: pantryList[activePantryIndex]),
+          PantryScreen(currentPantryIndex: activePantryIndex),
           const ShoppingScreen(),
           const ProfileScreen(),
         ];
@@ -54,30 +53,26 @@ class MainScreen extends StatelessWidget {
       return SpBottomNavigationBar(
         items: [
           SpBottomNavigationBarItem(
-              label: 'lol',
               activatedIcon: const Icon(Icons.home_outlined),
               deactivatedIcon: const Icon(Icons.home_outlined),
               active: true,
               activeIconColor: kColor4,
               selectedIcon: const Icon(Icons.home_filled)),
           SpBottomNavigationBarItem(
-              label: 'lol',
               activatedIcon: const Icon(Icons.summarize_outlined),
               deactivatedIcon: Icon(Icons.summarize_outlined,
-                  color: Colors.grey.shade700),
+                  color: Colors.grey.shade700, size: 24),
               active: pantryList.isNotEmpty,
               activeIconColor: kColor4,
               selectedIcon: const Icon(Icons.summarize)),
           SpBottomNavigationBarItem(
-              label: 'lol',
               activatedIcon: const Icon(Icons.shopping_cart_outlined),
               deactivatedIcon: Icon(Icons.shopping_cart_outlined,
-                  color: Colors.grey.shade700),
+                  color: Colors.grey.shade700, size: 24),
               activeIconColor: kColor3,
               active: pantryList.isNotEmpty,
               selectedIcon: const Icon(Icons.shopping_cart)),
           SpBottomNavigationBarItem(
-              label: 'lol',
               activatedIcon: const Icon(
                 Icons.account_circle_outlined,
               ),
