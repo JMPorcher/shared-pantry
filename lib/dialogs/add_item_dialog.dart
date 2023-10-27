@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/item.dart';
 import '../providers/pantry_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddItemDialog extends StatelessWidget {
-  AddItemDialog({required this.currentItemList, super.key});
+  const AddItemDialog({required this.currentItemList, super.key});
 
   final List<Item> currentItemList;
 
@@ -24,6 +25,7 @@ class AddItemDialog extends StatelessWidget {
             children: [
               TextField(
                 controller: titleTextController,
+                inputFormatters: [LengthLimitingTextInputFormatter(90)],
                 autofocus: true,
               ),
               Row(
@@ -56,6 +58,7 @@ class AddItemDialog extends StatelessWidget {
                   if (itemTitle != '') {
                     context.read<PantryProvider>().addItem(currentItemList, Item(itemTitle, isAvailable: isInStock.value));
                     Navigator.pop(context);
+                    //TODO Limit item title to 90
                   }
                 },
                 child: const Text('Add'))

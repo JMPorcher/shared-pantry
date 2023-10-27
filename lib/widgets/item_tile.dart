@@ -20,7 +20,7 @@ class ItemTile extends StatelessWidget {
     return Container(
       color: kColor1,
       child: ListTile(
-        leading: Text(itemTitle),
+        leading: SizedBox(width: 280, child: Text(itemTitle)),
         trailing: CupertinoSwitch(
           activeColor: kColor6,
           trackColor: kColor61,

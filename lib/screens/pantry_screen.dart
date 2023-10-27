@@ -24,6 +24,7 @@ class PantryScreen extends StatelessWidget {
     return Column(
         children: [
           SpCard.pantry(currentPantry, isSelected: false),
+          //TODO Replace card with whole width widget, possibly SliverAppBar
           Expanded(
             child: Column(
               children: [

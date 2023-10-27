@@ -35,7 +35,7 @@ class AddButton extends StatelessWidget {
 
     MaterialButton buildAddPantryButton() {
       return MaterialButton(
-          onPressed: () => showAddPantryDialog(),
+          onPressed: () => {},//showAddPantryDialog(),
           child: pantryList.isEmpty
               ? const Text(
             'Add your first pantry',
@@ -50,6 +50,7 @@ class AddButton extends StatelessWidget {
     MaterialButton buildAddCategoryButton() {
       return MaterialButton(
           onPressed: () => showAddCategoryDialog(),
+          splashColor: Colors.black,
           child: currentCategoryList.isEmpty
               ? const Text(
             'Add your first category',
@@ -61,7 +62,7 @@ class AddButton extends StatelessWidget {
 
     return Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
         margin: const EdgeInsets.only(top: 6, left: 20, right: 20, bottom: 20),
         decoration: BoxDecoration(
             color: kColor5,

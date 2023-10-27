@@ -36,7 +36,7 @@ ItemCategory kTestCategory3 = ItemCategory(
 );
 
 List<Item> kTestList3 = [
-  Item('So viele Äxte, dass es schwierig wird zu erklären', isAvailable: false),
+  Item('So viele Äxte, dass es langsam schwierig wird zu erklären', isAvailable: false),
   Item('Nägel', isAvailable: false),
   Item('Hammer', isAvailable: true),
 ];

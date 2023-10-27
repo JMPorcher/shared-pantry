@@ -17,6 +17,7 @@ class ShoppingScreen extends StatefulWidget {
 
 class _ShoppingScreenState extends State<ShoppingScreen> {
   List<Item> relevantItems = [];
+  List<Item> quickaddedItems = [];
 
   void filterItems(List<Pantry> pantryList) {
     relevantItems.clear();
@@ -31,12 +32,15 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
         }
       }
     }
+    relevantItems.addAll(quickaddedItems);
   }
 
   ListTile buildListTile(Item currentItem) {
     return ListTile(
       visualDensity: const VisualDensity(vertical: -4),
-      leading: Text(currentItem.title),
+      leading: SizedBox(
+          width: 240,
+          child: Text(currentItem.title)),
       trailing: Checkbox(
         value: currentItem.isAvailable,
         onChanged: (bool? value) {
@@ -78,22 +82,20 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
       );
     }
 
-    SingleChildScrollView buildCheckboxList() {
-      return SingleChildScrollView(
-        child: SizedBox(
-            width: double.maxFinite,
-            height: (relevantItems.length + 1) * 60 <= 400
-                ? 400
-                : relevantItems.length * 60,
-            child: ListView.builder(
-              itemCount: relevantItems.length + 1,
-              itemBuilder: (_, index) {
-                return (index < relevantItems.length && relevantItems.isNotEmpty)
-                    ? buildListTile(relevantItems[index])
-                : const Text('Quick add goes here');//ShoppingItemQuickAdd();
-              },
-            )),
-      );
+    SizedBox buildCheckboxList() {
+      return SizedBox(
+          width: double.maxFinite,
+          height: (relevantItems.length + 1) * 60 <= 400
+              ? 400
+              : relevantItems.length * 60,
+          child: ListView.builder(
+            itemCount: relevantItems.length + 1,
+            itemBuilder: (_, index) {
+              return (index < relevantItems.length && relevantItems.isNotEmpty)
+                  ? buildListTile(relevantItems[index])
+              : ShoppingItemQuickAdd(quickaddedItems, filterItems); //Text('Quick add goes here');
+            },
+          ));
     }
 
     return SingleChildScrollView(

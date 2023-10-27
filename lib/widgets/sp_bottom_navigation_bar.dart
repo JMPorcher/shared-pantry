@@ -34,7 +34,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
       elevation: 8,
       backgroundColor: kColor51, // Customize as needed
       unselectedItemColor: kColor1, // Customize as needed
-      selectedItemColor: kColor4, // Customize as needed
+      selectedItemColor: kColor3, // Customize as needed
     );
 
   }
