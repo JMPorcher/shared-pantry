@@ -34,8 +34,6 @@ class EditCategoryDialog extends StatelessWidget {
               IconButton(
                   onPressed: () {
                     if (categoryTitleTextController.text.isNotEmpty) {
-                      print('Sending title ${categoryTitleTextController.text}');
-
                         context
                             .read<PantryProvider>()
                             .editCategoryName(itemCategory, categoryTitleTextController.text);

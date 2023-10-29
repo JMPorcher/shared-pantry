@@ -24,7 +24,6 @@ class MainScreen extends StatelessWidget {
     final int activeScreenIndex = pantryProvider.shownScreenIndex;
     final PageController pageController = pantryProvider.mainScreenPageController;
     final List<Pantry> pantryList = pantryProvider.pantriesList;
-    final int activePantryIndex = pantryProvider.selectedPantryIndex;
 
     void switchScreen(int newIndex) async {
       pantryProvider.switchActiveScreen(newIndex);

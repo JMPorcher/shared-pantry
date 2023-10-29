@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_pantry/providers/pantry_provider.dart';
 
 import '../constants.dart';
-import '../models/pantry.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
   //TODO add User to constructor. User has to have name, avatar and e-mail
 
   static const String id = 'profile';
 
   @override
   Widget build(BuildContext context) {
-    final List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
 
     return Scaffold(
       backgroundColor: kColor3,

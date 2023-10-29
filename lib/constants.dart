@@ -4,7 +4,7 @@ import 'package:shared_pantry/models/item_category.dart';
 import 'models/item.dart';
 import 'models/pantry.dart';
 
-Pantry kTestPantry = Pantry(title: 'Persönlich', categories: [kTestCategory, kTestCategory2, kTestCategory]);
+Pantry kTestPantry = Pantry(title: 'Persönlich', categories: [kTestCategory, kTestCategory2, kTestCategory4]);
 Pantry kTestPantry2 = Pantry(title: 'WG', categories: [kTestCategory2]);
 Pantry kTestPantry3 = Pantry(title: 'Werkzeug', categories: [kTestCategory3]);
 
@@ -39,6 +39,28 @@ List<Item> kTestList3 = [
   Item('So viele Äxte, dass es langsam schwierig wird zu erklären', isAvailable: false),
   Item('Nägel', isAvailable: false),
   Item('Hammer', isAvailable: true),
+];
+
+ItemCategory kTestCategory4 = ItemCategory(
+    'Kohlenhydrate',
+    items: kTestList4
+);
+
+List<Item> kTestList4 = [
+  Item('Nuddeln', isAvailable: false),
+  Item('Reis', isAvailable: false),
+  Item('Kartoffeln', isAvailable: true),
+];
+
+ItemCategory kTestCategory5 = ItemCategory(
+    'Schreibwaren',
+    items: kTestList5
+);
+
+List<Item> kTestList5 = [
+  Item('Briefumschläge DIN lang', isAvailable: false),
+  Item('Briefmarken 0,85', isAvailable: false),
+  Item('Tackernadeln', isAvailable: true),
 ];
 
 

@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
@@ -12,7 +12,7 @@ class FirstStartupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth auth = FirebaseAuth.instance;
+    //FirebaseAuth auth = FirebaseAuth.instance;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -50,7 +50,7 @@ class FirstStartupScreen extends StatelessWidget {
                     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
                     sharedPreferences.setBool('user is not registered', true);
                   } catch (e) {
-                    print(e);
+                    //print(e);
                   }
                 },
                 child: const Padding(
