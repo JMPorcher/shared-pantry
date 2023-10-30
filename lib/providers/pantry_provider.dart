@@ -38,6 +38,10 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateState() {
+    notifyListeners();
+  }
+
   // ===========PANTRY FUNCTIONS===========
   int addPantryWithTitle(String title) {
     _pantriesList.add(Pantry(title: title));

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
+import 'package:shared_pantry/widgets/add_button.dart';
 
 import '../models/item.dart';
 
@@ -17,7 +18,8 @@ class QuickaddItemDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     titleTextController.text = categoryTitleValueNotifier.value;
-    final pantryList = context.watch<PantryProvider>().pantriesList;
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
+    final pantryList = pantryProvider.pantriesList;
 
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -25,15 +27,16 @@ class QuickaddItemDialog extends StatelessWidget {
         children: [
           AlertDialog(
               content: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  TextButton(
-                      onPressed: () {}, child: const Text('Save to a pantry')),
+                  const AddButton.quickadd(),
                   //TODO find a design for pantry and category chooser
                   const SizedBox(width: 16),
                   TextButton(
                       onPressed: () {
                         quickaddedItems.add(Item(title));
                         filterItems(pantryList);
+                        pantryProvider.updateState();
                         Navigator.pop(context);
                       },
                       child: const Text('Just to shopping list')),

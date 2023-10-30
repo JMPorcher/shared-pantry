@@ -4,7 +4,7 @@ import 'package:shared_pantry/models/item_category.dart';
 import 'models/item.dart';
 import 'models/pantry.dart';
 
-Pantry kTestPantry = Pantry(title: 'Persönlich', categories: [kTestCategory, kTestCategory2, kTestCategory4]);
+Pantry kTestPantry = Pantry(title: 'Persönlich', categories: [kTestCategory, kTestCategory4, kTestCategory5]);
 Pantry kTestPantry2 = Pantry(title: 'WG', categories: [kTestCategory2]);
 Pantry kTestPantry3 = Pantry(title: 'Werkzeug', categories: [kTestCategory3]);
 
@@ -74,4 +74,5 @@ const Color kColor5 = Color(0xFF50808E);
 const Color kColor51 = Color(0xFF2D4850);
 const Color kColor6 = Color(0xFF9E7682);
 const Color kColor61 = Color(0xFFd8c8cd);
+const Color kColor7 = Color(0xFF96afb8);
 

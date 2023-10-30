@@ -4,7 +4,6 @@ import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/widgets/shopping_item_quickadd_view.dart';
 
 import '../models/item.dart';
-import '../models/item_category.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
@@ -21,33 +20,28 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
 
   void filterItems(List<Pantry> pantryList) {
     relevantItems.clear();
-    for (Pantry pantry in pantryList) {
-      if (pantry.selectedForShopping) {
-        for (ItemCategory category in pantry.categories) {
-          for (Item item in category.items) {
-            if (!item.isAvailable) {
-              relevantItems.add(item);
-            }
-          }
-        }
-      }
-    }
+    pantryList.where((pantry) => pantry.selectedForShopping).forEach((pantry) {
+      relevantItems.addAll(pantry.categories.expand(
+          (category) => category.items.where((item) => !item.isAvailable)));
+    });
     relevantItems.addAll(quickaddedItems);
   }
 
   ListTile buildListTile(Item currentItem) {
     return ListTile(
       visualDensity: const VisualDensity(vertical: -4),
-      leading: SizedBox(
-          width: 240,
-          child: Text(currentItem.title)),
+      leading: SizedBox(width: 240, child: Text(currentItem.title)),
       trailing: Checkbox(
         value: currentItem.isAvailable,
         onChanged: (bool? value) {
           setState(() {
-            context
-                .read<PantryProvider>()
-                .toggleItemAvailability(currentItem);
+            if (quickaddedItems.contains(currentItem)) {
+              quickaddedItems.remove(currentItem);
+            } else {
+              context
+                  .read<PantryProvider>()
+                  .toggleItemAvailability(currentItem);
+            }
           });
         },
       ),
@@ -56,7 +50,8 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Pantry> pantryList = context.watch<PantryProvider>().pantriesList;
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
+    final List<Pantry> pantryList = pantryProvider.pantriesList;
     filterItems(pantryList);
 
     SizedBox buildPantrySwitchList() {
@@ -75,7 +70,8 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                     thumbColor: MaterialStateProperty.all(kColor6),
                     trackColor: MaterialStateProperty.all(kColor61),
                     onChanged: (newValue) {
-                      context.read<PantryProvider>().switchPantrySelectedForShopping(currentPantry, newValue);
+                      pantryProvider.switchPantrySelectedForShopping(
+                          currentPantry, newValue);
                     }),
               );
             }),
@@ -85,33 +81,38 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     SizedBox buildCheckboxList() {
       return SizedBox(
           width: double.maxFinite,
-          height: (relevantItems.length + 1) * 60 <= 400
+          height: (relevantItems.length + 1) * 50 <= 400
               ? 400
               : relevantItems.length * 60,
           child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: relevantItems.length + 1,
             itemBuilder: (_, index) {
               return (index < relevantItems.length && relevantItems.isNotEmpty)
                   ? buildListTile(relevantItems[index])
-              : ShoppingItemQuickAdd(quickaddedItems, filterItems); //Text('Quick add goes here');
+                  : ShoppingItemQuickAdd(quickaddedItems,
+                      filterItems); //Text('Quick add goes here');
             },
           ));
     }
 
     return SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-      children: [
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        children: [
           buildPantrySwitchList(),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
             child: Divider(thickness: 2),
           ),
-          buildCheckboxList()
-      ],
-    ),
-        ));
+          Consumer<PantryProvider>(builder: (context, pantryProvider, child) {
+            filterItems(pantryList);
+            return buildCheckboxList();
+          })
+        ],
+      ),
+    ));
   }
 }
 

@@ -8,17 +8,23 @@ import '../dialogs/add_pantry_dialog.dart';
 import '../models/item_category.dart';
 
 class AddButton extends StatelessWidget {
+  const AddButton.quickadd(
+      {super.key}) :  currentCategoryList = const [],
+        buttonType = ButtonType.quickaddItem;
+
   const AddButton.category({
     super.key,
     required this.currentCategoryList,
-  }) : isCategoryButton = true;
+  })  : buttonType = ButtonType.category;
 
   const AddButton.pantry({
     super.key,
   })  : currentCategoryList = const [],
-        isCategoryButton = false;
-  final List<ItemCategory> currentCategoryList;
-  final bool isCategoryButton;
+        buttonType = ButtonType.pantry;
+
+
+  final ButtonType buttonType;
+  final List<ItemCategory>? currentCategoryList;
 
   @override
   Widget build(BuildContext context) {
@@ -27,37 +33,45 @@ class AddButton extends StatelessWidget {
     void showAddCategoryDialog() => showDialog(
         context: context,
         builder: (BuildContext context) => AddCategoryDialog(
-              currentCategoryList: currentCategoryList,
+              currentCategoryList: currentCategoryList ?? [],
             ));
 
     void showAddPantryDialog() => showDialog(
         context: context, builder: (BuildContext context) => AddPantryDialog());
 
     MaterialButton buildAddPantryButton() {
+      final String label =
+          pantryList.isEmpty ? 'Add your first pantry' : 'Add a pantry';
+
       return MaterialButton(
-          onPressed: () => {},//showAddPantryDialog(),
-          child: pantryList.isEmpty
-              ? const Text(
-            'Add your first pantry',
-            style: TextStyle(color: Colors.white),
-          )
-              : const Text(
-            'Add a pantry',
-            style: TextStyle(color: Colors.white),
+          onPressed: () => {showAddPantryDialog()},
+          child: Text(
+            label,
+            style: const TextStyle(color: Colors.white),
           ));
     }
 
     MaterialButton buildAddCategoryButton() {
+      final String label =
+          pantryList.isEmpty ? 'Add your first category' : 'Add new category';
+
       return MaterialButton(
           onPressed: () => showAddCategoryDialog(),
-          splashColor: Colors.black,
-          child: currentCategoryList.isEmpty
-              ? const Text(
-            'Add your first category',
+          child: Text(
+            label,
+            style: const TextStyle(color: Colors.white),
+          ));
+    }
+
+    MaterialButton buildQuickaddButton() {
+      const String label = 'Working on this';
+
+      return MaterialButton(
+          onPressed: () {},
+          child: const Text(
+            label,
             style: TextStyle(color: Colors.white),
-          )
-              : const Text('Add new category',
-              style: TextStyle(color: Colors.white)));
+          ));
     }
 
     return Container(
@@ -73,10 +87,13 @@ class AddButton extends StatelessWidget {
                   blurStyle: BlurStyle.normal,
                   blurRadius: 5)
             ]),
-        child: isCategoryButton
+        child: buttonType == ButtonType.pantry
+        ? buildAddPantryButton()
+        : buttonType == ButtonType.category
             ? buildAddCategoryButton()
-            : buildAddPantryButton());
+            : buildQuickaddButton()
+    );
   }
-
-
 }
+
+enum ButtonType { pantry, category, quickaddItem }
