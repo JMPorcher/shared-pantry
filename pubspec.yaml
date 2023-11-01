@@ -19,6 +19,7 @@ dependencies:
   loop_page_view: ^1.2.1
   firebase_auth: ^4.7.2
   shared_preferences: ^2.2.0
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/widgets/add_button.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
+import '../dialogs/add_pantry_dialog.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
@@ -43,7 +44,11 @@ class OverviewScreen extends StatelessWidget {
                   }
                 } ),
           ),
-          const AddButton.pantry()
+          SpButton(
+            label: 'Start your first pantry',
+            onTap: () {
+              showDialog(context: context, builder: (BuildContext context) => AddPantryDialog());
+            },)
         ]);
   }
 }

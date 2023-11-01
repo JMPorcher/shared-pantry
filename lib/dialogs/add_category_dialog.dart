@@ -5,7 +5,7 @@ import '../models/item_category.dart';
 import '../providers/pantry_provider.dart';
 
 class AddCategoryDialog extends StatelessWidget {
-    AddCategoryDialog({required this.currentCategoryList, super.key, });
+    AddCategoryDialog(this.currentCategoryList, { super.key, });
 
     final List<ItemCategory> currentCategoryList;
 

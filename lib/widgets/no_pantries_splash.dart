@@ -3,11 +3,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_pantry/widgets/add_button.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
+import '../dialogs/add_pantry_dialog.dart';
+
 class NoPantriesSplashScreen extends StatelessWidget {
   const NoPantriesSplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -41,7 +45,12 @@ class NoPantriesSplashScreen extends StatelessWidget {
           ]),
         ),
       ),
-      const AddButton.pantry()
+      SpButton(
+        label: 'Start your first pantry',
+        onTap: () {
+          showDialog(context: context, builder: (BuildContext context) => AddPantryDialog());
+        },)
     ]);
   }
+
 }

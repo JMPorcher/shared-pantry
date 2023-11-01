@@ -6,6 +6,7 @@ import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/widgets/no_categories_splash.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
+import '../dialogs/add_category_dialog.dart';
 import '../dialogs/edit_category_dialog.dart';
 import '../models/pantry.dart';
 import '../widgets/add_button.dart';
@@ -58,7 +59,14 @@ class PantryScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                SpButton.category(currentCategoryList: currentCategoryList),
+                SpButton(
+                  label: currentCategoryList.isEmpty
+                  ? 'Add your first category'
+                  : 'Add a category',
+                  onTap: () {
+                    showDialog(context: context, builder: (BuildContext context) => AddCategoryDialog(currentCategoryList));
+                    print('Button pressed');
+                  },),
               ],
             ),
           )
