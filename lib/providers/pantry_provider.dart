@@ -103,13 +103,13 @@ class PantryProvider with ChangeNotifier {
   }
 
   //===========ITEM FUNCTIONS===========
-  void addItem(List<Item> itemCategory, Item item) {
+  void addItem(ItemCategory itemCategory, Item item) {
     itemCategory.add(item);
     notifyListeners();
   }
 
-  void removeItem(List<Item> itemList, Item item) {
-    itemList.remove(item);
+  void removeItem(ItemCategory itemCategory, Item item) {
+    itemCategory.remove(item);
     notifyListeners();
   }
 

@@ -58,7 +58,7 @@ class PantryScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                AddButton.category(currentCategoryList: currentCategoryList),
+                SpButton.category(currentCategoryList: currentCategoryList),
               ],
             ),
           )

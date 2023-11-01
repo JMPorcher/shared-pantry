@@ -5,30 +5,41 @@ import 'package:shared_pantry/providers/pantry_provider.dart';
 import '../constants.dart';
 import '../dialogs/add_category_dialog.dart';
 import '../dialogs/add_pantry_dialog.dart';
+import '../models/item.dart';
 import '../models/item_category.dart';
 
-class AddButton extends StatelessWidget {
-  const AddButton.quickadd(
-      {super.key}) :  currentCategoryList = const [],
+class SpButton extends StatelessWidget {
+  const SpButton(this.buttonType, this.currentCategoryList, this.itemCategory, this.newItem);
+
+  const SpButton.quickadd(
+      {super.key, required this.itemCategory, required this.newItem}) :  currentCategoryList = const [],
         buttonType = ButtonType.quickaddItem;
 
-  const AddButton.category({
+  const SpButton.category({
     super.key,
     required this.currentCategoryList,
-  })  : buttonType = ButtonType.category;
+  })  : buttonType = ButtonType.category,
+        itemCategory = null,
+        newItem = null;
 
-  const AddButton.pantry({
+  const SpButton.pantry({
     super.key,
   })  : currentCategoryList = const [],
-        buttonType = ButtonType.pantry;
+        buttonType = ButtonType.pantry,
+  itemCategory = null,
+        newItem = null
+  ;
 
 
   final ButtonType buttonType;
   final List<ItemCategory>? currentCategoryList;
+  final ItemCategory? itemCategory;
+  final Item? newItem;
 
   @override
   Widget build(BuildContext context) {
-    final pantryList = context.watch<PantryProvider>().pantriesList;
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
+    final pantryList = pantryProvider.pantriesList;
 
     void showAddCategoryDialog() => showDialog(
         context: context,
@@ -39,10 +50,10 @@ class AddButton extends StatelessWidget {
     void showAddPantryDialog() => showDialog(
         context: context, builder: (BuildContext context) => AddPantryDialog());
 
+
     MaterialButton buildAddPantryButton() {
       final String label =
           pantryList.isEmpty ? 'Add your first pantry' : 'Add a pantry';
-
       return MaterialButton(
           onPressed: () => {showAddPantryDialog()},
           child: Text(
@@ -54,7 +65,6 @@ class AddButton extends StatelessWidget {
     MaterialButton buildAddCategoryButton() {
       final String label =
           pantryList.isEmpty ? 'Add your first category' : 'Add new category';
-
       return MaterialButton(
           onPressed: () => showAddCategoryDialog(),
           child: Text(
@@ -63,11 +73,15 @@ class AddButton extends StatelessWidget {
           ));
     }
 
-    MaterialButton buildQuickaddButton() {
-      const String label = 'Working on this';
-
+    MaterialButton buildQuickaddButton(ItemCategory? category, Item? newItem) {
+      const String label = 'Add to pantry';
       return MaterialButton(
-          onPressed: () {},
+          onPressed: () {
+            if (category != null && newItem != null) {
+              pantryProvider.addItem(category, newItem);
+              Navigator.pop(context);
+            }
+          },
           child: const Text(
             label,
             style: TextStyle(color: Colors.white),
@@ -91,7 +105,7 @@ class AddButton extends StatelessWidget {
         ? buildAddPantryButton()
         : buttonType == ButtonType.category
             ? buildAddCategoryButton()
-            : buildQuickaddButton()
+            : buildQuickaddButton(itemCategory, newItem)
     );
   }
 }

@@ -8,6 +8,14 @@ class ItemCategory {
   bool isExpanded = false;
   List<Item> items;
 
+  void add(Item item) {
+    items.add(item);
+  }
+
+  void remove(Item item) {
+    items.remove(item);
+  }
+
   void toggleExpanded() {
     isExpanded = !isExpanded;
   }

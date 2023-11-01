@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/models/item_category.dart';
 
 import '../dialogs/add_item_dialog.dart';
 import '../models/item.dart';
@@ -10,14 +11,14 @@ class CategoryView extends StatelessWidget {
   const CategoryView({required this.itemList, Key? key})
       : super(key: key);
 
-  final List<Item> itemList;
+  final ItemCategory itemList;
 
   @override
   Widget build(BuildContext context) {
 
     return Column(
       children: [
-        for (var currentItem in itemList)
+        for (var currentItem in itemList.items)
           Dismissible(
             direction: DismissDirection.endToStart,
             onDismissed: (_) {
@@ -39,7 +40,7 @@ class CategoryView extends StatelessWidget {
             onPressed: () => showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    AddItemDialog(currentItemList: itemList)),
+                    AddItemDialog(currentCategory: itemList)),
             child: const Text('Add item')
         ),
         // Button that adds an item to a category

@@ -39,7 +39,7 @@ class CategoryExpansionTile extends StatelessWidget {
         backgroundColor: kColor11,
         collapsedBackgroundColor: kColor11,
         children: [
-          CategoryView(itemList: currentCategory.items)
+          CategoryView(itemList: currentCategory)
         ],
       ),
     );

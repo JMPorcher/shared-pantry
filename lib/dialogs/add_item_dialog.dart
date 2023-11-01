@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_pantry/models/item_category.dart';
 import '../models/item.dart';
 import '../providers/pantry_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddItemDialog extends StatelessWidget {
-  const AddItemDialog({required this.currentItemList, super.key});
+  const AddItemDialog({required this.currentCategory, super.key});
 
-  final List<Item> currentItemList;
+  final ItemCategory currentCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class AddItemDialog extends StatelessWidget {
                 onPressed: () {
                   final String itemTitle = titleTextController.text;
                   if (itemTitle != '') {
-                    context.read<PantryProvider>().addItem(currentItemList, Item(itemTitle, isAvailable: isInStock.value));
+                    context.read<PantryProvider>().addItem(currentCategory, Item(itemTitle, isAvailable: isInStock.value));
                     Navigator.pop(context);
                     //TODO Limit item title to 90
                   }
