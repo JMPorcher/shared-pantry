@@ -27,8 +27,9 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     relevantItems.addAll(quickaddedItems);
   }
 
-  ListTile buildListTile(Item currentItem) {
+  ListTile buildListTile(Item currentItem, Color backgroundColor) {
     return ListTile(
+        tileColor: backgroundColor,
       visualDensity: const VisualDensity(vertical: -4),
       leading: SizedBox(width: 240, child: Text(currentItem.title)),
       trailing: Checkbox(
@@ -62,7 +63,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
             itemCount: pantryList.length,
             itemExtent: 40,
             itemBuilder: (_, index) {
-              Pantry currentPantry = pantryList[index];
+              final Pantry currentPantry = pantryList[index];
               return ListTile(
                 leading: Text(currentPantry.title),
                 trailing: Switch(
@@ -88,10 +89,13 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: relevantItems.length + 1,
             itemBuilder: (_, index) {
+              final Color backgroundColor = index.isEven
+                  ? kColor1
+                  : kColor11.withOpacity(0.2);
               return (index < relevantItems.length && relevantItems.isNotEmpty)
-                  ? buildListTile(relevantItems[index])
+                  ? buildListTile(relevantItems[index], backgroundColor)
                   : ShoppingItemQuickAdd(quickaddedItems,
-                      filterItems); //Text('Quick add goes here');
+                      filterItems, backgroundColor); //Text('Quick add goes here');
             },
           ));
     }

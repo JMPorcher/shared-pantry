@@ -7,10 +7,11 @@ import '../models/item.dart';
 
 class ShoppingItemQuickAdd extends StatefulWidget {
 
-  const ShoppingItemQuickAdd(this.quickaddedItems, this.filterItems, {super.key});
+  const ShoppingItemQuickAdd(this.quickaddedItems, this.filterItems, this.backgroundColor, {super.key});
 
   final Function filterItems;
   final List<Item> quickaddedItems;
+  final Color backgroundColor;
 
   @override
   State<ShoppingItemQuickAdd> createState() => _ShoppingItemQuickAddState();
@@ -24,6 +25,8 @@ class _ShoppingItemQuickAddState extends State<ShoppingItemQuickAdd> {
 
   @override
   Widget build(BuildContext context) {
+    final Color backgroundColor = widget.backgroundColor;
+
     void showItemQuickAddDialog() => showDialog(
         context: context, builder: (BuildContext context) => QuickaddItemDialog(widget.quickaddedItems, textEditingController.text, widget.filterItems));
     textEditingController.text = itemTitleValueNotifier.value;
@@ -31,6 +34,7 @@ class _ShoppingItemQuickAddState extends State<ShoppingItemQuickAdd> {
     ValueNotifier<bool> fieldIsEmpty = ValueNotifier(true);
 
     return ListTile(
+      tileColor: backgroundColor,
       leading: SizedBox(
         width: 230,
         child: TextField(

@@ -30,6 +30,8 @@ class QuickaddItemDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const AddButton.quickadd(),
+                  
+
                   //TODO find a design for pantry and category chooser
                   const SizedBox(width: 16),
                   TextButton(
