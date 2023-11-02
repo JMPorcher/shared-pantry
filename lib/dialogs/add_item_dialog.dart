@@ -59,7 +59,6 @@ class AddItemDialog extends StatelessWidget {
                   if (itemTitle != '') {
                     context.read<PantryProvider>().addItem(currentCategory, Item(itemTitle, isAvailable: isInStock.value));
                     Navigator.pop(context);
-                    //TODO Limit item title to 90
                   }
                 },
                 child: const Text('Add'))

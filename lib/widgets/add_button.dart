@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class SpButton extends StatelessWidget {
-  const SpButton({super.key, required this.label, required this.onTap});
+  const SpButton({super.key, required this.child, required this.onTap});
   //TODO Clean up class so its specific function is sent through an onTap Function parameter instead of named constructors
 
   final Function onTap;
-  final String label;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,7 @@ class SpButton extends StatelessWidget {
             onPressed: () {
               onTap();
             },
-            child: Text(
-              label,
-              style: const TextStyle(color: Colors.white),
-            ))
+            child: child)
     );
   }
 

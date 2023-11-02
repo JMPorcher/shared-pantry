@@ -38,8 +38,11 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
     for (var pantry in pantryList) {
       pantryListTitles.add(pantry.title);
     }
-    final Function filterItems = widget.filterItems;
+
     final title = widget.title;
+
+    chosenPantry ??= pantryList[0];
+    chosenCategory ??= pantryList[0].categories[0];
 
     DropdownMenuItem<Pantry> buildPantryWidget(Pantry pantry) {
       return DropdownMenuItem(value: pantry, child: Text(pantry.title));
@@ -53,7 +56,6 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
       widget.quickaddedItems.add(Item(widget.title));
       widget.filterItems(pantryList);
       pantryProvider.updateState();
-      Navigator.pop(context);
     }
 
     return AlertDialog(
@@ -64,30 +66,33 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: FittedBox(
-                child: Text(
-                      'Add "$title"',
-                      maxLines: 2,
-                      style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold)
-                  ),
+                child: Text('Add "$title" to a Pantry?',
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black.withOpacity(0.7)
+                    )),
               ),
             ),
             Flexible(
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2, color: kColor4),
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                ),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                // decoration: BoxDecoration(
+                //   border: Border.all(width: 2, color: Colors.black.withOpacity(0.2)),
+                // ),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: 200,
+                      Container(
+                        color: kColor11,
+                        padding: const EdgeInsets.all(8),
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        width: double.infinity,
                         height: 50,
                         child: DropdownButton<Pantry>(
-                            hint: const Text('Choose pantry'),
                             value: chosenPantry,
                             items: pantryList
                                 .map((pantry) => buildPantryWidget(pantry))
@@ -95,45 +100,81 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
                             onChanged: (selectedPantry) {
                               setState(() {
                                 chosenPantry = selectedPantry;
+                                chosenCategory = selectedPantry?.categories[0];
                               });
-                            }),
+                            },
+                          dropdownColor: kColor11,
+                        ),
                       ),
-                      SizedBox(
-                        width: 200,
+                      Container(
+                        color: kColor11,
+                        padding: const EdgeInsets.all(8),
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        width: double.infinity,
                         height: 50,
                         child: DropdownButton<ItemCategory>(
-                            disabledHint: Text(
-                              'Choose pantry first',
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(0.2)
-                              ),
-                            ),
-                            hint: const Text('Choose category'),
                             value: chosenCategory,
                             items: chosenPantry?.categories
-                                .map((category) => buildCategoryWidget(category))
+                                .map(
+                                    (category) => buildCategoryWidget(category))
                                 .toList(),
                             onChanged: (selectedCategory) {
                               setState(() {
                                 chosenCategory = selectedCategory;
                               });
-                            }),
+                            },
+                          dropdownColor: kColor11,
+                        ),
                       ),
-                      SpButton(onTap: () {
-                        chosenCategory?.add(Item(title));
-                        addToShoppingList();
-                      }, label: 'Save to pantry'),
+                      SpButton(
+                          onTap: () {
+                            chosenCategory?.add(Item(title));
+                            addToShoppingList();
+                            Navigator.pop(context);
+                          },
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.summarize_outlined, color: Colors.white),
+                              Icon(Icons.add, color: Colors.white)
+                            ],
+                          )),
                     ],
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 40),
-            TextButton(
-                onPressed: () {
-                  addToShoppingList();
-                },
-                child: const Text('Just to shopping list')),
+            MaterialButton(
+              onPressed: () {
+                addToShoppingList();
+                Navigator.pop(context);
+              },
+              child:
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                        border:  Border.all(width: 1, color: kColor5),
+                        borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.5),
+                            offset: const Offset(3, 3),
+                            blurStyle: BlurStyle.normal,
+                            blurRadius: 5
+                        )
+                      ]
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
+                Text('Just to shopping list', style: TextStyle(color: Colors.black.withOpacity(0.7))),
+                const SizedBox(width: 8),
+                Icon(Icons.shopping_cart_checkout_outlined, size: 16, color: Colors.black.withOpacity(0.7))
+              ]),
+                  ),
+            ),
           ],
         ),
         actions: [
@@ -145,4 +186,3 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
         ]);
   }
 }
-//TODO Make a new provider for quickadd function

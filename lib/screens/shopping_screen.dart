@@ -119,5 +119,3 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     ));
   }
 }
-
-//TODO Add quickAdd textField to instantly add an item to the list that can be crossed off. Field has a button to add just to list or also to a pantry and to a category."

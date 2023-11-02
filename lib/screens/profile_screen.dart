@@ -4,7 +4,7 @@ import '../constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-  //TODO add User to constructor. User has to have name, avatar and e-mail
+  //gitTODO add User to constructor. User has to have name, avatar and e-mail
 
   static const String id = 'profile';
 

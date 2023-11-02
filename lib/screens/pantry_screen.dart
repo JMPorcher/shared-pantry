@@ -60,12 +60,11 @@ class PantryScreen extends StatelessWidget {
                   ),
                 ),
                 SpButton(
-                  label: currentCategoryList.isEmpty
-                  ? 'Add your first category'
-                  : 'Add a category',
+                  child: currentCategoryList.isEmpty
+                  ? const Text('Add your first category')
+                  : const Text('Add a category'),
                   onTap: () {
                     showDialog(context: context, builder: (BuildContext context) => AddCategoryDialog(currentCategoryList));
-                    print('Button pressed');
                   },),
               ],
             ),

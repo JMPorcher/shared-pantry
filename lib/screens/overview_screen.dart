@@ -45,7 +45,7 @@ class OverviewScreen extends StatelessWidget {
                 } ),
           ),
           SpButton(
-            label: 'Start your first pantry',
+            child: const Text('Start your first pantry'),
             onTap: () {
               showDialog(context: context, builder: (BuildContext context) => AddPantryDialog());
             },)
