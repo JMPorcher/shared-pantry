@@ -71,7 +71,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                     thumbColor: MaterialStateProperty.all(kColor6),
                     trackColor: MaterialStateProperty.all(kColor61),
                     onChanged: (newValue) {
-                      pantryProvider.switchPantrySelectedForShopping(
+                      pantryProvider.togglePantrySelectedForShopping(
                           currentPantry, newValue);
                     }),
               );

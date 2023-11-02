@@ -7,9 +7,8 @@ class Pantry {
       //TODO required String pantryId;
       //TODO required String(userId) founder
       //TODO optional SvgPicture backgroundImage = default_image_asset
-      //TODO selectedForShopping
 
-  //TODO: Add ID generator for pantries somewhere
+  //TODO: Add ID generator for pantries
 
   List<ItemCategory> categories = [];
   String title;
@@ -25,6 +24,10 @@ class Pantry {
     title = newTitle;
   }
 
-
+  bool _selectedForPushNotifications = true;
+  bool get selectedForPushNotifications => _selectedForPushNotifications;
+  void toggleSelectedForPushNotifications(bool newValue) {
+    _selectedForPushNotifications = newValue;
+  }
 
 }

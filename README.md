@@ -43,7 +43,17 @@ JSON Pantry Model
         {"item" : bool}
       ]     
     },
-  ]
+  ],
+  activityHistory: {
+    [
+        "timeStamp"  : {
+            {"user_id" : "item"}
+        },
+        "timeStamp"  : {
+            {"user_id" : "item"}
+        },
+    ]
+  }
 }
 
 JSON User Model
@@ -55,11 +65,13 @@ JSON User Model
    [
       {
          pantry_id: "uniquePantryId",
-         isSelected: bool
+         isSelectedForShopping: bool,
+         isSelectedForPushNotifications: bool
       },
       {
          pantry_id: "uniquePantryId",
-         isSelected: bool
+         isSelected: bool,
+         isSelectedForPushNotifications: bool
       },
    ]
 }

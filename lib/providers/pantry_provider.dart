@@ -67,8 +67,13 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void switchPantrySelectedForShopping(Pantry pantry, bool newValue){
+  void togglePantrySelectedForShopping(Pantry pantry, bool newValue){
     pantry.toggleSelectedForShopping(newValue);
+    notifyListeners();
+  }
+
+  void toggleSelectedForPushNotifications(Pantry pantry, bool newValue){
+    pantry.toggleSelectedForPushNotifications(newValue);
     notifyListeners();
   }
 
