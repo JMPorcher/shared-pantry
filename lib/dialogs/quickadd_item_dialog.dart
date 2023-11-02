@@ -121,8 +121,7 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
                       ),
                       SpButton(onTap: () {
                         chosenCategory?.add(Item(title));
-                        Navigator.pop(context);
-                        //addToShoppingList();
+                        addToShoppingList();
                       }, label: 'Save to pantry'),
                     ],
                   ),
