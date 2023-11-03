@@ -1,3 +1,7 @@
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class SharedPantryUser {
   SharedPantryUser(this.userName);
 
@@ -11,5 +15,12 @@ class SharedPantryUser {
   void editUserName(String newName) {
     userName = newName;
   }
+
+  String? _userID;
+  String? get userID => _userID;
+  void setUserId(DocumentReference documentReference) {
+    _userID = documentReference.id;
+  }
+  //TODO Analogously to pantryID use document ID of the User when it is created in firebase. Set the ID
 }
 
