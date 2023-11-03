@@ -41,7 +41,7 @@ class MainScreen extends StatelessWidget {
         ];
       } else {
         return [
-          const NoPantriesSplashScreen(),
+          const OverviewScreen(),
           const ProfileScreen(),
         ];
       }
