@@ -46,12 +46,13 @@ JSON Pantry Model
   ],
   activityHistory: {
     [
-        "timeStamp"  : {
-            {"user_id" : "item"}
-        },
-        "timeStamp"  : {
-            {"user_id" : "item"}
-        },
+      {
+        "time_stamp" : String
+        "user_id" : "item"
+      },
+        "time_stamp" : String
+        "user_id" : "item"
+      },
     ]
   }
 }
