@@ -30,7 +30,7 @@ class SpCard extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(cardText ?? pantry?.title ?? 'lol'),
+            child: Text(cardText ?? pantry?.title ?? 'No displayable string found'),
           ),
         ),
       ),
