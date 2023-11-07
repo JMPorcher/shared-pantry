@@ -18,47 +18,44 @@ class OverviewScreen extends StatelessWidget {
         pantryProvider.mainScreenPageController;
     List<Pantry> pantryList = pantryProvider.pantriesList;
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Expanded(
-            child: pantryList.isEmpty
-                ? const NoPantriesSplash()
-                : ListView.builder(
-                    itemCount: pantryList.length + 1,
-                    itemBuilder: (_, index) {
-                      if (index < pantryList.length) {
-                        Pantry currentPantry = pantryList[index];
-                        return GestureDetector(
-                            onTap: () {
-                              pantryProvider.switchPantry(index);
-                              pageController.nextPage(
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.decelerate);
-                              //TODO When developing the Card, add a tappable area to switch directly to pantry_screen instead of switching wherever the card is tapped. Also, consider making the cards extend or show an info bubble on tap to show details like no. of items and all users.
-                            },
-                            onLongPress: () {
-                              pantryProvider.removePantryByIndex(index);
-                            },
-                            child: SpCard.pantry(currentPantry,
-                                isSelected:
-                                    index == pantryProvider.selectedPantryIndex));
-                      } else {
-                        return null;
-                      }
-                    })),
-        SpButton(
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Expanded(
           child: pantryList.isEmpty
-              ? const Text('Start your first pantry',
-                  style: TextStyle(color: Colors.white))
-              : const Text('Add a pantry', style: TextStyle(color: Colors.white)),
-          onTap: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => AddPantryDialog());
-          },
-        )
-      ]),
-    );
+              ? const NoPantriesSplash()
+              : ListView.builder(
+                  itemCount: pantryList.length + 1,
+                  itemBuilder: (_, index) {
+                    if (index < pantryList.length) {
+                      Pantry currentPantry = pantryList[index];
+                      return GestureDetector(
+                          onTap: () {
+                            pantryProvider.switchPantry(index);
+                            pageController.nextPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.decelerate);
+                            //TODO When developing the Card, add a tappable area to switch directly to pantry_screen instead of switching wherever the card is tapped. Also, consider making the cards extend or show an info bubble on tap to show details like no. of items and all users.
+                          },
+                          onLongPress: () {
+                            pantryProvider.removePantryByIndex(index);
+                          },
+                          child: SpCard.pantry(currentPantry,
+                              isSelected:
+                                  index == pantryProvider.selectedPantryIndex));
+                    } else {
+                      return null;
+                    }
+                  })),
+      SpButton(
+        child: pantryList.isEmpty
+            ? const Text('Start your first pantry',
+                style: TextStyle(color: Colors.white))
+            : const Text('Add a pantry', style: TextStyle(color: Colors.white)),
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AddPantryDialog());
+        },
+      )
+    ]);
   }
 }

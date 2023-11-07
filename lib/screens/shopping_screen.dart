@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
-import 'package:shared_pantry/widgets/quickadd_tile.dart';
+import 'package:shared_pantry/widgets/quickadd_view.dart';
 
 import '../models/item.dart';
 import '../models/pantry.dart';
@@ -31,7 +31,8 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     return ListTile(
         tileColor: backgroundColor,
       visualDensity: const VisualDensity(vertical: -4),
-      leading: Checkbox(
+      leading: SizedBox(width: 240, child: Text(currentItem.title)),
+      trailing: Checkbox(
         value: currentItem.isAvailable,
         onChanged: (bool? value) {
           setState(() {
@@ -45,7 +46,6 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
           });
         },
       ),
-      trailing: SizedBox(width: 240, child: Text(currentItem.title)),
     );
   }
 
@@ -102,7 +102,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
 
     return SingleChildScrollView(
         child: Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(32),
       child: Column(
         children: [
           buildPantrySwitchList(),
