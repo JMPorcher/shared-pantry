@@ -31,6 +31,6 @@ class SpButton extends StatelessWidget {
             child: child)
     );
   }
-
-
 }
+
+//TODO Reduce padding towards BottomNavigationBar for add pantry and add category

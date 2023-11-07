@@ -50,10 +50,7 @@ class PantryScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          child: CategoryExpansionTile(
-                            currentCategoryList: currentCategoryList,
-                            currentCategory: currentCategory
-                          ),
+                          child: CategoryExpansionTile(currentCategory),
                         ),
                       );
                     },

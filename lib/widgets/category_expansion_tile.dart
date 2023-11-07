@@ -5,13 +5,11 @@ import '../models/item_category.dart';
 import 'category_view.dart';
 
 class CategoryExpansionTile extends StatelessWidget {
-  const CategoryExpansionTile({
-    super.key,
-    required this.currentCategoryList,
-    required this.currentCategory,
-  });
+  const CategoryExpansionTile(
+      this.currentCategory,
+      {super.key}
+  );
 
-  final List<ItemCategory> currentCategoryList;
   final ItemCategory currentCategory;
 
   @override
