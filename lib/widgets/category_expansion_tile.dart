@@ -5,8 +5,6 @@ import '../models/item_category.dart';
 import 'category_view.dart';
 
 class CategoryExpansionTile extends StatelessWidget {
-
-
   const CategoryExpansionTile(this.currentCategory, {super.key, required this.onExpansionChanged, required this.isExpanded});
 
   final ItemCategory currentCategory;
@@ -23,7 +21,7 @@ class CategoryExpansionTile extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
         initiallyExpanded: isExpanded,
-        onExpansionChanged: (_) => onExpansionChanged,
+        onExpansionChanged: (newIsExpanded) => onExpansionChanged(newIsExpanded),
         title: Center(
             child: Text(
               currentCategory.title,
