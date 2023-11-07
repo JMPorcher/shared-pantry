@@ -20,20 +20,17 @@ class SpCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        height: height,
-        child: Card(
-          color: isSelected ?? false ? kColor3 : Colors.white,
-          elevation: isSelected ?? false ? 0 : 8.0,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(cardText ?? pantry?.title ?? 'lol'),
-            ),
+    return SizedBox(
+      height: height,
+      child: Card(
+        color: isSelected ?? false ? kColor3 : Colors.white,
+        elevation: isSelected ?? false ? 0 : 8.0,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(cardText ?? pantry?.title ?? 'lol'),
           ),
         ),
       ),

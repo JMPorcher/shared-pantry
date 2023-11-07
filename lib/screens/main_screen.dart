@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
-import 'package:shared_pantry/widgets/no_pantries_splash.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';

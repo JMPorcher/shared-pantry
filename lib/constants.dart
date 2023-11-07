@@ -74,5 +74,4 @@ const Color kColor5 = Color(0xFF50808E);
 const Color kColor51 = Color(0xFF2D4850);
 const Color kColor6 = Color(0xFF9E7682);
 const Color kColor61 = Color(0xFFd8c8cd);
-const Color kColor7 = Color(0xFF96afb8);
 
