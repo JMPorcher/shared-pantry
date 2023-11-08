@@ -24,46 +24,49 @@ class PantryScreen extends StatelessWidget {
     return Column(
       children: [
         SpCard.pantry(
-            currentPantry,
-            isSelected: false,
+          currentPantry,
+          isSelected: false,
+          isInOverviewScreen: false,
           onTap: () {},
+          cardText: currentPantry.title,
         ),
         //TODO Replace card with whole width widget, possibly SliverAppBar
-        Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                child: currentCategoryList.isEmpty
-                    ? const NoCategoriesSplashScreen()
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: currentCategoryList.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index < currentCategoryList.length) {
-                            ItemCategory currentCategory =
-                                currentCategoryList[index];
-                            return CategoryExpansionTile(currentCategory,
-                                itemCategoryList: currentCategoryList);
-                          } else {
-                            return SpButton(
-                                child: currentCategoryList.isEmpty
-                                    ? const Text('Add your first category',
-                                        style: TextStyle(color: Colors.white))
-                                    : const Text('Add a category',
-                                        style: TextStyle(color: Colors.white)),
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AddCategoryDialog(
-                                              currentCategoryList));
-                                });
-                          }
-                        }),
-              ),
-            ],
-          ),
-        )
+        currentCategoryList.isEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                    const NoCategoriesSplashScreen(),
+                    SpButton(
+                        child: const Text('Add your first category',
+                            style: TextStyle(color: Colors.white)),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  AddCategoryDialog(currentCategoryList));
+                        })
+                  ])
+            : ListView.builder(
+                shrinkWrap: true,
+                itemCount: currentCategoryList.length + 1,
+                itemBuilder: (context, index) {
+                  if (index < currentCategoryList.length) {
+                    ItemCategory currentCategory = currentCategoryList[index];
+                    return CategoryExpansionTile(currentCategory,
+                        itemCategoryList: currentCategoryList);
+                  } else {
+                    return SpButton(
+                        child: const Text('Add a category',
+                            style: TextStyle(color: Colors.white)),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  AddCategoryDialog(currentCategoryList));
+                        });
+                  }
+                })
       ],
     );
   }

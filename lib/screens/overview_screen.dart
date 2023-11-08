@@ -21,36 +21,57 @@ class OverviewScreen extends StatelessWidget {
     return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Expanded(
           child: pantryList.isEmpty
-              ? const NoPantriesSplash()
+              ? Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const NoPantriesSplash(),
+                    SpButton(
+                      child: const Text('Start your first pantry',
+                          style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                AddPantryDialog());
+                      },
+                    )
+                  ],
+                )
               : ListView.builder(
                   itemCount: pantryList.length + 1,
                   itemBuilder: (_, index) {
                     if (index < pantryList.length) {
                       Pantry currentPantry = pantryList[index];
-                      return SpCard.pantry(
-                        currentPantry,
-                        isSelected: index == pantryProvider.selectedPantryIndex,
+                      return GestureDetector(
                         onTap: () {
+                          pantryProvider.switchPantry(index);
+                        },
+                        onLongPress: () {
+                          pantryProvider.removePantryByIndex(index);
+                        },
+                        child: SpCard.pantry(currentPantry,
+                            isSelected:
+                                index == pantryProvider.selectedPantryIndex,
+                            isInOverviewScreen: true, onTap: () {
                           pantryProvider.switchPantry(index);
                           pageController.nextPage(
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.decelerate);
-                        },);
+                        }, cardText: currentPantry.title),
+                      );
                     } else {
                       return SpButton(
-                        child: pantryList.isEmpty
-                            ? const Text('Start your first pantry',
-                            style: TextStyle(color: Colors.white))
-                            : const Text('Add a pantry', style: TextStyle(color: Colors.white)),
+                        child: const Text('Add a pantry',
+                                style: TextStyle(color: Colors.white)),
                         onTap: () {
                           showDialog(
                               context: context,
-                              builder: (BuildContext context) => AddPantryDialog());
+                              builder: (BuildContext context) =>
+                                  AddPantryDialog());
                         },
                       );
                     }
                   })),
-
     ]);
   }
 }

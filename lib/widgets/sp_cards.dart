@@ -9,17 +9,23 @@ class SpCard extends StatelessWidget {
       : pantry = null,
         isSelected = null,
         height = 75,
-        onTap = null;
+        onTap = null,
+        isInOverviewScreen = false;
 
-  const SpCard.pantry(this.pantry, {super.key, required this.onTap, this.isSelected = false})
-      : cardText = null,
-        height = 150;
+  const SpCard.pantry(this.pantry,
+      {super.key,
+      required this.isInOverviewScreen,
+      required this.onTap,
+      required this.cardText,
+      this.isSelected = false})
+      : height = 150;
 
   final String? cardText;
   final bool? isSelected;
   final double height;
   final Pantry? pantry;
   final VoidCallback? onTap;
+  final bool isInOverviewScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +33,7 @@ class SpCard extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         height: height,
+        width: double.infinity,
         child: Card(
           color: isSelected ?? false ? kColor3 : Colors.white,
           elevation: isSelected ?? false ? 0 : 8.0,
@@ -60,20 +67,27 @@ class SpCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: onTap,
-                    child: Container(
-                      height: height,
-                      color: Colors.black.withOpacity(0.7),
-                      width: 50,
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
+              if (isInOverviewScreen)
+                Positioned(
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: onTap,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(12),
+                                bottomRight: Radius.circular(12)
+                            ),
+                          color: Colors.black.withOpacity(0.7),
+                        ),
+                        height: height,
+                        width: 50,
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  ))
+                    ))
             ],
           ),
         ),
