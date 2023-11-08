@@ -29,7 +29,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
 
   ListTile buildListTile(Item currentItem, Color backgroundColor) {
     return ListTile(
-        tileColor: backgroundColor,
+      tileColor: backgroundColor,
       visualDensity: const VisualDensity(vertical: -4),
       leading: SizedBox(width: 240, child: Text(currentItem.title)),
       trailing: Checkbox(
@@ -68,7 +68,13 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                 leading: Text(currentPantry.title),
                 trailing: Switch(
                     value: currentPantry.selectedForShopping,
-                    thumbColor: MaterialStateProperty.all(kColor6),
+                    thumbColor: MaterialStateColor.resolveWith(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return kColor6;
+                      }
+                      return kColor1;
+                    }),
                     trackColor: MaterialStateProperty.all(kColor61),
                     onChanged: (newValue) {
                       pantryProvider.togglePantrySelectedForShopping(
@@ -89,13 +95,12 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: relevantItems.length + 1,
             itemBuilder: (_, index) {
-              final Color backgroundColor = index.isEven
-                  ? kColor1
-                  : kColor11.withOpacity(0.2);
+              final Color backgroundColor =
+                  index.isEven ? kColor1 : kColor11.withOpacity(0.2);
               return (index < relevantItems.length && relevantItems.isNotEmpty)
                   ? buildListTile(relevantItems[index], backgroundColor)
-                  : ShoppingItemQuickAdd(quickaddedItems,
-                      filterItems, backgroundColor); //Text('Quick add goes here');
+                  : ShoppingItemQuickAdd(quickaddedItems, filterItems,
+                      backgroundColor); //Text('Quick add goes here');
             },
           ));
     }

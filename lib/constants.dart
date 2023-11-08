@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_pantry/models/item_category.dart';
 
 import 'models/item.dart';
@@ -63,6 +64,7 @@ List<Item> kTestList5 = [
   Item('Tackernadeln', isAvailable: true),
 ];
 
+const int kItemLengthLimit = 90;
 
 // Colors:
 const Color kColor1 = Color(0xFFFAF9F7);

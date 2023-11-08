@@ -21,9 +21,10 @@ class ItemTile extends StatelessWidget {
       color: kColor1,
       child: ListTile(
         leading: SizedBox(width: 280, child: Text(itemTitle)),
-        trailing: CupertinoSwitch(
+        trailing: Switch(
           activeColor: kColor6,
-          trackColor: kColor61,
+          inactiveThumbColor: kColor1,
+          trackColor: MaterialStateProperty.all(kColor61),
           value: isAvailable,
           onChanged: toggleSwitch,),
       ),

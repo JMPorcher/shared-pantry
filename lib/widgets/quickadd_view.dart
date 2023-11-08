@@ -52,7 +52,7 @@ class _ShoppingItemQuickAddState extends State<ShoppingItemQuickAdd> {
             },
             style: const TextStyle(fontSize: 14),
             textAlign: TextAlign.start,
-            inputFormatters: [LengthLimitingTextInputFormatter(90)],
+            inputFormatters: [LengthLimitingTextInputFormatter(kItemLengthLimit)],
             controller: textEditingController,
             decoration: const InputDecoration(
               hintText: '(Add item)',

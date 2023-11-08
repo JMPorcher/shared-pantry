@@ -1,19 +1,26 @@
 # shared_pantry
 
-Probably the Firebase key: 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
 Know which household items are currently in the house. Add more pantries: personal, for your club etc.
 
 ## TO-DOs
 
-[] Registration on first opening the app. Can be skipped.
+[] Registration on first opening the app. Can be skipped. User will
 [] Firebase basic structure. User is created in first_startup_screen and can be registered (registered is used later for shared pantries)
 
-[] Localization for EN/GER
-[] Pre-available Pantries, Categories and Items
+
+[] PANTRY ASSISTANT: Pre-available Pantries, Categories and Items
+    [] Compile lists of categories and items
+    [] Design dialogs/interface
+[] REGISTRATION PROCESS: 
+    [] Design first opening screens
+    [] Assign user on first startup
+    [] Design registration screen, implement in Profile screen
+[] PANTRY CARD DESIGN
+    [] Draw design for OverviewScreen
+    [] Draw design for PantryScreen
 
 [] Make a plan for the UX
-[] Make a theme and apply it
-
+[] Localization for EN/GER
 
 
 ## Questions

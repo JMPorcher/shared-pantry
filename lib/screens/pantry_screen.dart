@@ -17,39 +17,54 @@ class PantryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
     final int currentPantryIndex = pantryProvider.selectedPantryIndex;
-    final Pantry currentPantry = pantryProvider.pantriesList[currentPantryIndex];
+    final Pantry currentPantry =
+        pantryProvider.pantriesList[currentPantryIndex];
     final List<ItemCategory> currentCategoryList = currentPantry.categories;
 
     return Column(
-        children: [
-          SpCard.pantry(currentPantry, isSelected: false),
-          //TODO Replace card with whole width widget, possibly SliverAppBar
-          Expanded(
-            child: Column(
-              children: [
-               Expanded(
-                  child:  currentCategoryList.isEmpty
-                ? const NoCategoriesSplashScreen()
-                : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: currentCategoryList.length,
-                    itemBuilder: (context, index) {
-                      ItemCategory currentCategory = currentCategoryList[index];
-                      return CategoryExpansionTile(currentCategory, itemCategoryList: currentCategoryList);
-                    },
-                  ),
-                ),
-                SpButton(
-                  child: currentCategoryList.isEmpty
-                  ? const Text('Add your first category', style: TextStyle(color: Colors.white))
-                  : const Text('Add a category', style: TextStyle(color: Colors.white)),
-                  onTap: () {
-                    showDialog(context: context, builder: (BuildContext context) => AddCategoryDialog(currentCategoryList));
-                  },),
-              ],
-            ),
-          )
-        ],
-      );
+      children: [
+        SpCard.pantry(
+            currentPantry,
+            isSelected: false,
+          onTap: () {},
+        ),
+        //TODO Replace card with whole width widget, possibly SliverAppBar
+        Expanded(
+          child: Column(
+            children: [
+              Expanded(
+                child: currentCategoryList.isEmpty
+                    ? const NoCategoriesSplashScreen()
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: currentCategoryList.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index < currentCategoryList.length) {
+                            ItemCategory currentCategory =
+                                currentCategoryList[index];
+                            return CategoryExpansionTile(currentCategory,
+                                itemCategoryList: currentCategoryList);
+                          } else {
+                            return SpButton(
+                                child: currentCategoryList.isEmpty
+                                    ? const Text('Add your first category',
+                                        style: TextStyle(color: Colors.white))
+                                    : const Text('Add a category',
+                                        style: TextStyle(color: Colors.white)),
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AddCategoryDialog(
+                                              currentCategoryList));
+                                });
+                          }
+                        }),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
