@@ -63,7 +63,7 @@ class PantryProvider with ChangeNotifier {
   void switchPantry(int newIndex) async {
     _selectedPantryIndex = newIndex;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setInt('Last shown pantry', newIndex);
+    sharedPreferences.setInt('Last shown pantry', newIndex <= 2 ? newIndex : 2);
     notifyListeners();
   }
 
