@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
-import 'package:shared_pantry/widgets/add_button.dart';
+import 'package:shared_pantry/widgets/sp_button.dart';
 
 import '../constants.dart';
 import '../models/item.dart';

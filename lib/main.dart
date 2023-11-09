@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/screens/first_startup_screen.dart';
+import 'package:shared_pantry/screens/first_startup_screen_1_ask_name.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
 import 'package:shared_pantry/widgets/signup_screen.dart';
@@ -52,13 +53,14 @@ class SharedPantry extends StatelessWidget {
         home: FutureBuilder<bool>(
           future: isFirstTime(),
           builder: (BuildContext context, AsyncSnapshot snapshot)  {
-            if (snapshot.data == true) {
-              setFirstTimeFlagToFalse();
-              return const FirstStartupScreen();
-            }
-            else {
-              return const MainScreen();
-            }
+            // if (snapshot.data == true) {
+            //   setFirstTimeFlagToFalse();
+            //   return const FirstStartupScreen();
+            // }
+            // else {
+            //   return const MainScreen();
+            // }
+            return FirstStartupScreen1();
           },
         ),
 

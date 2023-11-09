@@ -7,7 +7,7 @@ import 'package:shared_pantry/widgets/sp_cards.dart';
 
 import '../dialogs/add_category_dialog.dart';
 import '../models/pantry.dart';
-import '../widgets/add_button.dart';
+import '../widgets/sp_button.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryScreen extends StatelessWidget {

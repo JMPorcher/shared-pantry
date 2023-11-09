@@ -45,12 +45,11 @@ class FirstStartupScreen extends StatelessWidget {
             MaterialButton(
                 onPressed: () async {
                   Navigator.pushNamed(context, MainScreen.id);
-                  //Sign in anonymously
                   try {
                     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
                     sharedPreferences.setBool('user is not registered', true);
                   } catch (e) {
-                    //print(e);
+                    print(e);
                   }
                 },
                 child: const Padding(

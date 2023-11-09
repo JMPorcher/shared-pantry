@@ -36,24 +36,14 @@ class _CategoryItemViewState extends State<CategoryItemView> {
     );
   }
 
-  Dismissible buildItemTile(Item currentItem) {
-    return Dismissible(
-      direction: DismissDirection.endToStart,
-      onDismissed: (_) {
-        context.read<PantryProvider>().removeItem(
-          widget.itemList,
-          currentItem,
-        );
-      },
-      key: UniqueKey(),
-      child: ItemTile(
-        toggleSwitch: (_) =>
-            context
-                .read<PantryProvider>()
-                .toggleItemAvailability(currentItem),
-        itemTitle: currentItem.title,
-        isAvailable: currentItem.isAvailable,
-      ),
+  ItemTile buildItemTile(Item currentItem) {
+    return ItemTile(
+      toggleSwitch: (_) =>
+          context
+              .read<PantryProvider>()
+              .toggleItemAvailability(currentItem),
+      itemTitle: currentItem.title,
+      isAvailable: currentItem.isAvailable,
     );
   }
 
