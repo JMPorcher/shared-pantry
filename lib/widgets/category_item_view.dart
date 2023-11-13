@@ -60,8 +60,10 @@ class _CategoryItemViewState extends State<CategoryItemView> {
               onChanged: (_) {
                 if (textEditingController.text.isNotEmpty) {
                   fieldIsEmpty.value = false;
+                  itemTitleValueNotifier.value = textEditingController.text;
                 } else {
                   fieldIsEmpty.value = true;
+                  itemTitleValueNotifier.value = textEditingController.text;
                 }
               },
               onTapOutside: (_) {
@@ -112,6 +114,7 @@ class _CategoryItemViewState extends State<CategoryItemView> {
                       itemList.items.add(Item(textEditingController.text,
                           isAvailable: true));
                       FocusScope.of(context).unfocus();
+                      itemTitleValueNotifier.value = '';
                     }),
                     child: const Icon(
                       Icons.add,
