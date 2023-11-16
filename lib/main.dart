@@ -60,7 +60,7 @@ class SharedPantry extends StatelessWidget {
             // else {
             //   return const MainScreen();
             // }
-            return FirstStartupScreen1();
+            return const MainScreen();
           },
         ),
 

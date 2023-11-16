@@ -8,35 +8,34 @@ import '../models/item.dart';
 import '../providers/pantry_provider.dart';
 import 'item_tile.dart';
 
-class CategoryItemView extends StatefulWidget {
-  const CategoryItemView({required this.itemList, super.key});
+class CategoryItemListView extends StatelessWidget {
+  CategoryItemListView({required this.itemList, super.key});
 
   final ItemCategory itemList;
-
-  @override
-  State<CategoryItemView> createState() => _CategoryItemViewState();
-}
-
-class _CategoryItemViewState extends State<CategoryItemView> {
   final TextEditingController textEditingController = TextEditingController();
-  final ValueNotifier<String> itemTitleValueNotifier =
-      ValueNotifier<String>('');
 
   @override
   Widget build(BuildContext context) {
-    textEditingController.text = itemTitleValueNotifier.value;
     ValueNotifier<bool> fieldIsEmpty = ValueNotifier(true);
-    final ItemCategory itemList = widget.itemList;
+    ValueNotifier<String> itemTitleString = ValueNotifier('');
+
+    void onTextChanged() {
+      String newString = textEditingController.text;
+      itemTitleString.value = newString;
+      fieldIsEmpty.value = newString.isNotEmpty;
+    }
+
+    textEditingController.addListener(onTextChanged);
 
     return Column(
       children: [
-        for (var item in widget.itemList.items) buildItemTile(item),
-        buildAddItemTile(fieldIsEmpty, context, itemList),
+        for (var item in itemList.items) buildItemTile(item, context),
+        buildAddItemTile(fieldIsEmpty, context, textEditingController, itemTitleString),
       ],
     );
   }
 
-  ItemTile buildItemTile(Item currentItem) {
+  ItemTile buildItemTile(Item currentItem, BuildContext context) {
     return ItemTile(
       toggleSwitch: (_) =>
           context
@@ -47,7 +46,12 @@ class _CategoryItemViewState extends State<CategoryItemView> {
     );
   }
 
-  Container buildAddItemTile(ValueNotifier<bool> fieldIsEmpty, BuildContext context, ItemCategory itemList) {
+  Container buildAddItemTile(
+      ValueNotifier<bool> fieldIsEmpty,
+      BuildContext context,
+      TextEditingController textEditingController,
+      ValueNotifier<String> itemTitleString
+      ) {
     return Container(
         color: kColor1,
         child: ListTile(
@@ -57,15 +61,6 @@ class _CategoryItemViewState extends State<CategoryItemView> {
             height: 40,
             padding: const EdgeInsets.only(top: 4, bottom: 4),
             child: TextField(
-              onChanged: (_) {
-                if (textEditingController.text.isNotEmpty) {
-                  fieldIsEmpty.value = false;
-                  itemTitleValueNotifier.value = textEditingController.text;
-                } else {
-                  fieldIsEmpty.value = true;
-                  itemTitleValueNotifier.value = textEditingController.text;
-                }
-              },
               onTapOutside: (_) {
                 FocusScope.of(context).unfocus();
               },
@@ -100,29 +95,27 @@ class _CategoryItemViewState extends State<CategoryItemView> {
             child: SizedBox(
               width: 30,
               height: 27,
-              child: ValueListenableBuilder(
-                valueListenable: fieldIsEmpty,
-                builder: (BuildContext context, bool value, Widget? child) {
-                  return ElevatedButton(
+                child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: fieldIsEmpty.value
-                            ? MaterialStateProperty.all(kColor11)
-                            : MaterialStateProperty.all(kColor111),
+                            ? MaterialStateProperty.all(kColor111)
+                            : MaterialStateProperty.all(kColor11),
                         padding: MaterialStateProperty.all(
                             const EdgeInsets.all(0))),
-                    onPressed: () => setState(() {
-                      itemList.items.add(Item(textEditingController.text,
-                          isAvailable: true));
+                    onPressed: () {
+                      print('${textEditingController.text} lel');
+                      context.read<PantryProvider>().addItem(
+                        itemList,
+                        Item(textEditingController.text, isAvailable: true),
+                      );
+                      textEditingController.clear();
                       FocusScope.of(context).unfocus();
-                      itemTitleValueNotifier.value = '';
-                    }),
+                    },
                     child: const Icon(
                       Icons.add,
                       color: kColor1,
                     ),
-                  );
-                },
-              ),
+                  )
             ),
           ),
         ),
