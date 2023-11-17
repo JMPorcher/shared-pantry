@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/widgets/sp_button.dart';
@@ -54,9 +56,11 @@ class OverviewScreen extends StatelessWidget {
                                 index == pantryProvider.selectedPantryIndex,
                             isInOverviewScreen: true, onTap: () {
                           pantryProvider.switchPantry(index);
-                          pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.decelerate);
+                          Timer(const Duration(milliseconds: 300), () {
+                            pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.decelerate);
+                          });
                         }, cardText: currentPantry.title),
                       );
                     } else {
