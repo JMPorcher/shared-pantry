@@ -36,12 +36,12 @@ class MainScreen extends StatelessWidget {
           const OverviewScreen(),
           const PantryScreen(), //currentPantry: (activePantryIndex < pantryList.length) ? pantryList[activePantryIndex] : pantryList[0]
           const ShoppingScreen(),
-          const ProfileScreen(),
+          ProfileScreen(),
         ];
       } else {
         return [
           const OverviewScreen(),
-          const ProfileScreen(),
+          ProfileScreen(),
         ];
       }
     }

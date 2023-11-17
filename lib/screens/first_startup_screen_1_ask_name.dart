@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import '../widgets/sp_button.dart';
 import 'main_screen.dart';
@@ -10,8 +12,7 @@ import 'main_screen.dart';
 class FirstStartupScreen1 extends StatelessWidget {
   FirstStartupScreen1({super.key});
 
-
-
+  final FirebaseAuth firebaseInstance = FirebaseAuth.instance;
   final TextEditingController textEditingController = TextEditingController();
 
   @override
@@ -46,16 +47,30 @@ class FirstStartupScreen1 extends StatelessWidget {
               ),
               SpButton(
                 onTap: () async {
-                  Navigator.pushNamed(context, MainScreen.id);
-                  try {
-                    SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
-                    sharedPreferences.setBool('user is not registered', true);
-                    sharedPreferences.setString(
-                        'User display name', userDisplayName);
-                  } catch (e) {
-                    print(e);
+                  if (userDisplayName.isNotEmpty){
+                    Navigator.pushNamed(context, MainScreen.id);
+                    try {
+                      SharedPreferences sharedPreferences =
+                      await SharedPreferences.getInstance();
+                      sharedPreferences.setBool('user is not registered', true);
+                      sharedPreferences.setString(
+                          'User display name', userDisplayName);
+                      final userCredential = await FirebaseAuth.instance.signInAnonymously();
+                      CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+                      usersCollection.doc(userCredential.user?.uid).set(
+                          {'display_name': userDisplayName}, SetOptions(merge: true));
+                      print(userCredential.user?.uid);
+                    } catch (e) {
+                      print(e);
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).
+                      showSnackBar(
+                      SnackBar(content: Text('Ur name plz bro lol'))
+                    );
                   }
+
+
                 },
                 child: const Text('Next', style: TextStyle(color: kColor1),),
               ),

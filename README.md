@@ -32,8 +32,8 @@ JSON Pantry Model
  pantry: "Pantry Title",
  pantry_id: "uniquePantryId",
  users: [
-  "user_id",
-  "user_id",
+  "generated_user_id",
+  "generated_user_id",
  ],
  categories: [
     {
@@ -55,10 +55,10 @@ JSON Pantry Model
     [
       {
         "time_stamp" : String
-        "user_id" : "item"
+        "generated_user_id" : "item"
       },
         "time_stamp" : String
-        "user_id" : "item"
+        "generated_user_id" : "item"
       },
     ]
   }
@@ -66,19 +66,20 @@ JSON Pantry Model
 
 JSON User Model
 {
- id: "user_id",
  email: test@test.de,
  user_name: "name",
  subscribed_pantries: 
    [
       {
          pantry_id: "uniquePantryId",
+         isSelected: bool,
          isSelectedForShopping: bool,
          isSelectedForPushNotifications: bool
       },
       {
          pantry_id: "uniquePantryId",
          isSelected: bool,
+         isSelectedForShopping: bool,
          isSelectedForPushNotifications: bool
       },
    ]

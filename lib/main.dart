@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
-import 'package:shared_pantry/screens/first_startup_screen.dart';
 import 'package:shared_pantry/screens/first_startup_screen_1_ask_name.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
@@ -60,13 +59,13 @@ class SharedPantry extends StatelessWidget {
             // else {
             //   return const MainScreen();
             // }
-            return const MainScreen();
+            return FirstStartupScreen1();
           },
         ),
 
         //const PantryScreen(),
         routes: {
-          ProfileScreen.id: (context) => const ProfileScreen(),
+          ProfileScreen.id: (context) => ProfileScreen(),
           SignupForm.id: (context) => const SignupForm(),
           MainScreen.id: (context) => const MainScreen(),
         });
