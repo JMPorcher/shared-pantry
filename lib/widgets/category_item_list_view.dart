@@ -22,11 +22,11 @@ class CategoryItemListView extends StatelessWidget {
     void onTextChanged() {
       String newString = textEditingController.text;
       itemTitleString.value = newString;
-      fieldIsEmpty.value = newString.isNotEmpty;
+      fieldIsEmpty.value = newString.isEmpty;
     }
 
     textEditingController.addListener(onTextChanged);
-
+    print(fieldIsEmpty.value);
     return Column(
       children: [
         for (var item in itemList.items) buildItemTile(item, context),
@@ -95,27 +95,30 @@ class CategoryItemListView extends StatelessWidget {
             child: SizedBox(
               width: 30,
               height: 27,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: fieldIsEmpty.value
-                            ? MaterialStateProperty.all(kColor111)
-                            : MaterialStateProperty.all(kColor11),
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.all(0))),
-                    onPressed: () {
-                      print('${textEditingController.text} lel');
-                      context.read<PantryProvider>().addItem(
-                        itemList,
-                        Item(textEditingController.text, isAvailable: true),
-                      );
-                      textEditingController.clear();
-                      FocusScope.of(context).unfocus();
-                    },
-                    child: const Icon(
-                      Icons.add,
-                      color: kColor1,
-                    ),
-                  )
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: fieldIsEmpty,
+                  builder: (BuildContext context, bool fieldIsEmpty, Widget? child) {
+                  return ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: fieldIsEmpty
+                              ? MaterialStateProperty.all(kColor11)
+                              : MaterialStateProperty.all(kColor111),
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.all(0))),
+                      onPressed: () {
+                        context.read<PantryProvider>().addItem(
+                          itemList,
+                          Item(textEditingController.text, isAvailable: true),
+                        );
+                        textEditingController.clear();
+                        FocusScope.of(context).unfocus();
+                      },
+                      child: const Icon(
+                        Icons.add,
+                        color: kColor1,
+                      ),
+                    );}
+                )
             ),
           ),
         ),

@@ -13,12 +13,15 @@ import '../providers/pantry_provider.dart';
 class OverviewScreen extends StatelessWidget {
   const OverviewScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
     final PageController pageController =
         pantryProvider.mainScreenPageController;
     List<Pantry> pantryList = pantryProvider.pantriesList;
+
+    bool newActivatedPantryIsOldActivatedPantry = false;
 
     return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Expanded(
@@ -51,17 +54,21 @@ class OverviewScreen extends StatelessWidget {
                         onLongPress: () {
                           pantryProvider.removePantryByIndex(index);
                         },
-                        child: SpCard.pantry(currentPantry,
+                        child: SpCard.pantry(
+                            currentPantry,
                             isSelected:
                                 index == pantryProvider.selectedPantryIndex,
-                            isInOverviewScreen: true, onTap: () {
-                          pantryProvider.switchPantry(index);
-                          Timer(const Duration(milliseconds: 300), () {
-                            pageController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.decelerate);
-                          });
-                        }, cardText: currentPantry.title),
+                            isInOverviewScreen: true,
+                            onTap: () {
+                              newActivatedPantryIsOldActivatedPantry = index == pantryProvider.selectedPantryIndex;
+                              pantryProvider.switchPantry(index);
+                              Timer(Duration(milliseconds: newActivatedPantryIsOldActivatedPantry ? 0 : 300), () {
+                                pageController.nextPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.decelerate);
+                              });
+                            },
+                            cardText: currentPantry.title),
                       );
                     } else {
                       return SpButton(
