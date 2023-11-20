@@ -3,19 +3,27 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class SpButton extends StatelessWidget {
-  const SpButton({super.key, required this.child, required this.onTap});
+  const SpButton({
+    super.key,
+    required this.child,
+    required this.onTap,
+    this.color = kColor5,
+    this.verticalPadding = 6,
+    this.horizontalPadding = 12});
 
   final Function onTap;
   final Widget child;
+  final Color color;
+  final double verticalPadding;
+  final double horizontalPadding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+        padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
         margin: const EdgeInsets.only(top: 6, left: 20, right: 20, bottom: 20),
         decoration: BoxDecoration(
-            color: kColor5,
+            color: color,
             borderRadius: BorderRadius.circular(12),
             boxShadow: const [
               BoxShadow(

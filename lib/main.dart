@@ -2,6 +2,7 @@
 // import 'firebase_options.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,15 +34,18 @@ void main() async {
         create: (_) => AuthProviderRegistered(),
       )
     ],
-    child: const SharedPantry(),
+    child: SharedPantry(),
   ));
 }
 
 class SharedPantry extends StatelessWidget {
-  const SharedPantry({super.key});
+  SharedPantry({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown
@@ -61,7 +65,11 @@ class SharedPantry extends StatelessWidget {
             // else {
             //   return const MainScreen();
             // }
-            return const FirstStartupScreen();
+            if (user == null) {
+              return const FirstStartupScreen();
+            } else {
+              return const MainScreen();
+            }
           },
         ),
 

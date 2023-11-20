@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/widgets/sp_button.dart';
 
@@ -66,42 +67,55 @@ class RegistrationForm extends StatelessWidget {
             ValueListenableBuilder<bool>(
                 valueListenable: isFormValidNotifier,
                 builder: (context, isFormValid, child) {
-                  return SpButton(
-                      onTap: () async {
-                        final currentState = formKey.currentState;
-                        if (currentState != null && currentState.validate()) {
-                          final String userName = usernameTEController.text;
-                          final String eMail = emailTEController.text;
-                          final String password = passwordTEController.text;
+                  return Row(
+                    children: [
+                      SpButton(
+                          onTap: () async {
+                            final currentState = formKey.currentState;
+                            if (currentState != null && currentState.validate()) {
+                              final String userName = usernameTEController.text;
+                              final String eMail = emailTEController.text;
+                              final String password = passwordTEController.text;
 
 
-                          await firebaseInstance.createUserWithEmailAndPassword(
-                              email: eMail, password: password);
-                          await firebaseInstance.signInWithEmailAndPassword(
-                              email: eMail, password: password);
+                              await firebaseInstance.createUserWithEmailAndPassword(
+                                  email: eMail, password: password);
+                              await firebaseInstance.signInWithEmailAndPassword(
+                                  email: eMail, password: password);
 
-                          final uid = firebaseInstance.currentUser?.uid;
-                          CollectionReference usersCollection =
-                              FirebaseFirestore.instance.collection('users');
-                          usersCollection.doc(uid).set(
-                              {'display_name': userName},
-                              SetOptions(merge: true));
+                              final uid = firebaseInstance.currentUser?.uid;
+                              CollectionReference usersCollection =
+                                  FirebaseFirestore.instance.collection('users');
+                              usersCollection.doc(uid).set(
+                                  {'display_name': userName},
+                                  SetOptions(merge: true));
 
-                          Navigator.pushNamed(context, MainScreen.id);
-                        } else {
-                          isFormValidNotifier.value = false;
-                        }
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text(
-                          'Register',
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ));
+                              Navigator.pushNamed(context, MainScreen.id);
+                            } else {
+                              isFormValidNotifier.value = false;
+                            }
+                          },
+                          horizontalPadding: 0,
+                          child: const Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          )),
+                      const Text('OR'),
+                      SpButton(onTap: (){}, color: kColor6, horizontalPadding: 0, child: const Text(
+                        'Login',
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),)
+                    ],
+                  );
                 }),
           ],
         ),
