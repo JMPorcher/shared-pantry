@@ -1,4 +1,5 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
@@ -12,7 +13,7 @@ class FirstStartupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseAuth firebaseInstance = FirebaseAuth.instance;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -41,16 +42,15 @@ class FirstStartupScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20.0),
-            const RegistrationForm(),
+            RegistrationForm(),
             MaterialButton(
                 onPressed: () async {
-                  Navigator.pushNamed(context, MainScreen.id);
                   try {
-                    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-                    sharedPreferences.setBool('user is not registered', true);
+                    firebaseInstance.signInAnonymously();
                   } catch (e) {
                     print(e);
                   }
+                  Navigator.pushNamed(context, MainScreen.id);
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(16.0),
@@ -71,8 +71,3 @@ class FirstStartupScreen extends StatelessWidget {
     );
   }
 }
-
-//TODO Need FirstStartupScreen to be a PageView with 3 pages: 1) ask for name - 2) skippable sign-up - 3) skippable choose pre-built pantries, categories and items
-// PageView first page: Asks for a name. Registers a user with this user name and nothing else.
-// PageView second page: Asks you to sign up or do so later (implement "later" after firebase sign-up functionalities are added)
-// PageView third page: Asks you to add pre-build pantries, categories and items. Implement later.

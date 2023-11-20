@@ -4,7 +4,6 @@ import '../constants.dart';
 
 class SpButton extends StatelessWidget {
   const SpButton({super.key, required this.child, required this.onTap});
-  //TODO Clean up class so its specific function is sent through an onTap Function parameter instead of named constructors
 
   final Function onTap;
   final Widget child;

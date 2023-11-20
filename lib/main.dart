@@ -4,10 +4,11 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
-import 'package:shared_pantry/screens/first_startup_screen_1_ask_name.dart';
+import 'package:shared_pantry/screens/first_startup_screen.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
 import 'package:shared_pantry/widgets/signup_screen.dart';
@@ -34,8 +35,6 @@ void main() async {
     ],
     child: const SharedPantry(),
   ));
-
-
 }
 
 class SharedPantry extends StatelessWidget {
@@ -43,7 +42,10 @@ class SharedPantry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
     return MaterialApp(
         title: 'Shared Pantry',
         theme: ThemeData(
@@ -59,7 +61,7 @@ class SharedPantry extends StatelessWidget {
             // else {
             //   return const MainScreen();
             // }
-            return FirstStartupScreen1();
+            return const FirstStartupScreen();
           },
         ),
 

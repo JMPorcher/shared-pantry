@@ -21,7 +21,7 @@ class OverviewScreen extends StatelessWidget {
         pantryProvider.mainScreenPageController;
     List<Pantry> pantryList = pantryProvider.pantriesList;
 
-    bool newActivatedPantryIsOldActivatedPantry = false;
+    bool newSelectedPantryIsOldSelectedPantry = false;
 
     return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Expanded(
@@ -48,21 +48,17 @@ class OverviewScreen extends StatelessWidget {
                     if (index < pantryList.length) {
                       Pantry currentPantry = pantryList[index];
                       return GestureDetector(
-                        onTap: () {
-                          pantryProvider.switchPantry(index);
-                        },
-                        onLongPress: () {
-                          pantryProvider.removePantryByIndex(index);
-                        },
+                        onTap: () => pantryProvider.switchPantry(index),
+                        onLongPress: () => pantryProvider.removePantryByIndex(index),
                         child: SpCard.pantry(
                             currentPantry,
                             isSelected:
                                 index == pantryProvider.selectedPantryIndex,
                             isInOverviewScreen: true,
                             onTap: () {
-                              newActivatedPantryIsOldActivatedPantry = index == pantryProvider.selectedPantryIndex;
+                              newSelectedPantryIsOldSelectedPantry = index == pantryProvider.selectedPantryIndex;
                               pantryProvider.switchPantry(index);
-                              Timer(Duration(milliseconds: newActivatedPantryIsOldActivatedPantry ? 0 : 300), () {
+                              Timer(Duration(milliseconds: newSelectedPantryIsOldSelectedPantry ? 0 : 300), () {
                                 pageController.nextPage(
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.decelerate);

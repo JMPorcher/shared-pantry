@@ -17,18 +17,19 @@ class ProfileScreen extends StatelessWidget {
   Future<Map<String, dynamic>?> getUserInfo() async {
     try {
       final User? user = firebaseAuth.currentUser;
-      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(user?.uid).get();
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user?.uid)
+          .get();
       return userSnapshot.data() as Map<String, dynamic>?;
     } catch (e) {
       print(e);
       return null;
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         backgroundColor: kColor3,
         body: SafeArea(
@@ -41,12 +42,13 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 FutureBuilder<Map<String, dynamic>?>(
                     future: getUserInfo(),
-                    builder: (context, snapshot) {
-
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return const Center(child: Text('Can\'t access user name'));
+                        return const Center(
+                            child: Text('Can\'t access user name'));
                       } else if (!snapshot.hasData || snapshot.data == null) {
                         return const Center(child: Text('No user name found'));
                       } else {
@@ -60,15 +62,40 @@ class ProfileScreen extends StatelessWidget {
                         );
                       }
                     }),
-                const Text('(+49) 123 456 789',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
-                //"Your pantries" box: ListView of Pantries, with nested ListViews of other users
+                FutureBuilder(
+                    future: getUserInfo(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
+                      TextStyle uidStringStyle = const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w300);
+                      String userIdString = '';
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        userIdString = 'Can\'t access user name';
+                        return Text(
+                          userIdString,
+                          style: uidStringStyle,
+                        );
+                      } else if (!snapshot.hasData || snapshot.data == null) {
+                        userIdString = 'No user name found';
+                        return Text(
+                          userIdString,
+                          style: uidStringStyle,
+                        );
+                      } else {
+                        userIdString =
+                            firebaseAuth.currentUser?.uid ?? 'No UID found';
+                        return Text(
+                          userIdString,
+                          style: uidStringStyle,
+                        );
+                      }
+                    }),
                 SpButton(
-                  child: const Text(
-                      'Delete account',
-                      style: TextStyle(color: Colors.white)),
                   onTap: () {},
+                  child: const Text('Delete account',
+                      style: TextStyle(color: Colors.white)),
                 )
               ]),
         ))));
@@ -76,3 +103,4 @@ class ProfileScreen extends StatelessWidget {
 }
 
 //TODO Registration and Sign-in have to happen here too. Maybe show a section that is either blank when signed in and "sign in or register" section when signed out
+//TODO Send user to Welcome Screen when they delete their account or log out

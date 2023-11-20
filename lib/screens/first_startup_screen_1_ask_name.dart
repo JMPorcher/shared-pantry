@@ -55,7 +55,7 @@ class FirstStartupScreen1 extends StatelessWidget {
                       sharedPreferences.setBool('user is not registered', true);
                       sharedPreferences.setString(
                           'User display name', userDisplayName);
-                      final userCredential = await FirebaseAuth.instance.signInAnonymously();
+                      final userCredential = await firebaseInstance.signInAnonymously();
                       CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
                       usersCollection.doc(userCredential.user?.uid).set(
                           {'display_name': userDisplayName}, SetOptions(merge: true));
