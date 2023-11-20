@@ -30,16 +30,15 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => PantryProvider(lastShownScreen, lastShownPantryIndex)),
-      ChangeNotifierProvider(
-        create: (_) => AuthProviderRegistered(),
+      ChangeNotifierProvider(create: (_) => AuthProviderRegistered(),
       )
     ],
-    child: SharedPantry(),
+    child: const SharedPantry(),
   ));
 }
 
 class SharedPantry extends StatelessWidget {
-  SharedPantry({super.key});
+  const SharedPantry({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,40 +54,13 @@ class SharedPantry extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: FutureBuilder<bool>(
-          future: isFirstTime(),
-          builder: (BuildContext context, AsyncSnapshot snapshot)  {
-            // if (snapshot.data == true) {
-            //   setFirstTimeFlagToFalse();
-            //   return const FirstStartupScreen();
-            // }
-            // else {
-            //   return const MainScreen();
-            // }
-            if (user == null) {
-              return const FirstStartupScreen();
-            } else {
-              return const MainScreen();
-            }
-          },
-        ),
-
-        //const PantryScreen(),
+        home: (user == null)
+              ? const FirstStartupScreen()
+            : const MainScreen(),
         routes: {
           ProfileScreen.id: (context) => ProfileScreen(),
           SignupForm.id: (context) => const SignupForm(),
           MainScreen.id: (context) => const MainScreen(),
         });
   }
-}
-
-Future<bool> isFirstTime() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  bool isFirstTime = sharedPreferences.getBool('is first time') ?? true;
-  return false;
-}
-
-Future<void> setFirstTimeFlagToFalse() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  await sharedPreferences.setBool('is first time', false);
 }

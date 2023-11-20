@@ -31,12 +31,16 @@ class SpButton extends StatelessWidget {
                   blurStyle: BlurStyle.normal,
                   blurRadius: 5)
             ]),
-        child: MaterialButton(
-            onPressed: () {
-              onTap();
-            },
-            child: child)
+        child: getMaterialButton(),
     );
+  }
+
+  getMaterialButton() {
+    return MaterialButton(
+        onPressed: () {
+          onTap();
+        },
+        child: child);
   }
 }
 
