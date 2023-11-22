@@ -21,7 +21,7 @@ class SpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
-        margin: const EdgeInsets.only(top: 6, left: 20, right: 20, bottom: 20),
+        margin: const EdgeInsets.only(top: 6, left: 10, right: 10, bottom: 20),
         decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(12),
@@ -39,5 +39,3 @@ class SpButton extends StatelessWidget {
     );
   }
 }
-
-//TODO Reduce padding towards BottomNavigationBar for add pantry and add category

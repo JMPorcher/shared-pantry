@@ -40,65 +40,84 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FutureBuilder<Map<String, dynamic>?>(
-                    future: getUserInfo(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return const Center(
-                            child: Text('Can\'t access user name'));
-                      } else if (!snapshot.hasData || snapshot.data == null) {
-                        return const Center(child: Text('No user name found'));
-                      } else {
-                        Map<String, dynamic>? userData = snapshot.data;
-                        String? userName = userData?['display_name'];
-                        return Text(
-                          'Hello ${userName ?? 'User'}!',
-                          style: const TextStyle(
-                              fontSize: 36, fontWeight: FontWeight.w600),
-                          maxLines: 2,
-                        );
-                      }
-                    }),
-                FutureBuilder(
-                    future: getUserInfo(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<dynamic> snapshot) {
-                      TextStyle uidStringStyle = const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w300);
-                      String userIdString = '';
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        userIdString = 'Can\'t access user name';
-                        return Text(
-                          userIdString,
-                          style: uidStringStyle,
-                        );
-                      } else if (!snapshot.hasData || snapshot.data == null) {
-                        userIdString = 'No user name found';
-                        return Text(
-                          userIdString,
-                          style: uidStringStyle,
-                        );
-                      } else {
-                        userIdString =
-                            firebaseAuth.currentUser?.uid ?? 'No UID found';
-                        return Text(
-                          userIdString,
-                          style: uidStringStyle,
-                        );
-                      }
-                    }),
-                SpButton(
-                  onTap: () {},
-                  child: const Text('Delete account',
-                      style: TextStyle(color: Colors.white)),
-                )
+                buildGreetingTextWithName(),
+                buildUIDText(),
+                const DeleteAccountButton()
               ]),
         ))));
+  }
+
+  FutureBuilder<Map<String, dynamic>?> buildUIDText() {
+    return FutureBuilder(
+                  future: getUserInfo(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<dynamic> snapshot) {
+                    TextStyle uidStringStyle = const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w300);
+                    String userIdString = '';
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      userIdString = 'Can\'t access user ID';
+                      return Text(
+                        userIdString,
+                        style: uidStringStyle,
+                      );
+                    } else if (!snapshot.hasData || snapshot.data == null) {
+                      userIdString = 'No UID found';
+                      return Text(
+                        userIdString,
+                        style: uidStringStyle,
+                      );
+                    } else {
+                      userIdString =
+                          firebaseAuth.currentUser?.uid ?? 'No UID found';
+                      return Text(
+                        userIdString,
+                        style: uidStringStyle,
+                      );
+                    }
+                  });
+  }
+
+  FutureBuilder<Map<String, dynamic>?> buildGreetingTextWithName() {
+    return FutureBuilder<Map<String, dynamic>?>(
+                  future: getUserInfo(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                          child: Text('Can\'t access user name'));
+                    } else if (!snapshot.hasData || snapshot.data == null) {
+                      return const Center(child: Text('No user name found'));
+                    } else {
+                      Map<String, dynamic>? userData = snapshot.data;
+                      String? userName = userData?['display_name'];
+                      return Text(
+                        'Hello ${userName ?? 'User'}!',
+                        style: const TextStyle(
+                            fontSize: 36, fontWeight: FontWeight.w600),
+                        maxLines: 2,
+                      );
+                    }
+                  });
+  }
+}
+
+class DeleteAccountButton extends StatelessWidget {
+  const DeleteAccountButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SpButton(
+      onTap: () {},
+      child: const Text('Delete account',
+          style: TextStyle(color: Colors.white)),
+    );
   }
 }
 

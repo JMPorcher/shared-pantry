@@ -31,45 +31,64 @@ class PantryScreen extends StatelessWidget {
           cardText: currentPantry.title,
         ),
         //TODO Replace card with whole width widget, possibly SliverAppBar
-        if (currentCategoryList.isEmpty) Expanded(
-          child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                      const NoCategoriesSplashScreen(),
-                      SpButton(
-                          child: const Text('Add your first category',
-                              style: TextStyle(color: Colors.white)),
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    AddCategoryDialog(currentCategoryList));
-                          })
-                    ]),
-        ) else Expanded(
-                    child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: currentCategoryList.length + 1,
-                itemBuilder: (context, index) {
-                    if (index < currentCategoryList.length) {
-                      ItemCategory currentCategory = currentCategoryList[index];
-                      return CategoryExpansionTile(currentCategory,
-                          itemCategoryList: currentCategoryList);
-                    } else {
-                      return SpButton(
-                          child: const Text('Add a category',
-                              style: TextStyle(color: Colors.white)),
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    AddCategoryDialog(currentCategoryList));
-                          });
-                    }
-                }),
-                  )
+        if (currentCategoryList.isEmpty) NoCategoriesSplashView(currentCategoryList: currentCategoryList)
+        else buildCategories(currentCategoryList)
       ],
+    );
+  }
+
+  Expanded buildCategories(List<ItemCategory> currentCategoryList) {
+    return Expanded(
+                  child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: currentCategoryList.length + 1,
+              itemBuilder: (context, index) {
+                  if (index < currentCategoryList.length) {
+                    ItemCategory currentCategory = currentCategoryList[index];
+                    return CategoryExpansionTile(currentCategory,
+                        itemCategoryList: currentCategoryList);
+                  } else {
+                    return SpButton(
+                        child: const Text('Add a category',
+                            style: TextStyle(color: Colors.white)),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  AddCategoryDialog(currentCategoryList));
+                        });
+                  }
+              }),
+                );
+  }
+}
+
+class NoCategoriesSplashView extends StatelessWidget {
+  const NoCategoriesSplashView({
+    super.key,
+    required this.currentCategoryList,
+  });
+
+  final List<ItemCategory> currentCategoryList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                  const NoCategoriesSplashScreen(),
+                  SpButton(
+                      child: const Text('Add your first category',
+                          style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                AddCategoryDialog(currentCategoryList));
+                      })
+                ]),
     );
   }
 }

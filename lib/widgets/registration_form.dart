@@ -25,101 +25,187 @@ class RegistrationForm extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(labelText: 'Username'),
-              controller: usernameTEController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your username';
-                }
-                return null;
-              },
-            ),
+            NameTextFormField(usernameTEController: usernameTEController),
             const SizedBox(height: 16.0),
-            TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(labelText: 'E-mail'),
-              keyboardType: TextInputType.emailAddress,
-              controller: emailTEController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                // You can add more complex email validation here
-                return null;
-              },
-            ),
+            EmailTextFormField(emailTEController: emailTEController),
             const SizedBox(height: 16.0),
-            TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-              controller: passwordTEController,
-              validator: (value) {
-                if (value == null || value.length < 6) {
-                  return 'Please enter a password with at least 6 digits';
-                }
-                return null;
-              },
-            ),
+            PasswordTextFormField(passwordTEController: passwordTEController),
             const SizedBox(height: 20.0),
             ValueListenableBuilder<bool>(
                 valueListenable: isFormValidNotifier,
                 builder: (context, isFormValid, child) {
                   return Row(
                     children: [
-                      SpButton(
-                          onTap: () async {
-                            final currentState = formKey.currentState;
-                            if (currentState != null && currentState.validate()) {
-                              final String userName = usernameTEController.text;
-                              final String eMail = emailTEController.text;
-                              final String password = passwordTEController.text;
-
-
-                              await firebaseInstance.createUserWithEmailAndPassword(
-                                  email: eMail, password: password);
-                              await firebaseInstance.signInWithEmailAndPassword(
-                                  email: eMail, password: password);
-
-                              final uid = firebaseInstance.currentUser?.uid;
-                              CollectionReference usersCollection =
-                                  FirebaseFirestore.instance.collection('users');
-                              usersCollection.doc(uid).set(
-                                  {'display_name': userName},
-                                  SetOptions(merge: true));
-
-                              Navigator.pushNamed(context, MainScreen.id);
-                            } else {
-                              isFormValidNotifier.value = false;
-                            }
-                          },
-                          horizontalPadding: 0,
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Text(
-                              'Register',
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          )),
-                      const Text('OR'),
-                      SpButton(onTap: (){}, color: kColor6, horizontalPadding: 0, child: const Text(
-                        'Login',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),)
+                      Expanded(
+                          flex: 4,
+                          child: RegisterButton(
+                              formKey: formKey,
+                              usernameTEController: usernameTEController,
+                              emailTEController: emailTEController,
+                              passwordTEController: passwordTEController,
+                              firebaseInstance: firebaseInstance,
+                              isFormValidNotifier: isFormValidNotifier)),
+                      const Expanded(flex: 1, child: Text('OR', textAlign: TextAlign.center,)),
+                      const Expanded(flex: 4, child: LoginButton())
                     ],
                   );
                 }),
           ],
         ),
       ),
+    );
+  }
+}
+
+
+class RegisterButton extends StatelessWidget {
+  const RegisterButton({
+    super.key,
+    required this.formKey,
+    required this.usernameTEController,
+    required this.emailTEController,
+    required this.passwordTEController,
+    required this.firebaseInstance,
+    required this.isFormValidNotifier,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final TextEditingController usernameTEController;
+  final TextEditingController emailTEController;
+  final TextEditingController passwordTEController;
+  final FirebaseAuth firebaseInstance;
+  final ValueNotifier<bool> isFormValidNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpButton(
+        onTap: () async {
+          final currentState = formKey.currentState;
+          if (currentState != null && currentState.validate()) {
+            final String userName = usernameTEController.text;
+            final String eMail = emailTEController.text;
+            final String password = passwordTEController.text;
+
+            await firebaseInstance.createUserWithEmailAndPassword(
+                email: eMail, password: password);
+            await firebaseInstance.signInWithEmailAndPassword(
+                email: eMail, password: password).then((_) => Navigator.pushNamed(context, MainScreen.id));
+
+            final uid = firebaseInstance.currentUser?.uid;
+            CollectionReference usersCollection =
+                FirebaseFirestore.instance.collection('users');
+            usersCollection.doc(uid).set(
+                {'display_name': userName},
+                SetOptions(merge: true));
+          } else {
+            isFormValidNotifier.value = false;
+          }
+        },
+        horizontalPadding: 0,
+        child: const Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Text(
+            'Register',
+            style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+        ));
+  }
+}
+
+
+class LoginButton extends StatelessWidget {
+  const LoginButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SpButton(onTap: (){}, color: kColor6, horizontalPadding: 0, child: const Text(
+      'Login',
+      style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.white),
+    ),);
+  }
+}
+
+
+//Form Fields
+
+class PasswordTextFormField extends StatelessWidget {
+  const PasswordTextFormField({
+    super.key,
+    required this.passwordTEController,
+  });
+
+  final TextEditingController passwordTEController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: const InputDecoration(labelText: 'Password'),
+      obscureText: true,
+      controller: passwordTEController,
+      validator: (value) {
+        if (value == null || value.length < 6) {
+          return 'Please enter a password with at least 6 digits';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class EmailTextFormField extends StatelessWidget {
+  const EmailTextFormField({
+    super.key,
+    required this.emailTEController,
+  });
+
+  final TextEditingController emailTEController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: const InputDecoration(labelText: 'E-mail'),
+      keyboardType: TextInputType.emailAddress,
+      controller: emailTEController,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your email';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class NameTextFormField extends StatelessWidget {
+  const NameTextFormField({
+    super.key,
+    required this.usernameTEController,
+  });
+
+  final TextEditingController usernameTEController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: const InputDecoration(labelText: 'Username'),
+      controller: usernameTEController,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your username';
+        }
+        return null;
+      },
     );
   }
 }

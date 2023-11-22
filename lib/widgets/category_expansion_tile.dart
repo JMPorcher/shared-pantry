@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../dialogs/edit_category_dialog.dart';
 import '../models/item_category.dart';
-import 'category_item_list_view.dart';
+import 'category_item_listview.dart';
 
 class CategoryExpansionTile extends StatelessWidget {
   const CategoryExpansionTile(

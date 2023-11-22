@@ -38,52 +38,84 @@ class _ShoppingItemQuickAddState extends State<ShoppingItemQuickAdd> {
       child: ListTile(
         tileColor: backgroundColor,
         dense: true,
-        leading: Container(
-          width: 230,
-          height: 40,
-          padding: const EdgeInsets.only(top: 8, bottom: 8),
-          child: TextField(
-            onChanged: (_) {
-              if (textEditingController.text.isNotEmpty) {
-                fieldIsEmpty.value = false;
-              } else {
-                fieldIsEmpty.value = true;
-              }
-            },
-            style: const TextStyle(fontSize: 14),
-            textAlign: TextAlign.start,
-            inputFormatters: [LengthLimitingTextInputFormatter(kItemLengthLimit)],
-            controller: textEditingController,
-            decoration: const InputDecoration(
-              hintText: '(Add item)',
-              hintStyle: TextStyle(color: Colors.black26, fontSize: 14),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black12, width: 3)
-              ),
-            ),
-          ),
-        ),
-        trailing: Padding(
-          padding: const EdgeInsets.only(left: 2.0, top: 2, right: 9, bottom: 2),
-          child: SizedBox(
-            width: 30,
-            height: 30,
-            child: ValueListenableBuilder(
-              valueListenable: fieldIsEmpty,
-              builder: (BuildContext context, bool value, Widget? child) {
-                return ElevatedButton(
-                    style:
-                    ButtonStyle(
-                        backgroundColor: fieldIsEmpty.value ? MaterialStateProperty.all(kColor7) : MaterialStateProperty.all(kColor51),
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(0))),
-                    onPressed: () => showItemQuickAddDialog(),
-                    child: const Icon(
-                      Icons.add,
-                      color: kColor1,
-                    ));
-              },
+        leading: ItemTitleInputLine(textEditingController: textEditingController, fieldIsEmpty: fieldIsEmpty),
+        trailing: AddItemButton(fieldIsEmpty: fieldIsEmpty, showAddItemDialog: showItemQuickAddDialog,),
+      ),
+    );
+  }
+}
 
-            ),
+class AddItemButton extends StatelessWidget {
+  const AddItemButton({
+    super.key,
+    required this.fieldIsEmpty,
+    required this.showAddItemDialog
+  });
+
+  final ValueNotifier<bool> fieldIsEmpty;
+  final Function showAddItemDialog;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 2.0, top: 2, right: 9, bottom: 2),
+      child: SizedBox(
+        width: 30,
+        height: 30,
+        child: ValueListenableBuilder(
+          valueListenable: fieldIsEmpty,
+          builder: (BuildContext context, bool value, Widget? child) {
+            return ElevatedButton(
+                style:
+                ButtonStyle(
+                    backgroundColor: fieldIsEmpty.value ? MaterialStateProperty.all(kColor7) : MaterialStateProperty.all(kColor51),
+                    padding: MaterialStateProperty.all(const EdgeInsets.all(0))),
+                onPressed: () => showAddItemDialog(),
+                child: const Icon(
+                  Icons.add,
+                  color: kColor1,
+                ));
+          },
+
+        ),
+      ),
+    );
+  }
+}
+
+class ItemTitleInputLine extends StatelessWidget {
+  const ItemTitleInputLine({
+    super.key,
+    required this.textEditingController,
+    required this.fieldIsEmpty,
+  });
+
+  final TextEditingController textEditingController;
+  final ValueNotifier<bool> fieldIsEmpty;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 230,
+      height: 40,
+      padding: const EdgeInsets.only(top: 8, bottom: 8),
+      child: TextField(
+        onChanged: (_) {
+          if (textEditingController.text.isNotEmpty) {
+            fieldIsEmpty.value = false;
+          } else {
+            fieldIsEmpty.value = true;
+          }
+        },
+        style: const TextStyle(fontSize: 14),
+        textAlign: TextAlign.start,
+        inputFormatters: [LengthLimitingTextInputFormatter(kItemLengthLimit)],
+        controller: textEditingController,
+        decoration: const InputDecoration(
+          hintText: '(Add item)',
+          hintStyle: TextStyle(color: Colors.black26, fontSize: 14),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black12, width: 3)
           ),
         ),
       ),
