@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_pantry/widgets/sp_button.dart';
+import 'package:shared_pantry/widgets/buttons.dart';
 
 import '../dialogs/add_pantry_dialog.dart';
 

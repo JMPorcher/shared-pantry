@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/providers/pantry_provider.dart';
-import 'package:shared_pantry/widgets/sp_button.dart';
 
+import '../models/item_category.dart';
+import '../providers/pantry_provider.dart';
 import '../constants.dart';
 import '../models/item.dart';
 import '../models/pantry.dart';
+import '../widgets/buttons.dart';
 
 class QuickaddItemDialog extends StatefulWidget {
   const QuickaddItemDialog(this.quickaddedItems, this.title, this.filterItems,

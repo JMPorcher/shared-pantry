@@ -42,13 +42,7 @@ class CategoryExpansionTile extends StatelessWidget {
               currentCategory
                   .toggleExpanded();
             },
-            title: Center(
-                child: Text(
-                  currentCategory.title,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500),
-                )),
+            title: CenteredTitleText(currentCategory),
             backgroundColor: kColor11,
             collapsedBackgroundColor: kColor11,
             children: [
@@ -58,5 +52,23 @@ class CategoryExpansionTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CenteredTitleText extends StatelessWidget {
+  const CenteredTitleText(this.currentCategory, {
+    super.key});
+
+  final ItemCategory currentCategory;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Text(
+          currentCategory.title,
+          style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500),
+        ));
   }
 }

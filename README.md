@@ -84,3 +84,21 @@ JSON User Model
       },
    ]
 }
+
+
+
+Buttons:
+- AddItemButtons
+- All-purpose button
+
+TextFields:
+- QuickAddItem
+- AddItem
+
+Other:
+- switches
+
+Composed widgets:
+- Category tile
+- Category listview
+- 

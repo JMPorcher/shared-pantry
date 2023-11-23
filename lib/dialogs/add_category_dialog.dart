@@ -27,12 +27,12 @@ class AddCategoryDialog extends StatelessWidget {
             ),
             actions: [
               TextButton(
-                  onPressed: () {Navigator.pop(context);},
+                  onPressed: () => Navigator.pop(context),
                   child: const Text('Cancel')),
               TextButton(
                   onPressed: () {
                     final String categoryTitle = titleTextController.text;
-                    if (categoryTitle != '') {
+                    if (categoryTitle.isNotEmpty) {
                       context.read<PantryProvider>().addCategory(currentCategoryList, ItemCategory(categoryTitle));
                       Navigator.pop(context);
                     }

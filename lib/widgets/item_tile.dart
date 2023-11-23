@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_pantry/widgets/switch.dart';
 
 import '../constants.dart';
 
@@ -21,13 +21,10 @@ class ItemTile extends StatelessWidget {
       color: kColor1,
       child: ListTile(
         leading: SizedBox(width: 280, child: Text(itemTitle)),
-        trailing: Switch(
-          activeColor: kColor6,
-          inactiveThumbColor: kColor1,
-          trackColor: MaterialStateProperty.all(kColor61),
-          value: isAvailable,
-          onChanged: toggleSwitch,),
+        trailing: SpSwitch(isAvailable: isAvailable, toggleSwitch: toggleSwitch),
       ),
     );
   }
 }
+
+

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/widgets/sp_button.dart';
+import 'package:shared_pantry/widgets/buttons.dart';
 import 'package:shared_pantry/widgets/sp_cards.dart';
 
 import '../dialogs/add_pantry_dialog.dart';

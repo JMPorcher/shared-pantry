@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-import '../widgets/sp_button.dart';
+import '../widgets/buttons.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
