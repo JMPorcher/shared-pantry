@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/widgets/shopping_item_quickadd_view.dart';
+import 'package:shared_pantry/widgets/switch.dart';
 
 import '../models/item.dart';
 import '../models/pantry.dart';
@@ -36,6 +37,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
         child: Padding(
           padding: const EdgeInsets.all(32),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               buildPantrySwitchList(pantryProvider),
               const DividerLine(),
@@ -61,20 +63,10 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
             final Pantry currentPantry = pantryList[index];
             return ListTile(
               leading: Text(currentPantry.title),
-              trailing: Switch(
-                  value: currentPantry.selectedForShopping,
-                  thumbColor: MaterialStateColor.resolveWith(
-                          (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.selected)) {
-                          return kColor6;
-                        }
-                        return kColor1;
-                      }),
-                  trackColor: MaterialStateProperty.all(kColor61),
-                  onChanged: (newValue) {
-                    pantryProvider.togglePantrySelectedForShopping(
-                        currentPantry, newValue);
-                  }),
+              trailing: SpSwitch(
+                switchValue: currentPantry.selectedForShopping, 
+                toggleSwitch: (newValue) => pantryProvider.togglePantrySelectedForShopping(currentPantry, newValue),
+              )
             );
           }),
     );
@@ -102,24 +94,20 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     );
   }
 
-  SizedBox buildCheckboxList() {
-    return SizedBox(
-        width: double.maxFinite,
-        height: (relevantItems.length + 1) * 50 <= 400
-            ? 400
-            : relevantItems.length * 60,
-        child: ListView.builder(
+  ListView buildCheckboxList() {
+    return ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: relevantItems.length + 1,
+          shrinkWrap: true,
           itemBuilder: (_, index) {
             final Color backgroundColor =
             index.isEven ? kColor1 : kColor11.withOpacity(0.2);
             return (index < relevantItems.length && relevantItems.isNotEmpty)
                 ? buildListTile(relevantItems[index], backgroundColor)
                 : ShoppingItemQuickAdd(quickaddedItems, filterItems,
-                backgroundColor); //Text('Quick add goes here');
+                backgroundColor);
           },
-        ));
+        );
   }
 }
 

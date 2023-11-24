@@ -5,11 +5,11 @@ import '../constants.dart';
 class SpSwitch extends StatelessWidget {
   const SpSwitch({
     super.key,
-    required this.isAvailable,
+    required this.switchValue,
     required this.toggleSwitch,
   });
 
-  final bool isAvailable;
+  final bool switchValue;
   final Function(bool p1) toggleSwitch;
 
   @override
@@ -17,8 +17,17 @@ class SpSwitch extends StatelessWidget {
     return Switch(
       activeColor: kColor6,
       inactiveThumbColor: kColor1,
-      trackColor: MaterialStateProperty.all(kColor61),
-      value: isAvailable,
-      onChanged: toggleSwitch,);
+      value: switchValue,
+      onChanged: toggleSwitch,
+      activeTrackColor: kColor61,
+      inactiveTrackColor: Colors.grey.withOpacity(0.5),
+      thumbColor: MaterialStateColor.resolveWith(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.selected)) {
+              return kColor6;
+            }
+            return kColor1;
+          }),
+    );
   }
 }

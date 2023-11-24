@@ -1,17 +1,19 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
+import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/widgets/buttons.dart';
 
 class RegistrationForm extends StatelessWidget {
-  RegistrationForm({super.key});
-
-  final FirebaseAuth firebaseInstance = FirebaseAuth.instance;
+  const RegistrationForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final ValueNotifier<bool> isFormValidNotifier = ValueNotifier<bool>(false);
     final TextEditingController usernameTEController = TextEditingController();
@@ -43,7 +45,6 @@ class RegistrationForm extends StatelessWidget {
                               usernameTEController: usernameTEController,
                               emailTEController: emailTEController,
                               passwordTEController: passwordTEController,
-                              firebaseInstance: firebaseInstance,
                               isFormValidNotifier: isFormValidNotifier)),
                       const Expanded(flex: 1, child: Text('OR', textAlign: TextAlign.center,)),
                       const Expanded(flex: 4, child: LoginButton())
@@ -65,7 +66,6 @@ class RegisterButton extends StatelessWidget {
     required this.usernameTEController,
     required this.emailTEController,
     required this.passwordTEController,
-    required this.firebaseInstance,
     required this.isFormValidNotifier,
   });
 
@@ -73,11 +73,11 @@ class RegisterButton extends StatelessWidget {
   final TextEditingController usernameTEController;
   final TextEditingController emailTEController;
   final TextEditingController passwordTEController;
-  final FirebaseAuth firebaseInstance;
   final ValueNotifier<bool> isFormValidNotifier;
 
   @override
   Widget build(BuildContext context) {
+    final AuthProvider authProvider = context.watch<AuthProvider>();
     return SpButton(
         onTap: () async {
           final currentState = formKey.currentState;
@@ -86,12 +86,12 @@ class RegisterButton extends StatelessWidget {
             final String eMail = emailTEController.text;
             final String password = passwordTEController.text;
 
-            await firebaseInstance.createUserWithEmailAndPassword(
+            await authProvider.firebaseAuth.createUserWithEmailAndPassword(
                 email: eMail, password: password);
-            await firebaseInstance.signInWithEmailAndPassword(
+            await authProvider.firebaseAuth.signInWithEmailAndPassword(
                 email: eMail, password: password).then((_) => Navigator.pushNamed(context, MainScreen.id));
 
-            final uid = firebaseInstance.currentUser?.uid;
+            final uid = authProvider.user?.uid;
             CollectionReference usersCollection =
                 FirebaseFirestore.instance.collection('users');
             usersCollection.doc(uid).set(

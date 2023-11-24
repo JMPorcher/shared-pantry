@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/widgets/registration_form.dart';
+
+import '../providers/auth_provider.dart';
 
 class FirstStartupScreen extends StatelessWidget {
   const FirstStartupScreen({super.key});
@@ -11,8 +14,6 @@ class FirstStartupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth firebaseInstance = FirebaseAuth.instance;
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kColor1,
@@ -23,7 +24,7 @@ class FirstStartupScreen extends StatelessWidget {
             const WelcomeTextWithPadding(),
             const SizedBox(height: 20.0),
             RegistrationForm(),
-            DontRegisterButton(firebaseInstance: firebaseInstance),
+            DontRegisterButton(),
           ]
             //TODO: Add button for sign in for returning users.
           ),
@@ -34,19 +35,16 @@ class FirstStartupScreen extends StatelessWidget {
 }
 
 class DontRegisterButton extends StatelessWidget {
-  const DontRegisterButton({
-    super.key,
-    required this.firebaseInstance,
-  });
 
-  final FirebaseAuth firebaseInstance;
+
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider firebaseInstance = context.watch<AuthProvider>();
     return MaterialButton(
         onPressed: () async {
           try {
-            await firebaseInstance.signInAnonymously().then((_) => Navigator.pushNamed(context, MainScreen.id));
+            await firebaseInstance.signInAnonymous().then((_) => Navigator.pushNamed(context, MainScreen.id));
           } catch (e) {
             print(e);
           }

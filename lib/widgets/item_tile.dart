@@ -21,7 +21,7 @@ class ItemTile extends StatelessWidget {
       color: kColor1,
       child: ListTile(
         leading: SizedBox(width: 280, child: Text(itemTitle)),
-        trailing: SpSwitch(isAvailable: isAvailable, toggleSwitch: toggleSwitch),
+        trailing: SpSwitch(switchValue: isAvailable, toggleSwitch: toggleSwitch),
       ),
     );
   }

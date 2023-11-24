@@ -1,7 +1,3 @@
-// import 'package:firebase_core/firebase_core.dart';
-// import 'firebase_options.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +26,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => PantryProvider(lastShownScreen, lastShownPantryIndex)),
       ChangeNotifierProvider(
-        create: (_) => AuthProviderRegistered(),
+        create: (_) => AuthProvider(),
       )
     ],
     child: const SharedPantry(),
@@ -42,8 +38,8 @@ class SharedPantry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
+    final AuthProvider auth = context.watch<AuthProvider>();
+    final User? user = auth.user;
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

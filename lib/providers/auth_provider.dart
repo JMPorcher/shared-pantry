@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthProviderRegistered extends ChangeNotifier {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  User? _user;
-
-  // Constructor
-  AuthProviderRegistered() {
+class AuthProvider extends ChangeNotifier {
+  AuthProvider() {
     _firebaseAuth.authStateChanges().listen((User? user) {
-      _user = user;
-      notifyListeners(); // Notify listeners when authentication state changes
+      if (user != null) {
+        if (user.isAnonymous || user.email != null) {
+          _user = user;
+          notifyListeners(); // Notify listener}s when authentication state changes
+        } else {
+          _user = null;
+        }
+      }
     });
   }
 
-  // Getter to access the current user
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  FirebaseAuth get firebaseAuth => _firebaseAuth;
+
+  User? _user;
   User? get user => _user;
 
-  // Sign up with email and password
+
   Future<void> signUpWithEmail(String email, String password) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
@@ -28,7 +33,12 @@ class AuthProviderRegistered extends ChangeNotifier {
     }
   }
 
-  // Sign in with email and password
+
+  Future<void> signInAnonymous() async {
+    await _firebaseAuth.signInAnonymously();
+  }
+
+
   Future<void> signInWithEmail(String email, String password) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
@@ -40,7 +50,6 @@ class AuthProviderRegistered extends ChangeNotifier {
     }
   }
 
-  // Sign out
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
