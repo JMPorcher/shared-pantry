@@ -57,8 +57,9 @@ class PantryCard extends StatelessWidget {
       child: SpCard.pantry(currentPantry,
           isSelected: index == pantryProvider.selectedPantryIndex,
           isInOverviewScreen: true, onTap: () {
-            pantryProvider.switchPantry(index);
             final bool newIndexIsOldIndex = index == pantryProvider.selectedPantryIndex;
+            pantryProvider.switchPantry(index);
+            print(newIndexIsOldIndex);
             Timer(
                 Duration(
                     milliseconds: newIndexIsOldIndex
