@@ -22,48 +22,80 @@ class EditCategoryDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: categoryTitleTextController,
-                  maxLength: 20,
-                  autofocus: true,
-                ),
-              ),
-              IconButton(
-                  onPressed: () {
-                    if (categoryTitleTextController.text.isNotEmpty) {
-                        context
-                            .read<PantryProvider>()
-                            .editCategoryName(itemCategory, categoryTitleTextController.text);
-
-                      Navigator.pop(context);
-                    }
-                  },
-                  icon: const Icon(Icons.save))
-            ],
-          ),
+          EditCategoryRow(categoryTitleTextController: categoryTitleTextController, itemCategory: itemCategory),
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Delete Category'),
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  showDialog(
-                      context: context,
-                      builder: (context) => DeleteCategoryDialog(
-                          currentCategory: itemCategory,
-                          currentCategoryList: itemCategoryList));
-                },
-                icon: const Icon(Icons.delete),
-              )
-            ],
-          )
+          DeleteCategoryRow(itemCategory: itemCategory, itemCategoryList: itemCategoryList)
         ],
       ),
+    );
+  }
+}
+
+class EditCategoryRow extends StatelessWidget {
+  const EditCategoryRow({
+    super.key,
+    required this.categoryTitleTextController,
+    required this.itemCategory,
+  });
+
+  final TextEditingController categoryTitleTextController;
+  final ItemCategory itemCategory;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            controller: categoryTitleTextController,
+            maxLength: 20,
+            autofocus: true,
+          ),
+        ),
+        IconButton(
+            onPressed: () {
+              if (categoryTitleTextController.text.isNotEmpty) {
+                  context
+                      .read<PantryProvider>()
+                      .editCategoryName(itemCategory, categoryTitleTextController.text);
+
+                Navigator.pop(context);
+              }
+            },
+            icon: const Icon(Icons.save))
+      ],
+    );
+  }
+}
+
+class DeleteCategoryRow extends StatelessWidget {
+  const DeleteCategoryRow({
+    super.key,
+    required this.itemCategory,
+    required this.itemCategoryList,
+  });
+
+  final ItemCategory itemCategory;
+  final List<ItemCategory> itemCategoryList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text('Delete Category'),
+        IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+            showDialog(
+                context: context,
+                builder: (context) => DeleteCategoryDialog(
+                    currentCategory: itemCategory,
+                    currentCategoryList: itemCategoryList));
+          },
+          icon: const Icon(Icons.delete),
+        )
+      ],
     );
   }
 }

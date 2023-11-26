@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/widgets/buttons.dart';
-import 'package:shared_pantry/widgets/sp_cards.dart';
+import 'package:shared_pantry/widgets/sp_card.dart';
 
+import '../constants.dart';
 import '../dialogs/add_pantry_dialog.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
@@ -54,7 +55,7 @@ class PantryCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => pantryProvider.switchPantry(index),
       onLongPress: () => pantryProvider.removePantryByIndex(index),
-      child: SpCard.pantry(currentPantry,
+      child: SpCard(currentPantry,
           isSelected: index == pantryProvider.selectedPantryIndex,
           isInOverviewScreen: true, onTap: () {
             final bool newIndexIsOldIndex = index == pantryProvider.selectedPantryIndex;
@@ -82,7 +83,7 @@ class AddPantryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpButton(
       child: const Text('Add a pantry',
-          style: TextStyle(color: Colors.white)),
+          style: kButtonTextStyle),
       onTap: () {
         showDialog(
             context: context,

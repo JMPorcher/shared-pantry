@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/constants.dart';
+import 'package:shared_pantry/dialogs/edit_pantry_dialog.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/widgets/no_categories_splash.dart';
-import 'package:shared_pantry/widgets/sp_cards.dart';
+import 'package:shared_pantry/widgets/sp_card.dart';
 
 import '../dialogs/add_category_dialog.dart';
 import '../models/pantry.dart';
@@ -23,14 +25,16 @@ class PantryScreen extends StatelessWidget {
 
     return Column(
       children: [
-        SpCard.pantry(
+        SpCard(
           currentPantry,
           isSelected: false,
           isInOverviewScreen: false,
-          onTap: () {},
+          onTap: ()
+            => showDialog(context: context, builder: (BuildContext context)
+              => EditPantryDialog(pantry: currentPantry)),
           cardText: currentPantry.title,
         ),
-        //TODO Replace card with whole width widget, possibly SliverAppBar
+        //TODO Surround card with SliverAppBar
         if (currentCategoryList.isEmpty) NoCategoriesSplashView(currentCategoryList: currentCategoryList)
         else buildCategories(currentCategoryList)
       ],
@@ -48,18 +52,31 @@ class PantryScreen extends StatelessWidget {
                     return CategoryExpansionTile(currentCategory,
                         itemCategoryList: currentCategoryList);
                   } else {
-                    return SpButton(
-                        child: const Text('Add a category',
-                            style: TextStyle(color: Colors.white)),
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  AddCategoryDialog(currentCategoryList));
-                        });
+                    return AddCategoryButton(currentCategoryList);
                   }
               }),
                 );
+  }
+}
+
+class AddCategoryButton extends StatelessWidget {
+  const AddCategoryButton(this.currentCategoryList, {
+    super.key,
+  });
+
+  final List<ItemCategory> currentCategoryList;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpButton(
+        child: const Text('Add a category',
+            style: kButtonTextStyle),
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) =>
+                  AddCategoryDialog(currentCategoryList));
+        });
   }
 }
 
@@ -79,15 +96,7 @@ class NoCategoriesSplashView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                   const NoCategoriesSplashScreen(),
-                  SpButton(
-                      child: const Text('Add your first category',
-                          style: TextStyle(color: Colors.white)),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                AddCategoryDialog(currentCategoryList));
-                      })
+                  AddCategoryButton(currentCategoryList)
                 ]),
     );
   }

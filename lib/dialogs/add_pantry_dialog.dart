@@ -36,12 +36,12 @@ class AddPantryDialog extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       final String pantryTitle = titleTextController.text;
-                      if (pantryTitle != '') {
+                      if (pantryTitle.isNotEmpty) {
                         pantryProvider.addPantryWithTitle(pantryTitle);
                         pantryProvider.switchPantry(pantryProvider.pantriesList.length-1);
                         pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
                             //TODO Should add with background image
-                            //TODO Should add founder name of currentUser ID (FirebaseAuth.instance.currentUser.uid)
+                            //TODO Should add founder name of currentUser ID (FirebaseAuth.instance.currentUser.uid), nullable for anonymous user
                             //TODO Should add with generated document ID from firebase
                         Navigator.pop(context);
                       }

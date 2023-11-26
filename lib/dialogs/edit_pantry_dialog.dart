@@ -22,50 +22,9 @@ class EditPantryDialog extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kColor51, width: 1.5))),
-                      controller: pantryTitleTextController,
-                      autofocus: true,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: TextButton(
-                        onPressed: () {
-                          if (pantryTitleTextController.text.isNotEmpty) {
-                            context
-                                .read<PantryProvider>()
-                                .renamePantry(pantry, pantryTitleTextController.text);
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Icon(Icons.save, color: kColor51,)),
-                  ),
-                ],
-              ),
-            ),
+            EditPantryContainer(pantryTitleTextController: pantryTitleTextController, pantry: pantry),
             const SizedBox(height: 50),
-            GestureDetector(
-              onTap: () {
-                context.read<PantryProvider>().removePantry(pantry);
-                Navigator.pop(context);
-              },
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                color: kColor51,
-                child: const Row(children: [
-                  Expanded(flex: 3, child: Text('Delete Pantry', style: TextStyle(color: Colors.white),)),
-                  Expanded(flex: 1, child: Icon(Icons.delete)),
-                ]),
-              ),
-            ),
+            DeletePantryRow(pantry: pantry),
           ],
         ),
         actions: [
@@ -75,5 +34,76 @@ class EditPantryDialog extends StatelessWidget {
               },
               child: const Text('Cancel', style: TextStyle(color: kColor51)), ),
         ]);
+  }
+}
+
+class EditPantryContainer extends StatelessWidget {
+  const EditPantryContainer({
+    super.key,
+    required this.pantryTitleTextController,
+    required this.pantry,
+  });
+
+  final TextEditingController pantryTitleTextController;
+  final Pantry pantry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: TextFormField(
+              decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kColor51, width: 1.5))),
+              controller: pantryTitleTextController,
+              autofocus: true,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: TextButton(
+                onPressed: () {
+                  if (pantryTitleTextController.text.isNotEmpty) {
+                    context
+                        .read<PantryProvider>()
+                        .renamePantry(pantry, pantryTitleTextController.text);
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Icon(Icons.save, color: kColor51,)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DeletePantryRow extends StatelessWidget {
+  const DeletePantryRow({
+    super.key,
+    required this.pantry,
+  });
+
+  final Pantry pantry;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.read<PantryProvider>().removePantry(pantry);
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: kColor51),
+        child: const Row(children: [
+          Expanded(flex: 3, child: Text('Delete Pantry', style: TextStyle(color: Colors.white),)),
+          Expanded(flex: 1, child: Icon(Icons.delete, color: kColor1,)),
+        ]),
+      ),
+    );
   }
 }

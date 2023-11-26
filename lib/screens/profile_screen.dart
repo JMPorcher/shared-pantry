@@ -23,8 +23,7 @@ class ProfileScreen extends StatelessWidget {
           .get();
       return userSnapshot.data() as Map<String, dynamic>?;
     } catch (e) {
-      print(e);
-      return null;
+      rethrow;
     }
   }
 
@@ -47,39 +46,6 @@ class ProfileScreen extends StatelessWidget {
         ))));
   }
 
-  FutureBuilder<Map<String, dynamic>?> buildUIDText() {
-    return FutureBuilder(
-                  future: getUserInfo(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<dynamic> snapshot) {
-                    TextStyle uidStringStyle = const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w300);
-                    String userIdString = '';
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      userIdString = 'Can\'t access user ID';
-                      return Text(
-                        userIdString,
-                        style: uidStringStyle,
-                      );
-                    } else if (!snapshot.hasData || snapshot.data == null) {
-                      userIdString = 'No UID found';
-                      return Text(
-                        userIdString,
-                        style: uidStringStyle,
-                      );
-                    } else {
-                      userIdString =
-                          firebaseAuth.currentUser?.uid ?? 'No UID found';
-                      return Text(
-                        userIdString,
-                        style: uidStringStyle,
-                      );
-                    }
-                  });
-  }
-
   FutureBuilder<Map<String, dynamic>?> buildGreetingTextWithName() {
     return FutureBuilder<Map<String, dynamic>?>(
                   future: getUserInfo(),
@@ -89,20 +55,72 @@ class ProfileScreen extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return const Center(
-                          child: Text('Can\'t access user name'));
+                          child: TitleText('Can\'t access user name'));
                     } else if (!snapshot.hasData || snapshot.data == null) {
-                      return const Center(child: Text('No user name found'));
+                      return const Center(child: TitleText('No user name found'));
                     } else {
                       Map<String, dynamic>? userData = snapshot.data;
                       String? userName = userData?['display_name'];
-                      return Text(
+                      return TitleText(
                         'Hello ${userName ?? 'User'}!',
-                        style: const TextStyle(
-                            fontSize: 36, fontWeight: FontWeight.w600),
                         maxLines: 2,
                       );
                     }
                   });
+  }
+
+  FutureBuilder<Map<String, dynamic>?> buildUIDText() {
+    return FutureBuilder(
+                  future: getUserInfo(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<dynamic> snapshot) {
+                    String userIdString = '';
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      userIdString = 'Can\'t access user ID';
+                      return UidText(
+                        userIdString,
+                      );
+                    } else if (!snapshot.hasData || snapshot.data == null) {
+                      userIdString = 'No UID found';
+                      return UidText(
+                        userIdString,
+                      );
+                    } else {
+                      userIdString =
+                          firebaseAuth.currentUser?.uid ?? 'No UID found';
+                      return UidText(
+                        userIdString,
+                      );
+                    }
+                  });
+  }
+}
+
+class TitleText extends StatelessWidget {
+  const TitleText(this.text, {
+    super.key, this.maxLines = 1
+  });
+
+  final int maxLines;
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Text(text, style: kTitleTextStyle, maxLines: maxLines,);
+  }
+}
+
+class UidText extends StatelessWidget {
+  const UidText(this.text, {
+    super.key, this.maxLines = 1
+  });
+
+  final int maxLines;
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Text(text, style: kBodyTextStyle, maxLines: maxLines,);
   }
 }
 
@@ -116,7 +134,7 @@ class DeleteAccountButton extends StatelessWidget {
     return SpButton(
       onTap: () {},
       child: const Text('Delete account',
-          style: TextStyle(color: Colors.white)),
+          style: kButtonTextStyle),
     );
   }
 }

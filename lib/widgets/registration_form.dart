@@ -125,10 +125,7 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpButton(onTap: (){}, color: kColor6, horizontalPadding: 0, child: const Text(
       'Login',
-      style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.white),
+      style: kButtonTextStyle,
     ),);
   }
 }

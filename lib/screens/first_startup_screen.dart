@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
@@ -14,19 +13,18 @@ class FirstStartupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kColor1,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
-            const TitleTextWithPadding(),
-            const WelcomeTextWithPadding(),
-            const SizedBox(height: 20.0),
+            TitleTextWithPadding(),
+            WelcomeTextWithPadding(),
+            SizedBox(height: 20.0),
             RegistrationForm(),
-            DontRegisterButton(),
+            DoNotRegisterButton(),
           ]
-            //TODO: Add button for sign in for returning users.
           ),
         ),
       ),
@@ -34,8 +32,8 @@ class FirstStartupScreen extends StatelessWidget {
   }
 }
 
-class DontRegisterButton extends StatelessWidget {
-
+class DoNotRegisterButton extends StatelessWidget {
+  const DoNotRegisterButton({super.key});
 
 
   @override
@@ -46,7 +44,7 @@ class DontRegisterButton extends StatelessWidget {
           try {
             await firebaseInstance.signInAnonymous().then((_) => Navigator.pushNamed(context, MainScreen.id));
           } catch (e) {
-            print(e);
+            rethrow;
           }
 
         },
@@ -75,7 +73,7 @@ class TitleTextWithPadding extends StatelessWidget {
       padding: EdgeInsets.all(24.0),
       child: Text(
         'Welcome to Shared Pantry',
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        style: kTitleTextStyle,
       ),
     );
   }
@@ -94,11 +92,7 @@ class WelcomeTextWithPadding extends StatelessWidget {
         'Keep track all your household items that might deplete: from foods to cleaning supplies. '
             '\n\n'
             'Sign up for free and share any number of Pantries with others.',
-        style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.normal,
-            height: 1.5
-            ),
+        style: kBodyTextStyle,
       ),
     );
   }

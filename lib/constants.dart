@@ -79,3 +79,18 @@ const Color kColor6 = Color(0xFF9E7682);
 const Color kColor61 = Color(0xFFd8c8cd);
 const Color kColor7 = Color(0xFF96afb8);
 
+const TextStyle kButtonTextStyle = TextStyle(fontSize: 20.0,
+    fontWeight: FontWeight.bold,
+    color: kColor1);
+
+const TextStyle kBodyTextStyle = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.normal,
+  color: Colors.black
+);
+
+const TextStyle kTitleTextStyle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: Colors.black
+);
