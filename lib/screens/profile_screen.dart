@@ -134,7 +134,7 @@ class DeleteAccountButton extends StatelessWidget {
     return SpButton.filledButton(
       onTap: () {},
       child: const Text('Delete account',
-          style: kButtonTextStyle),
+          style: kFilledButtonTextStyle),
     );
   }
 }

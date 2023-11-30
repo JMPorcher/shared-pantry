@@ -12,17 +12,31 @@ import '../models/pantry.dart';
 import '../widgets/buttons.dart';
 import '../widgets/category_expansion_tile.dart';
 
-class PantryScreen extends StatelessWidget {
+class PantryScreen extends StatefulWidget {
   const PantryScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final PantryProvider pantryProvider = context.watch<PantryProvider>();
-    final int currentPantryIndex = pantryProvider.selectedPantryIndex;
-    final Pantry currentPantry =
-        pantryProvider.pantriesList[currentPantryIndex];
-    final List<ItemCategory> currentCategoryList = currentPantry.categories;
+  State<PantryScreen> createState() => _PantryScreenState();
+}
 
+class _PantryScreenState extends State<PantryScreen> {
+  late final PantryProvider pantryProvider;
+  late final int currentPantryIndex;
+  late final Pantry currentPantry;
+  late final List<ItemCategory> currentCategoryList;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pantryProvider = context.watch<PantryProvider>();
+    currentPantryIndex = pantryProvider.selectedPantryIndex;
+    currentPantry = pantryProvider.pantriesList[currentPantryIndex];
+    currentCategoryList = currentPantry.categories;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         SpCard(
@@ -70,7 +84,7 @@ class AddCategoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpButton.filledButton(
         child: const Text('Add a category',
-            style: kButtonTextStyle),
+            style: kFilledButtonTextStyle),
         onTap: () {
           showDialog(
               context: context,

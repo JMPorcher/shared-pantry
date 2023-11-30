@@ -84,10 +84,11 @@ class RegisterButton extends StatelessWidget {
             final String eMail = emailTEController.text;
             final String password = passwordTEController.text;
 
+            final navigator = Navigator.of(context);
             await authProvider.firebaseAuth.createUserWithEmailAndPassword(
                 email: eMail, password: password);
             await authProvider.firebaseAuth.signInWithEmailAndPassword(
-                email: eMail, password: password).then((_) => Navigator.pushNamed(context, MainScreen.id));
+                email: eMail, password: password).then((_) => navigator.pushNamed(MainScreen.id));
 
             final uid = authProvider.user?.uid;
             CollectionReference usersCollection =
@@ -102,12 +103,15 @@ class RegisterButton extends StatelessWidget {
         horizontalPadding: 0,
         child: const Padding(
           padding: EdgeInsets.all(12.0),
-          child: Text(
-            'Register',
-            style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
+          child: FittedBox(
+            child: Text(
+              'Register',
+              maxLines: 1,
+              style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
           ),
         ));
   }
@@ -123,7 +127,7 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpButton.outlineButton(onTap: (){}, horizontalPadding: 0, child: const Text(
       'Login',
-      style: kButtonTextStyle,
+      style: kOutlineButtonTextStyle,
     ),);
   }
 }

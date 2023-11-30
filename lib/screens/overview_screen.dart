@@ -6,20 +6,29 @@ import 'package:shared_pantry/widgets/no_pantries_splash.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
-class OverviewScreen extends StatelessWidget {
+class OverviewScreen extends StatefulWidget {
   const OverviewScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
-    final PageController pageController =
-        pantryProvider.mainScreenPageController;
-    List<Pantry> pantryList = pantryProvider.pantriesList;
+  State<OverviewScreen> createState() => _OverviewScreenState();
+}
 
+class _OverviewScreenState extends State<OverviewScreen> {
+  late List<Pantry> pantryList;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
+    pantryList = pantryProvider.pantriesList;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return pantryList.isEmpty
         ? const NoPantriesSplash()
         : PantryCardListView(
-        pageController: pageController,
         context: context)
     ;
   }

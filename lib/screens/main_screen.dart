@@ -12,17 +12,32 @@ import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 import '../widgets/sp_bottom_navigation_bar.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   static const String id = 'pantry screen';
 
   @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  late final PantryProvider pantryProvider;
+  late final int activeScreenIndex;
+  late final PageController pageController;
+  late final List<Pantry> pantryList;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pantryProvider = context.watch<PantryProvider>();
+    activeScreenIndex = pantryProvider.shownScreenIndex;
+    pageController = pantryProvider.mainScreenPageController;
+    pantryList = pantryProvider.pantriesList;
+  }
+  @override
   Widget build(BuildContext context) {
-    final PantryProvider pantryProvider = context.watch<PantryProvider>();
-    final int activeScreenIndex = pantryProvider.shownScreenIndex;
-    final PageController pageController = pantryProvider.mainScreenPageController;
-    final List<Pantry> pantryList = pantryProvider.pantriesList;
 
     void switchScreen(int newIndex) async {
       pantryProvider.switchActiveScreen(newIndex);

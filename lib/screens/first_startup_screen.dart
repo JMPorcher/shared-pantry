@@ -23,42 +23,12 @@ class FirstStartupScreen extends StatelessWidget {
             WelcomeTextWithPadding(),
             SizedBox(height: 20.0),
             RegistrationForm(),
-            DoNotRegisterButton(),
+            SkipButton(),
           ]
           ),
         ),
       ),
     );
-  }
-}
-
-class DoNotRegisterButton extends StatelessWidget {
-  const DoNotRegisterButton({super.key});
-
-
-  @override
-  Widget build(BuildContext context) {
-    AuthProvider firebaseInstance = context.watch<AuthProvider>();
-    return MaterialButton(
-        onPressed: () async {
-          try {
-            await firebaseInstance.signInAnonymous().then((_) => Navigator.pushNamed(context, MainScreen.id));
-          } catch (e) {
-            rethrow;
-          }
-
-        },
-        child: const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Text(
-            'No thanks, I can sign up later at any time',
-            style: TextStyle(
-                decoration: TextDecoration.underline,
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue),
-          ),
-        ));
   }
 }
 
@@ -95,5 +65,35 @@ class WelcomeTextWithPadding extends StatelessWidget {
         style: kBodyTextStyle,
       ),
     );
+  }
+}
+
+class SkipButton extends StatelessWidget {
+  const SkipButton({super.key});
+
+
+  @override
+  Widget build(BuildContext context) {
+    AuthProvider firebaseInstance = context.watch<AuthProvider>();
+    final navigator = Navigator.of(context);
+    return MaterialButton(
+        onPressed: () async {
+          try {
+            await firebaseInstance.signInAnonymous().then((_) => navigator.pushNamed(MainScreen.id));
+          } catch (e) {
+            rethrow;
+          }
+        },
+        child: const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            'No thanks, I can sign up later at any time',
+            style: TextStyle(
+                decoration: TextDecoration.underline,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue),
+          ),
+        ));
   }
 }
