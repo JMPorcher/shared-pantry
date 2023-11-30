@@ -173,7 +173,7 @@ class AddToPantryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpButton(
+    return SpButton.filledButton(
         onTap: () {
           chosenCategory?.add(Item(title));
           addToShoppingList();

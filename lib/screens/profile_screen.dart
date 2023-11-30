@@ -131,7 +131,7 @@ class DeleteAccountButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpButton(
+    return SpButton.filledButton(
       onTap: () {},
       child: const Text('Delete account',
           style: kButtonTextStyle),

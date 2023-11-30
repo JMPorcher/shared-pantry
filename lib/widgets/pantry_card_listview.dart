@@ -81,7 +81,7 @@ class AddPantryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpButton(
+    return SpButton.filledButton(
       child: const Text('Add a pantry',
           style: kButtonTextStyle),
       onTap: () {

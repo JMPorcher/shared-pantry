@@ -3,17 +3,24 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class SpButton extends StatelessWidget {
-  const SpButton({
+  const SpButton.filledButton({
     super.key,
     required this.child,
     required this.onTap,
-    this.color = kColor5,
     this.verticalPadding = 6,
-    this.horizontalPadding = 12});
+    this.horizontalPadding = 12}): fillColor = kColor5, outlineColor = null;
+
+  const SpButton.outlineButton({
+    super.key,
+    required this.child,
+    required this.onTap,
+    this.verticalPadding = 6,
+    this.horizontalPadding = 12}): fillColor = null, outlineColor = kColor5;
 
   final Function onTap;
   final Widget child;
-  final Color color;
+  final Color? fillColor;
+  final Color? outlineColor;
   final double verticalPadding;
   final double horizontalPadding;
 
@@ -23,7 +30,8 @@ class SpButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
         margin: const EdgeInsets.only(top: 6, left: 10, right: 10, bottom: 20),
         decoration: BoxDecoration(
-            color: color,
+            color: fillColor,
+            border: Border.all(width: 2, color: outlineColor ?? kColor5),
             borderRadius: BorderRadius.circular(12),
             boxShadow: const [
               BoxShadow(

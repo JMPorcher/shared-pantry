@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +76,7 @@ class RegisterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthProvider authProvider = context.watch<AuthProvider>();
-    return SpButton(
+    return SpButton.filledButton(
         onTap: () async {
           final currentState = formKey.currentState;
           if (currentState != null && currentState.validate()) {
@@ -123,7 +121,7 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpButton(onTap: (){}, color: kColor6, horizontalPadding: 0, child: const Text(
+    return SpButton.outlineButton(onTap: (){}, horizontalPadding: 0, child: const Text(
       'Login',
       style: kButtonTextStyle,
     ),);
