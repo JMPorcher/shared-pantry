@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/dialogs/edit_pantry_dialog.dart';
 import 'package:shared_pantry/models/item_category.dart';
+import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/widgets/no_categories_splash.dart';
 import 'package:shared_pantry/widgets/sp_card.dart';
@@ -21,6 +22,7 @@ class PantryScreen extends StatefulWidget {
 
 class _PantryScreenState extends State<PantryScreen> {
   late final PantryProvider pantryProvider;
+  late final AppStateProvider appStateProvider;
   late final int currentPantryIndex;
   late final Pantry currentPantry;
   late final List<ItemCategory> currentCategoryList;
@@ -30,7 +32,8 @@ class _PantryScreenState extends State<PantryScreen> {
     // TODO: implement initState
     super.initState();
     pantryProvider = context.watch<PantryProvider>();
-    currentPantryIndex = pantryProvider.selectedPantryIndex;
+
+    currentPantryIndex = appStateProvider.selectedPantryIndex;
     currentPantry = pantryProvider.pantriesList[currentPantryIndex];
     currentCategoryList = currentPantry.categories;
   }

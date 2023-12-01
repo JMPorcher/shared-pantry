@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/screens/first_startup_screen.dart';
@@ -22,24 +23,30 @@ void main() async {
   final int lastShownScreen = sharedPreferences.getInt('Last shown screen') ?? 0;
   final int lastShownPantryIndex = sharedPreferences.getInt('Last shown pantry') ?? 0;
 
+  final appStateProvider = AppStateProvider(lastShownScreen, lastShownPantryIndex);
+  final pantryProvider = PantryProvider(appStateProvider);
+  final AuthProvider authProvider = AuthProvider();
+  final User? user = authProvider.user;
+
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => PantryProvider(lastShownScreen, lastShownPantryIndex)),
-      ChangeNotifierProvider(
-        create: (_) => AuthProvider(),
-      )
+      ChangeNotifierProvider.value(value: appStateProvider),
+      ChangeNotifierProvider.value(value: pantryProvider),
+      ChangeNotifierProvider.value(value: authProvider),
     ],
-    child: const SharedPantry(),
+    child: SharedPantry(user: user),
   ));
 }
 
 class SharedPantry extends StatelessWidget {
-  const SharedPantry({super.key});
+
+  const SharedPantry({super.key, required this.user});
+  final User? user;
 
   @override
   Widget build(BuildContext context) {
-    final AuthProvider auth = context.watch<AuthProvider>();
-    final User? user = auth.user;
+
+
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

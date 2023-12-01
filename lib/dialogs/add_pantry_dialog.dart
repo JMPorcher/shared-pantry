@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/providers/app_state_provider.dart';
 
 import '../providers/pantry_provider.dart';
 
@@ -13,7 +14,7 @@ class AddPantryDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     titleTextController.text = pantryTitleValueNotifier.value;
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
-    final PageController pageController = context.watch<PantryProvider>().mainScreenPageController;
+    final PageController pageController = context.watch<AppStateProvider>().mainScreenPageController;
 
     //TODO Background image picker
 

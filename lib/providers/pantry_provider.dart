@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'app_state_provider.dart';
 
 import '../models/item.dart';
 import '../models/pantry.dart';
 
 class PantryProvider with ChangeNotifier {
+  PantryProvider(this.appStateProvider);
 
-  PantryProvider(this.lastShownScreen, this.lastShownPantryIndex) {
-      shownScreenIndex = lastShownScreen;
-      _selectedPantryIndex = lastShownPantryIndex;
-      mainScreenPageController = PageController(initialPage: shownScreenIndex);
-  }
-
+  final AppStateProvider appStateProvider;
   final List<ItemCategory> _categoriesList = [kTestCategory];
   List<ItemCategory> get categoriesList => _categoriesList;
 
@@ -22,23 +19,7 @@ class PantryProvider with ChangeNotifier {
   ];
   List<Pantry> get pantriesList => _pantriesList;
 
-  final int lastShownPantryIndex;
-  int _selectedPantryIndex = 0;
-  int get selectedPantryIndex => _selectedPantryIndex;
 
-  final int lastShownScreen;
-  int shownScreenIndex = 0;
-
-  late final PageController mainScreenPageController;
-
-  //===========GENERAL FUNCTIONS===========
-
-  void switchActiveScreen(newIndex) async {
-    shownScreenIndex = newIndex;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setInt('Last shown screen', newIndex);
-    notifyListeners();
-  }
 
   void updateState() {
     notifyListeners();
@@ -47,7 +28,7 @@ class PantryProvider with ChangeNotifier {
   // ===========PANTRY FUNCTIONS===========
   int addPantryWithTitle(String title) {
     _pantriesList.add(Pantry(title: title));
-    switchActiveScreen(1);
+    appStateProvider.switchActiveScreen(1);
     notifyListeners();
     return _pantriesList.length - 1;
   }
@@ -63,7 +44,7 @@ class PantryProvider with ChangeNotifier {
   }
 
   void switchPantry(int newIndex) async {
-    _selectedPantryIndex = newIndex;
+    appStateProvider.newPantryIndex = newIndex;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setInt('Last shown pantry', newIndex <= 2 ? newIndex : 2);
     notifyListeners();

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
+import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
@@ -22,25 +23,23 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late final PantryProvider pantryProvider;
-  late final int activeScreenIndex;
-  late final PageController pageController;
-  late final List<Pantry> pantryList;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    pantryProvider = context.watch<PantryProvider>();
-    activeScreenIndex = pantryProvider.shownScreenIndex;
-    pageController = pantryProvider.mainScreenPageController;
-    pantryList = pantryProvider.pantriesList;
   }
   @override
   Widget build(BuildContext context) {
 
+    final PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
+    final AppStateProvider appStateProvider = Provider.of<AppStateProvider>(context);
+    final int activeScreenIndex = appStateProvider.shownScreenIndex;
+    final PageController pageController = appStateProvider.mainScreenPageController;
+    final List<Pantry> pantryList = pantryProvider.pantriesList;
+
     void switchScreen(int newIndex) async {
-      pantryProvider.switchActiveScreen(newIndex);
+      appStateProvider.switchActiveScreen(newIndex);
       final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       sharedPreferences.setInt('Last shown screen', activeScreenIndex);
     }
