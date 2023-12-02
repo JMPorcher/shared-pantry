@@ -35,4 +35,6 @@ class Pantry {
   void toggleSelectedForPushNotifications(bool newValue) {
     _selectedForPushNotifications = newValue;
   }
+
+
 }

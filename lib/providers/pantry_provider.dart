@@ -23,8 +23,6 @@ class PantryProvider with ChangeNotifier {
   ];
   List<Pantry> get pantriesList => _pantriesList;
 
-
-
   void updateState() {
     notifyListeners();
   }
@@ -34,13 +32,12 @@ class PantryProvider with ChangeNotifier {
     final User? user = await authProvider.getCurrentUser();
     DocumentReference<Map<String, dynamic>> documentReference = await FirebaseFirestore.instance.collection('pantries').add({
       'pantry_title': title,
-      'founder' : user?.uid,
+      'founder_id' : user?.uid,
       'users' : [user?.uid]
       //TODO Add categories and items when assistant is created
     });
     final String pantryId = documentReference.id;
     _pantriesList.add(Pantry(title: title, founderID: user?.uid, pantryID: pantryId));
-    print(pantriesList.length - 1);
     appStateProvider.switchActiveScreen(1);
     notifyListeners();
   }
