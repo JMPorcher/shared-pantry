@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
@@ -81,8 +82,14 @@ class SkipButton extends StatelessWidget {
           try {
             await firebaseInstance.signInAnonymous().then((_) {
               navigator.pushNamed(MainScreen.id);
-              final String? user = firebaseInstance.firebaseAuth.currentUser?.uid;
-              print(user ?? 'No user');
+              final String? userID = firebaseInstance.firebaseAuth.currentUser?.uid;
+              FirebaseFirestore.instance.collection('users').doc(userID).set({
+                'email': '',
+                'user_name' : '',
+                'subscribed_pantries' : []
+              })
+              //Add an object with the userID into a 'users' collection
+              ;
             });
           } catch (e) {
             rethrow;
