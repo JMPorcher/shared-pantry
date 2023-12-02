@@ -15,6 +15,10 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
+  Future<User?> getCurrentUser() async {
+    return _firebaseAuth.currentUser;
+  }
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseAuth get firebaseAuth => _firebaseAuth;
 

@@ -79,7 +79,11 @@ class SkipButton extends StatelessWidget {
     return MaterialButton(
         onPressed: () async {
           try {
-            await firebaseInstance.signInAnonymous().then((_) => navigator.pushNamed(MainScreen.id));
+            await firebaseInstance.signInAnonymous().then((_) {
+              navigator.pushNamed(MainScreen.id);
+              final String? user = firebaseInstance.firebaseAuth.currentUser?.uid;
+              print(user ?? 'No user');
+            });
           } catch (e) {
             rethrow;
           }

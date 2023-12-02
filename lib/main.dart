@@ -20,49 +20,55 @@ void main() async {
   );
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  final int lastShownScreen = sharedPreferences.getInt('Last shown screen') ?? 0;
-  final int lastShownPantryIndex = sharedPreferences.getInt('Last shown pantry') ?? 0;
-
-  final appStateProvider = AppStateProvider(lastShownScreen, lastShownPantryIndex);
-  final pantryProvider = PantryProvider(appStateProvider);
-  final AuthProvider authProvider = AuthProvider();
-  final User? user = authProvider.user;
-
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider.value(value: appStateProvider),
-      ChangeNotifierProvider.value(value: pantryProvider),
-      ChangeNotifierProvider.value(value: authProvider),
-    ],
-    child: SharedPantry(user: user),
-  ));
+  final int lastShownScreen =
+      sharedPreferences.getInt('Last shown screen') ?? 0;
+  final int lastShownPantryIndex =
+      sharedPreferences.getInt('Last shown pantry') ?? 0;
+  runApp(SharedPantry(lastShownScreen, lastShownPantryIndex));
 }
 
 class SharedPantry extends StatelessWidget {
+  const SharedPantry(this.lastShownScreen, this.lastShownPantryIndex,
+      {super.key});
 
-  const SharedPantry({super.key, required this.user});
-  final User? user;
+  final int lastShownPantryIndex;
+  final int lastShownScreen;
 
   @override
   Widget build(BuildContext context) {
+    final appStateProvider =
+        AppStateProvider(lastShownScreen, lastShownPantryIndex);
+    final pantryProvider = PantryProvider(appStateProvider);
+    final AuthProvider authProvider = AuthProvider();
 
-
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown
-    ]);
-    return MaterialApp(
-        title: 'Shared Pantry',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: (user == null)
-            ? const FirstStartupScreen()
-            : const MainScreen(),
-        routes: {
-          ProfileScreen.id: (context) => ProfileScreen(),
-          MainScreen.id: (context) => const MainScreen(),
-        });
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: appStateProvider),
+          ChangeNotifierProvider.value(value: pantryProvider),
+          ChangeNotifierProvider.value(value: authProvider),
+        ],
+        child: FutureBuilder<User?>(
+          future: authProvider.getCurrentUser(),
+          builder: (context, snapshot) {
+            User? user;
+            if (snapshot.connectionState == ConnectionState.done) {
+              user = snapshot.data;
+            }
+            return MaterialApp(
+                title: 'Shared Pantry',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                ),
+                home: (user == null)
+                    ? const FirstStartupScreen()
+                    : const MainScreen(),
+                routes: {
+                  ProfileScreen.id: (context) => ProfileScreen(),
+                  MainScreen.id: (context) => const MainScreen(),
+                });
+          },
+        ));
   }
 }
