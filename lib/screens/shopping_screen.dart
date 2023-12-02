@@ -19,17 +19,6 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
   List<Item> relevantItems = [];
   List<Item> quickaddedItems = [];
 
-  late final PantryProvider pantryProvider;
-  late final List<Pantry> pantryList;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    pantryProvider = context.watch<PantryProvider>();
-    pantryList = pantryProvider.pantriesList;
-  }
-
   void filterItems(List<Pantry> pantryList) {
     relevantItems.clear();
     pantryList.where((pantry) => pantry.selectedForShopping).forEach((pantry) {
@@ -41,6 +30,9 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
+    final List<Pantry> pantryList = pantryProvider.pantriesList;
+
     filterItems(pantryList);
     return SingleChildScrollView(
         child: Padding(

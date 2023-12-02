@@ -15,19 +15,12 @@ class OverviewScreen extends StatefulWidget {
 }
 
 class _OverviewScreenState extends State<OverviewScreen> {
-  late List<Pantry> pantryList;
-  late AppStateProvider appStateProvider;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
-    appStateProvider = context.watch<AppStateProvider>();
-    pantryList = pantryProvider.pantriesList;
-  }
 
   @override
   Widget build(BuildContext context) {
+    final PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
+    final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
+    final List<Pantry> pantryList = pantryProvider.pantriesList;
     return pantryList.isEmpty
         ? const NoPantriesSplash()
         : PantryCardListView(

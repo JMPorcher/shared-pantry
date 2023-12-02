@@ -9,37 +9,20 @@ import 'package:shared_pantry/widgets/no_categories_splash.dart';
 import 'package:shared_pantry/widgets/sp_card.dart';
 
 import '../dialogs/add_category_dialog.dart';
-import '../models/pantry.dart';
 import '../widgets/buttons.dart';
 import '../widgets/category_expansion_tile.dart';
 
-class PantryScreen extends StatefulWidget {
+class PantryScreen extends StatelessWidget {
   const PantryScreen({super.key});
 
   @override
-  State<PantryScreen> createState() => _PantryScreenState();
-}
-
-class _PantryScreenState extends State<PantryScreen> {
-  late final PantryProvider pantryProvider;
-  late final AppStateProvider appStateProvider;
-  late final int currentPantryIndex;
-  late final Pantry currentPantry;
-  late final List<ItemCategory> currentCategoryList;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    pantryProvider = context.watch<PantryProvider>();
-
-    currentPantryIndex = appStateProvider.selectedPantryIndex;
-    currentPantry = pantryProvider.pantriesList[currentPantryIndex];
-    currentCategoryList = currentPantry.categories;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
+    final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
+    final currentPantryIndex = appStateProvider.selectedPantryIndex;
+    final currentPantry = pantryProvider.pantriesList[currentPantryIndex];
+    final currentCategoryList = currentPantry.categories;
+
     return Column(
       children: [
         SpCard(

@@ -13,22 +13,11 @@ import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 import '../widgets/sp_bottom_navigation_bar.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   static const String id = 'pantry screen';
 
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
 
