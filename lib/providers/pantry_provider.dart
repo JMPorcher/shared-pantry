@@ -23,6 +23,12 @@ class PantryProvider with ChangeNotifier {
   ];
   List<Pantry> get pantriesList => _pantriesList;
 
+  // ===========GENERAL FUNCTIONS===========
+
+  void loadOnStartup() async {
+
+  }
+
   void updateState() {
     notifyListeners();
   }
