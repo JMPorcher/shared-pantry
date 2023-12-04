@@ -9,11 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:shared_pantry/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final int lastShownScreen =
+        sharedPreferences.getInt('Last shown screen') ?? 0;
+    final int lastShownPantryIndex =
+        sharedPreferences.getInt('Last shown pantry') ?? 0;
+
     // Build our app and trigger a frame.
-    await tester.pumpWidget(SharedPantry());
+    await tester.pumpWidget(SharedPantry(lastShownScreen, lastShownPantryIndex));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

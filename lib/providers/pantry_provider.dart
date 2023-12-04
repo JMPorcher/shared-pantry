@@ -40,7 +40,7 @@ class PantryProvider with ChangeNotifier {
       'pantry_title': title,
       'founder_id' : user?.uid,
       'users' : [user?.uid]
-      //TODO Add categories and items when assistant is created
+      //TODO Once assistant is created: Add categories and items
     });
     final String pantryId = documentReference.id;
     _pantriesList.add(Pantry(title: title, founderID: user?.uid, pantryID: pantryId));

@@ -81,7 +81,7 @@ class SkipButton extends StatelessWidget {
         onPressed: () async {
           try {
             await firebaseInstance.signInAnonymous().then((_) {
-              navigator.pushNamed(MainScreen.id);
+              navigator.pushNamedAndRemoveUntil(MainScreen.id, (route) => false);
               final String? userID = firebaseInstance.firebaseAuth.currentUser?.uid;
               FirebaseFirestore.instance.collection('users').doc(userID).set({
                 'email': '',

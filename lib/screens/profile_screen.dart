@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_pantry/screens/first_startup_screen.dart';
 
 import '../constants.dart';
 import '../widgets/buttons.dart';
@@ -41,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 buildGreetingTextWithName(),
                 buildUIDText(),
-                const DeleteAccountButton()
+                DeleteAccountButton(firebaseAuth)
               ]),
         ))));
   }
@@ -124,15 +125,21 @@ class UidText extends StatelessWidget {
   }
 }
 
+
 class DeleteAccountButton extends StatelessWidget {
-  const DeleteAccountButton({
+  const DeleteAccountButton(this.auth, {
     super.key,
   });
 
+  final FirebaseAuth auth;
   @override
   Widget build(BuildContext context) {
+    final navigator = Navigator.of(context);
     return SpButton.filledButton(
-      onTap: () {},
+      onTap: () {
+        auth.signOut();
+        navigator.pushNamedAndRemoveUntil(FirstStartupScreen.id, (route) => false);1
+      },
       child: const Text('Delete account',
           style: kFilledButtonTextStyle),
     );
