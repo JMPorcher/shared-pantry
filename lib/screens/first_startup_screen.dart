@@ -15,18 +15,16 @@ class FirstStartupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: kColor1,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(children: [
-            TitleTextWithPadding(),
-            WelcomeTextWithPadding(),
-            SizedBox(height: 20.0),
-            RegistrationForm(),
-            SkipButton(),
-          ]
-          ),
+        child: Column(children: [
+          TitleTextWithPadding(),
+          WelcomeTextWithPadding(),
+          SizedBox(height: 20.0),
+          RegistrationForm(),
+          SkipButton(),
+        ]
         ),
       ),
     );
@@ -87,11 +85,10 @@ class SkipButton extends StatelessWidget {
                 'email': '',
                 'user_name' : '',
                 'subscribed_pantries' : []
-              })
-              //Add an object with the userID into a 'users' collection
-              ;
+              });
             });
           } catch (e) {
+            if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to log in without an account - sorry!')));
             rethrow;
           }
         },

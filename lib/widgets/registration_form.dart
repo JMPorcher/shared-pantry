@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
@@ -24,6 +25,7 @@ class RegistrationForm extends StatelessWidget {
         key: formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             NameTextFormField(usernameTEController: usernameTEController),
             const SizedBox(height: 16.0),
@@ -85,10 +87,19 @@ class RegisterButton extends StatelessWidget {
             final String password = passwordTEController.text;
 
             final navigator = Navigator.of(context);
-            await authProvider.firebaseAuth.createUserWithEmailAndPassword(
-                email: eMail, password: password);
-            await authProvider.firebaseAuth.signInWithEmailAndPassword(
-                email: eMail, password: password).then((_) => navigator.pushNamed(MainScreen.id));
+            try {
+              await authProvider.firebaseAuth.createUserWithEmailAndPassword(
+                  email: eMail, password: password);
+              await authProvider.firebaseAuth.signInWithEmailAndPassword(
+                  email: eMail, password: password).then((_) => navigator.pushNamed(MainScreen.id));
+            } on FirebaseAuthException catch (e) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('Email already has an account. Use a different one or reset your password.')));
+              }
+              rethrow;
+            }
 
             final uid = authProvider.user?.uid;
             CollectionReference usersCollection =
