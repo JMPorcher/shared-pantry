@@ -8,14 +8,14 @@ import '../models/item.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
-class ShoppingScreen extends StatefulWidget {
-  const ShoppingScreen({super.key});
+class ShoppingPage extends StatefulWidget {
+  const ShoppingPage({super.key});
 
   @override
-  State<ShoppingScreen> createState() => _ShoppingScreenState();
+  State<ShoppingPage> createState() => _ShoppingPageState();
 }
 
-class _ShoppingScreenState extends State<ShoppingScreen> {
+class _ShoppingPageState extends State<ShoppingPage> {
   List<Item> relevantItems = [];
   List<Item> quickaddedItems = [];
 

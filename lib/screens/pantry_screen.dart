@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
@@ -9,11 +11,12 @@ import 'package:shared_pantry/widgets/no_categories_splash.dart';
 import 'package:shared_pantry/widgets/sp_card.dart';
 
 import '../dialogs/add_category_dialog.dart';
+import '../models/pantry.dart';
 import '../widgets/buttons.dart';
 import '../widgets/category_expansion_tile.dart';
 
-class PantryScreen extends StatelessWidget {
-  const PantryScreen({super.key});
+class PantryPage extends StatelessWidget {
+  const PantryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,44 +26,45 @@ class PantryScreen extends StatelessWidget {
     final currentPantry = pantryProvider.pantriesList[currentPantryIndex];
     final currentCategoryList = currentPantry.categories;
 
-    return Column(
-      children: [
-        SpCard(
-          currentPantry,
-          isSelected: false,
-          isInOverviewScreen: false,
-          onTap: ()
-            => showDialog(context: context, builder: (BuildContext context)
-              => EditPantryDialog(pantry: currentPantry)),
-          cardText: currentPantry.title,
+    return Scaffold(
+        body: CustomScrollView(
+      slivers: [
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: _SliverAppBarDelegate(
+              minHeight: 64,
+              maxHeight: 200,
+              pantry: currentPantry,
+          ),
         ),
-        //TODO Surround card with SliverAppBar
-        if (currentCategoryList.isEmpty) NoCategoriesSplashView(currentCategoryList: currentCategoryList)
-        else buildCategories(currentCategoryList)
+        if (currentCategoryList.isEmpty)
+          NoCategoriesSplashView(currentCategoryList: currentCategoryList)
+        else
+          buildCategories(currentCategoryList),
       ],
-    );
+    ));
   }
 
-  Expanded buildCategories(List<ItemCategory> currentCategoryList) {
-    return Expanded(
-                  child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: currentCategoryList.length + 1,
-              itemBuilder: (context, index) {
-                  if (index < currentCategoryList.length) {
-                    ItemCategory currentCategory = currentCategoryList[index];
-                    return CategoryExpansionTile(currentCategory,
-                        itemCategoryList: currentCategoryList);
-                  } else {
-                    return AddCategoryButton(currentCategoryList);
-                  }
-              }),
-                );
+  SliverList buildCategories(List<ItemCategory> currentCategoryList) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        {
+          if (index < currentCategoryList.length) {
+            ItemCategory currentCategory = currentCategoryList[index];
+            return CategoryExpansionTile(currentCategory,
+                itemCategoryList: currentCategoryList);
+          } else {
+            return AddCategoryButton(currentCategoryList);
+          }
+        }
+      }, childCount: currentCategoryList.length + 1),
+    );
   }
 }
 
 class AddCategoryButton extends StatelessWidget {
-  const AddCategoryButton(this.currentCategoryList, {
+  const AddCategoryButton(
+    this.currentCategoryList, {
     super.key,
   });
 
@@ -69,8 +73,7 @@ class AddCategoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpButton.filledButton(
-        child: const Text('Add a category',
-            style: kFilledButtonTextStyle),
+        child: const Text('Add a category', style: kFilledButtonTextStyle),
         onTap: () {
           showDialog(
               context: context,
@@ -90,14 +93,58 @@ class NoCategoriesSplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SliverToBoxAdapter(
       child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                  const NoCategoriesSplashScreen(),
-                  AddCategoryButton(currentCategoryList)
-                ]),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const NoCategoriesSplashScreen(),
+            AddCategoryButton(currentCategoryList)
+          ]),
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final double minHeight;
+  final double maxHeight;
+  final Pantry pantry;
+
+  _SliverAppBarDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.pantry,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        SpCard(
+          pantry,
+          isSelected: false,
+          isInOverviewScreen: false,
+          onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) =>
+                  EditPantryDialog(pantry: pantry)),
+          cardText: pantry.title,
+        ),
+      ],
+    );
+  }
+
+  @override
+  double get maxExtent => max(maxHeight, minHeight);
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight;
   }
 }

@@ -7,8 +7,8 @@ import 'package:shared_pantry/widgets/no_pantries_splash.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
-class OverviewScreen extends StatelessWidget {
-  const OverviewScreen({super.key});
+class OverviewPage extends StatelessWidget {
+  const OverviewPage({super.key});
 
   @override
   Widget build(BuildContext context) {

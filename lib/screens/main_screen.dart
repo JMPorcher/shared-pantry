@@ -35,15 +35,15 @@ class MainScreen extends StatelessWidget {
     List<Widget> buildPages() {
       if (pantryList.isNotEmpty) {
         return [
-          const OverviewScreen(),
-          const PantryScreen(), //currentPantry: (activePantryIndex < pantryList.length) ? pantryList[activePantryIndex] : pantryList[0]
-          const ShoppingScreen(),
-          ProfileScreen(),
+          const OverviewPage(),
+          const PantryPage(), //currentPantry: (activePantryIndex < pantryList.length) ? pantryList[activePantryIndex] : pantryList[0]
+          const ShoppingPage(),
+          ProfilePage(),
         ];
       } else {
         return [
-          const OverviewScreen(),
-          ProfileScreen(),
+          const OverviewPage(),
+          ProfilePage(),
         ];
       }
     }

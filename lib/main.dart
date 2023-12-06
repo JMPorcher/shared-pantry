@@ -65,7 +65,7 @@ class SharedPantry extends StatelessWidget {
                     ? const FirstStartupScreen()
                     : const MainScreen(),
                 routes: {
-                  ProfileScreen.id: (context) => ProfileScreen(),
+                  ProfilePage.id: (context) => ProfilePage(),
                   MainScreen.id: (context) => const MainScreen(),
                   FirstStartupScreen.id: (context) => const FirstStartupScreen(),
                 });

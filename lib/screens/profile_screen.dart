@@ -6,8 +6,8 @@ import 'package:shared_pantry/screens/first_startup_screen.dart';
 import '../constants.dart';
 import '../widgets/buttons.dart';
 
-class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+class ProfilePage extends StatelessWidget {
+  ProfilePage({super.key});
 
   //TODO add User to constructor. User has to have name, avatar and e-mail
 
