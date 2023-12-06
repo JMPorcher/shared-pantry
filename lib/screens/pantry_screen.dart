@@ -122,16 +122,31 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return Stack(
       fit: StackFit.expand,
       children: [
-        SpCard(
-          pantry,
-          isSelected: false,
-          isInOverviewScreen: false,
-          onTap: () => showDialog(
-              context: context,
-              builder: (BuildContext context) =>
-                  EditPantryDialog(pantry: pantry)),
-          cardText: pantry.title,
-        ),
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomLeft,
+              stops: const [
+                0.6,
+                1
+              ],
+              colors: [
+                kColor1,
+                kColor1.withOpacity(0.1),
+              ]
+            )
+          )),
+          SpCard(
+            pantry,
+            isSelected: false,
+            isInOverviewScreen: false,
+            onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    EditPantryDialog(pantry: pantry)),
+            cardText: pantry.title,
+          ),
       ],
     );
   }
