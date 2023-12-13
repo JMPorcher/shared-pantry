@@ -1,72 +1,224 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_pantry/providers/app_state_provider.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
+import 'package:shared_pantry/widgets/buttons.dart';
 
 import '../constants.dart';
+import '../dialogs/add_pantry_dialog.dart';
+import '../dialogs/edit_pantry_dialog.dart';
 import '../models/pantry.dart';
 
-class SpCard extends StatelessWidget {
-  const SpCard(this.pantry,
+class OverviewScreenCard extends StatelessWidget {
+  const OverviewScreenCard(
       {super.key,
-      required this.isInOverviewScreen,
-      required this.onTap,
-      required this.cardText,
-      this.isSelected = false})
-      : height = 150;
+      required this.index,
+      required this.isSelected,
+      required this.title});
 
-  final String? cardText;
   final bool? isSelected;
-  final double height;
-  final Pantry? pantry;
-  final VoidCallback onTap;
-  final bool isInOverviewScreen;
+  final int index;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
+
+    final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: height,
+        height: 150,
         width: double.infinity,
-        child: Card(
-          color: isSelected ?? false ? kColor3 : Colors.white,
-          elevation: isSelected ?? false ? 0 : 8.0,
-          clipBehavior: Clip.antiAlias,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-          child: CardLayoutStack(
-              height: height,
-              cardText: cardText,
-              isInOverviewScreen: isInOverviewScreen,
-              onTap: onTap),
+        child: GestureDetector(
+          onTap: () {
+            final bool newIndexIsOldIndex = (index == appStateProvider.selectedPantryIndex);
+            pantryProvider.switchPantry(index);
+            Timer(
+                Duration(
+                    milliseconds: newIndexIsOldIndex
+                        ? 0
+                        : 300),
+                    () {
+                  appStateProvider.mainScreenPageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.decelerate
+                  );
+                }
+            );
+          },
+          child: Card(
+            color: isSelected ?? false ? kColor3 : Colors.white,
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child:
+                _OverviewCardLayoutStack(cardText: title),
+          ),
         ),
       ),
     );
   }
 }
 
-class CardLayoutStack extends StatelessWidget {
-  const CardLayoutStack({
-    super.key,
-    required this.height,
-    required this.cardText,
-    required this.isInOverviewScreen,
-    required this.onTap,
+class _OverviewCardLayoutStack extends StatelessWidget {
+  const _OverviewCardLayoutStack({
+    required this.cardText
   });
 
-  final double height;
   final String? cardText;
-  final bool isInOverviewScreen;
-  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        PositionedBackgroundImage(height: height),
+        _OverviewCardBackgroundImage(),
         TitleContainer(cardText: cardText),
-        isInOverviewScreen
-            ? GoToPantryButton(onTap: onTap, height: height)
-            : EditPantryButton(onTap: onTap)
+      ],
+    );
+  }
+}
+
+class _OverviewCardBackgroundImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 30,
+      bottom: 0,
+      child: SizedBox(
+        height: 150,
+        child: AspectRatio(
+            aspectRatio: 1,
+            child: Stack(
+              children: [
+                SvgPicture.asset(
+                  'assets/house.svg',
+                  fit: BoxFit.fitHeight,
+                  semanticsLabel: 'House',
+                ),
+                //if (isAddButton) Container(color: Colors.white.withOpacity(0.7),)
+              ],
+            )),
+      ),
+    );
+  }
+}
+
+class AddPantryCard extends StatelessWidget {
+  const AddPantryCard({
+    super.key,
+    required this.onTap,
+    required this.cardText,
+  });
+
+  final String? cardText;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: 150,
+        width: double.infinity,
+        child: GestureDetector(
+          onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) => AddPantryDialog()),
+          child: Card(
+            elevation: 8.0,
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: _AddPantryCardStack(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class _AddPantryCardStack extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: AspectRatio(
+          aspectRatio: 1,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                child: SvgPicture.asset(
+                  'assets/pantry_welcome.svg',
+                  fit: BoxFit.fitWidth,
+                  semanticsLabel: 'Pantry image',
+                ),
+              ),
+              Container(color: Colors.white.withOpacity(0.7)),
+              SpButton.filledButton(
+                  fillColor: Colors.grey,
+                  onTap: () => showDialog(
+                      context: context,
+                      builder: (context) => AddPantryDialog()),
+                  child: const Text('Add new pantry', style: kFilledButtonTextStyle))
+            ],
+          )),
+    );
+  }
+}
+
+class PantryScreenCard extends StatelessWidget {
+  const PantryScreenCard(this.pantry, {super.key});
+
+  final Pantry pantry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: 150,
+        width: double.infinity,
+        child: Card(
+          elevation: 8.0,
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: _PantryScreenCardLayoutStack(
+              pantry: pantry, cardText: pantry.title),
+        ),
+      ),
+    );
+  }
+}
+
+class _PantryScreenCardLayoutStack extends StatelessWidget {
+  const _PantryScreenCardLayoutStack(
+      {required this.cardText, required this.pantry});
+
+  final String cardText;
+  final Pantry pantry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        _OverviewCardBackgroundImage(),
+        TitleContainer(cardText: cardText),
+        EditPantryButton(
+            onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => EditPantryDialog(
+                      pantry,
+                    )))
       ],
     );
   }
@@ -89,42 +241,14 @@ class EditPantryButton extends StatelessWidget {
           onTap: onTap,
           child: Container(
             decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12)),
+                borderRadius:
+                    BorderRadius.only(bottomLeft: Radius.circular(12)),
                 color: kColor5),
             padding: const EdgeInsets.all(8),
             child: const Icon(
               Icons.settings,
               size: 24,
               color: kColor1,
-            ),
-          ),
-        ));
-  }
-}
-
-class GoToPantryButton extends StatelessWidget {
-  const GoToPantryButton({
-    super.key,
-    required this.onTap,
-    required this.height,
-  });
-
-  final VoidCallback? onTap;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        right: 0,
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            color: Colors.black.withOpacity(0.7),
-            height: height,
-            width: 50,
-            child: const Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.black,
             ),
           ),
         ));
@@ -149,34 +273,6 @@ class TitleContainer extends StatelessWidget {
       child: Text(
         cardText ?? 'Card title',
         style: const TextStyle(color: kColor1, fontWeight: FontWeight.w500),
-      ),
-    );
-  }
-}
-
-class PositionedBackgroundImage extends StatelessWidget {
-  const PositionedBackgroundImage({
-    super.key,
-    required this.height,
-  });
-
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: 30,
-      bottom: 0,
-      child: SizedBox(
-        height: height,
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: SvgPicture.asset(
-            'assets/house.svg',
-            fit: BoxFit.fitHeight,
-            semanticsLabel: 'House',
-          ),
-        ),
       ),
     );
   }

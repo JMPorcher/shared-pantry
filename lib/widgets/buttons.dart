@@ -8,10 +8,9 @@ class SpButton extends StatelessWidget {
       required this.child,
       required this.onTap,
       this.verticalPadding = 6,
-      this.horizontalPadding = 12})
-      : fillColor = kColor5,
-        outlineColor = null,
-        hasShadow = true;
+      this.horizontalPadding = 12,
+      this.fillColor})
+      : outlineColor = null;
 
   const SpButton.outlineButton(
       {super.key,
@@ -20,8 +19,7 @@ class SpButton extends StatelessWidget {
       this.verticalPadding = 6,
       this.horizontalPadding = 12})
       : fillColor = kColor1,
-        outlineColor = kColor5,
-        hasShadow = false;
+        outlineColor = kColor5;
 
   final Function onTap;
   final Widget child;
@@ -29,7 +27,6 @@ class SpButton extends StatelessWidget {
   final Color? outlineColor;
   final double verticalPadding;
   final double horizontalPadding;
-  final bool hasShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +35,10 @@ class SpButton extends StatelessWidget {
             vertical: verticalPadding, horizontal: horizontalPadding),
         margin: const EdgeInsets.only(top: 6, left: 10, right: 10, bottom: 20),
         decoration: BoxDecoration(
-            color: fillColor,
-            border: Border.all(width: 2, color: outlineColor ?? kColor5),
+            color: fillColor ?? kColor5,
+            border: Border.all(width: 2, color: outlineColor ?? Colors.white.withOpacity(0)),
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              hasShadow
-                  ? const BoxShadow(
-                      offset: Offset(3, 3),
-                      blurStyle: BlurStyle.normal,
-                      blurRadius: 5)
-                  : const BoxShadow()
-            ]),
+        ),
         child: MaterialButton(
             onPressed: () {
               onTap();

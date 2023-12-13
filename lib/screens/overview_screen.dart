@@ -17,7 +17,7 @@ class OverviewPage extends StatelessWidget {
     final List<Pantry> pantryList = pantryProvider.pantriesList;
     return pantryList.isEmpty
         ? const NoPantriesSplash()
-        : PantryCardListView(
+        : OverviewCardListView(
         context: context, appStateProvider: appStateProvider,)
     ;
   }

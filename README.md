@@ -1,3 +1,16 @@
+[] Transition Overview -> Pantry Screen: 
+    [x] Remove tap area, make entire Card clickable
+    [] Make an arrow appear briefly
+[] Make add buttons look like the elements they produce
+    [x] Add Pantry
+    [] Add Category
+[] Overview Header
+[] Shopping List Header
+[] Short info shopping screen
+[] Self-explaining toggles Pantry Screen
+[] Gather checked-off items at the end of shopping list?
+
+
 # shared_pantry
 
 Know which household items are currently in the house. Add more pantries: personal, for your club etc.

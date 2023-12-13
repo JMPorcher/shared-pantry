@@ -5,7 +5,7 @@ import '../providers/pantry_provider.dart';
 import 'package:provider/provider.dart';
 
 class EditPantryDialog extends StatelessWidget {
-  const EditPantryDialog({required this.pantry, super.key});
+  const EditPantryDialog(this.pantry, {super.key});
   final Pantry pantry;
   final bool itemInStock = false;
 

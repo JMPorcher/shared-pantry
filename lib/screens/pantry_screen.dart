@@ -99,7 +99,7 @@ class NoCategoriesSplashView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const NoCategoriesSplashScreen(),
-            AddCategoryButton(currentCategoryList)
+            AddCategoryButton(currentCategoryList),
           ]),
     );
   }
@@ -137,16 +137,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               ]
             )
           )),
-          SpCard(
-            pantry,
-            isSelected: false,
-            isInOverviewScreen: false,
-            onTap: () => showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    EditPantryDialog(pantry: pantry)),
-            cardText: pantry.title,
-          ),
+          PantryScreenCard(pantry),
       ],
     );
   }
