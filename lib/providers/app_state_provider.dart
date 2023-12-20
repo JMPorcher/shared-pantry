@@ -15,7 +15,6 @@ class AppStateProvider extends ChangeNotifier {
     _selectedPantryIndex = newIndex;
   }
 
-
   final int lastShownScreen;
   int shownScreenIndex = 0;
 

@@ -33,7 +33,7 @@ class SpButton extends StatelessWidget {
     return Container(
         padding: EdgeInsets.symmetric(
             vertical: verticalPadding, horizontal: horizontalPadding),
-        margin: const EdgeInsets.only(top: 6, left: 10, right: 10, bottom: 20),
+        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
         decoration: BoxDecoration(
             color: fillColor ?? kColor5,
             border: Border.all(width: 2, color: outlineColor ?? Colors.white.withOpacity(0)),

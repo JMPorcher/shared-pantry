@@ -4,9 +4,9 @@
 [] Make add buttons look like the elements they produce
     [x] Add Pantry
     [] Add Category
-[] Overview Header
-[] Shopping List Header
-[] Short info shopping screen
+[x] Overview Header
+[x] Shopping List Header
+[x] Short info shopping screen
 [] Self-explaining toggles Pantry Screen
 [] Gather checked-off items at the end of shopping list?
 

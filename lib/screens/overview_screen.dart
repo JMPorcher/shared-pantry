@@ -18,10 +18,8 @@ class OverviewPage extends StatelessWidget {
     return pantryList.isEmpty
         ? const NoPantriesSplash()
         : OverviewCardListView(
-        context: context, appStateProvider: appStateProvider,)
-    ;
+            context,
+            appStateProvider,
+          );
   }
 }
-
-
-

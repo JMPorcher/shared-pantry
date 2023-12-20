@@ -73,6 +73,7 @@ class CenteredTitleText extends StatelessWidget {
         child: Text(
           currentCategory.title,
           style: const TextStyle(
+            fontSize: 20,
               color: Colors.black,
               fontWeight: FontWeight.w500),
         ));

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
-import 'package:shared_pantry/dialogs/edit_pantry_dialog.dart';
 import 'package:shared_pantry/models/item_category.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/providers/pantry_provider.dart';
@@ -20,10 +19,10 @@ class PantryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PantryProvider pantryProvider = context.watch<PantryProvider>();
-    final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
-    final currentPantryIndex = appStateProvider.selectedPantryIndex;
-    final currentPantry = pantryProvider.pantriesList[currentPantryIndex];
+    final currentPantryIndex =
+        context.watch<AppStateProvider>().selectedPantryIndex;
+    final currentPantry =
+        context.watch<PantryProvider>().pantriesList[currentPantryIndex];
     final currentCategoryList = currentPantry.categories;
 
     return Scaffold(
@@ -32,9 +31,7 @@ class PantryPage extends StatelessWidget {
         SliverPersistentHeader(
           pinned: true,
           delegate: _SliverAppBarDelegate(
-              minHeight: 64,
-              maxHeight: 200,
-              pantry: currentPantry,
+            pantry: currentPantry,
           ),
         ),
         if (currentCategoryList.isEmpty)
@@ -63,6 +60,7 @@ class PantryPage extends StatelessWidget {
 }
 
 class AddCategoryButton extends StatelessWidget {
+  // Gesture detector around a rounded card with label
   const AddCategoryButton(
     this.currentCategoryList, {
     super.key,
@@ -72,16 +70,59 @@ class AddCategoryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpButton.filledButton(
-        child: const Text('Add a category', style: kFilledButtonTextStyle),
-        onTap: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) =>
-                  AddCategoryDialog(currentCategoryList));
-        });
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: GestureDetector(
+          child: SizedBox(
+            height: 68,
+            width: double.infinity,
+            child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                color: kColor11,
+                child:
+                    const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Expanded(
+                    flex: 3,
+                    child: Center(
+                      child: Text('Add a category',
+                          style: TextStyle(
+                              color: Colors.black)),
+                    ),
+                  ),
+                  Expanded(flex: 1, child: Icon(Icons.add, size: 20))
+                ])),
+          ),
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    AddCategoryDialog(currentCategoryList));
+          }),
+    );
   }
 }
+
+// class AddCategoryButton extends StatelessWidget {
+//   const AddCategoryButton(
+//       this.currentCategoryList, {
+//         super.key,
+//       });
+//
+//   final List<ItemCategory> currentCategoryList;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SpButton.filledButton(
+//         child: const Text('Add a category', style: kFilledButtonTextStyle),
+//         onTap: () {
+//           showDialog(
+//               context: context,
+//               builder: (BuildContext context) =>
+//                   AddCategoryDialog(currentCategoryList));
+//         });
+//   }
+// }
 
 class NoCategoriesSplashView extends StatelessWidget {
   const NoCategoriesSplashView({
@@ -106,15 +147,11 @@ class NoCategoriesSplashView extends StatelessWidget {
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final double minHeight;
-  final double maxHeight;
-  final Pantry pantry;
+  _SliverAppBarDelegate({required this.pantry});
 
-  _SliverAppBarDelegate({
-    required this.minHeight,
-    required this.maxHeight,
-    required this.pantry,
-  });
+  final Pantry pantry;
+  final double maxHeight = 200;
+  final double minHeight = 64;
 
   @override
   Widget build(
@@ -123,21 +160,19 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       children: [
         Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomLeft,
-              stops: const [
-                0.6,
-                1
-              ],
-              colors: [
-                kColor1,
-                kColor1.withOpacity(0.1),
-              ]
-            )
-          )),
-          PantryScreenCard(pantry),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomLeft,
+                    stops: const [
+              0.6,
+              1
+            ],
+                    colors: [
+              kColor1,
+              kColor1.withOpacity(0.1),
+            ]))),
+        PantryScreenCard(pantry),
       ],
     );
   }

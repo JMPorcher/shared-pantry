@@ -34,21 +34,26 @@ class _ShoppingPageState extends State<ShoppingPage> {
     final List<Pantry> pantryList = pantryProvider.pantriesList;
 
     filterItems(pantryList);
-    return SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              buildPantrySwitchList(pantryProvider),
-              const DividerLine(),
-              Consumer<PantryProvider>(builder: (context, pantryProvider, child) {
-                filterItems(pantryList);
-                return buildCheckboxList();
-              })
-            ],
-          ),
-        ));
+    return Scaffold(
+      appBar: AppBar(title: const Text('My Shopping List'), centerTitle: true, backgroundColor: kColor51),
+      body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                PantryFilterInfoText(),
+                buildPantrySwitchList(pantryProvider),
+                const DividerLine(),
+                ItemsInfoText(),
+                Consumer<PantryProvider>(builder: (context, pantryProvider, child) {
+                  filterItems(pantryList);
+                  return buildCheckboxList();
+                })
+              ],
+            ),
+          )),
+    );
   }
 
 
@@ -112,6 +117,38 @@ class _ShoppingPageState extends State<ShoppingPage> {
   }
 }
 
+class ItemsInfoText extends StatelessWidget {
+  const ItemsInfoText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text('Items that ran out:', style: TextStyle(fontSize: 11), textAlign: TextAlign.start,),
+      ],
+    );
+  }
+}
+
+class PantryFilterInfoText extends StatelessWidget {
+  const PantryFilterInfoText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text('Choose pantries you want to shop for:', style: TextStyle(fontSize: 11), textAlign: TextAlign.start,),
+      ],
+    );
+  }
+}
+
 class DividerLine extends StatelessWidget {
   const DividerLine({
     super.key,
@@ -125,3 +162,5 @@ class DividerLine extends StatelessWidget {
     );
   }
 }
+
+//TODO Sign-out appears to be automatically called.

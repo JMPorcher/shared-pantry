@@ -10,10 +10,10 @@ import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 
 class OverviewCardListView extends StatelessWidget {
-  const OverviewCardListView({
+  const OverviewCardListView(
+    this.context,
+    this.appStateProvider, {
     super.key,
-    required this.context,
-    required this.appStateProvider
   });
 
   final BuildContext context;
@@ -23,28 +23,35 @@ class OverviewCardListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
     final List<Pantry> pantryList = pantryProvider.pantriesList;
-    return ListView.builder(
-        itemCount: pantryList.length + 1,
-        itemBuilder: (_, index) {
-          if (index < pantryList.length) {
-            Pantry currentPantry = pantryList[index];
-            return PantryCard(currentPantry: currentPantry, index: index, appStateProvider: appStateProvider,);
-          } else {
-            return 
-              //const AddPantryButton()
-              AddPantryCard(onTap: () => AddPantryDialog(), cardText: 'Add a pantry');
-          }
-        });
+    return Scaffold(
+      appBar: AppBar(title: const Text('My Pantries'), centerTitle: true, backgroundColor: kColor51),
+      body: ListView.builder(
+          itemCount: pantryList.length + 1,
+          itemBuilder: (_, index) {
+            if (index < pantryList.length) {
+              Pantry currentPantry = pantryList[index];
+              return PantryCard(
+                currentPantry: currentPantry,
+                index: index,
+                appStateProvider: appStateProvider,
+              );
+            } else {
+              return
+                  //const AddPantryButton()
+                  AddPantryCard(
+                      onTap: () => AddPantryDialog(), cardText: 'Add a pantry');
+            }
+          }),
+    );
   }
 }
 
 class PantryCard extends StatelessWidget {
-  const PantryCard({
-    super.key,
-    required this.appStateProvider,
-    required this.currentPantry,
-    required this.index
-  });
+  const PantryCard(
+      {super.key,
+      required this.appStateProvider,
+      required this.currentPantry,
+      required this.index});
 
   final AppStateProvider appStateProvider;
   final Pantry currentPantry;
@@ -72,8 +79,7 @@ class AddPantryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpButton.filledButton(
-      child: const Text('Add a pantry',
-          style: kFilledButtonTextStyle),
+      child: const Text('Add a pantry', style: kFilledButtonTextStyle),
       onTap: () {
         showDialog(
             context: context,
