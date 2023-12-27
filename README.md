@@ -3,7 +3,7 @@
     [] Make an arrow appear briefly
 [] Make add buttons look like the elements they produce
     [x] Add Pantry
-    [] Add Category
+    [X] Add Category
 [x] Overview Header
 [x] Shopping List Header
 [x] Short info shopping screen

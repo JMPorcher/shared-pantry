@@ -35,7 +35,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
     filterItems(pantryList);
     return Scaffold(
-      appBar: AppBar(title: const Text('My Shopping List'), centerTitle: true, backgroundColor: kColor51),
+      appBar: AppBar(title: const Text('My Shopping List', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
       body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(32),

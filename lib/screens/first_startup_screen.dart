@@ -73,7 +73,7 @@ class SkipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider firebaseInstance = context.watch<AuthProvider>();
+    SpAuthProvider firebaseInstance = context.watch<SpAuthProvider>();
     final navigator = Navigator.of(context);
     return MaterialButton(
         onPressed: () async {

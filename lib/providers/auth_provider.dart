@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthProvider extends ChangeNotifier {
-  AuthProvider() {
+class SpAuthProvider extends ChangeNotifier {
+  SpAuthProvider() {
     _firebaseAuth.authStateChanges().listen((User? user) {
       if (user != null) {
         if (user.isAnonymous || user.email != null) {

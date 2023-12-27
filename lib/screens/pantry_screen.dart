@@ -11,7 +11,6 @@ import 'package:shared_pantry/widgets/sp_card.dart';
 
 import '../dialogs/add_category_dialog.dart';
 import '../models/pantry.dart';
-import '../widgets/buttons.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryPage extends StatelessWidget {
@@ -60,7 +59,6 @@ class PantryPage extends StatelessWidget {
 }
 
 class AddCategoryButton extends StatelessWidget {
-  // Gesture detector around a rounded card with label
   const AddCategoryButton(
     this.currentCategoryList, {
     super.key,
@@ -79,18 +77,14 @@ class AddCategoryButton extends StatelessWidget {
             child: Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
-                color: kColor11,
+                color: kColor12,
+                elevation: 0,
                 child:
                     const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Expanded(
-                    flex: 3,
-                    child: Center(
-                      child: Text('Add a category',
-                          style: TextStyle(
-                              color: Colors.black)),
-                    ),
-                  ),
-                  Expanded(flex: 1, child: Icon(Icons.add, size: 20))
+                  Text('Add a category',
+                      style: TextStyle(
+                          color: Colors.black, fontSize: 16)),
+                  Icon(Icons.add, size: 24)
                 ])),
           ),
           onTap: () {
@@ -102,27 +96,6 @@ class AddCategoryButton extends StatelessWidget {
     );
   }
 }
-
-// class AddCategoryButton extends StatelessWidget {
-//   const AddCategoryButton(
-//       this.currentCategoryList, {
-//         super.key,
-//       });
-//
-//   final List<ItemCategory> currentCategoryList;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return SpButton.filledButton(
-//         child: const Text('Add a category', style: kFilledButtonTextStyle),
-//         onTap: () {
-//           showDialog(
-//               context: context,
-//               builder: (BuildContext context) =>
-//                   AddCategoryDialog(currentCategoryList));
-//         });
-//   }
-// }
 
 class NoCategoriesSplashView extends StatelessWidget {
   const NoCategoriesSplashView({

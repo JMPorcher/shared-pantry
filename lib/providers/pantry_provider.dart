@@ -14,7 +14,7 @@ class PantryProvider with ChangeNotifier {
   PantryProvider(this.appStateProvider, this.authProvider);
 
   final AppStateProvider appStateProvider;
-  final AuthProvider authProvider;
+  final SpAuthProvider authProvider;
   final List<ItemCategory> _categoriesList = [kTestCategory];
   List<ItemCategory> get categoriesList => _categoriesList;
 
@@ -43,6 +43,7 @@ class PantryProvider with ChangeNotifier {
       //TODO Once assistant is created: Add categories and items
     });
     final String pantryId = documentReference.id;
+    //TODO Possibly remove local adding of pantry
     _pantriesList.add(Pantry(title: title, founderID: user?.uid, pantryID: pantryId));
     appStateProvider.switchActiveScreen(1);
     notifyListeners();

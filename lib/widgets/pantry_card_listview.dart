@@ -24,7 +24,7 @@ class OverviewCardListView extends StatelessWidget {
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
     final List<Pantry> pantryList = pantryProvider.pantriesList;
     return Scaffold(
-      appBar: AppBar(title: const Text('My Pantries'), centerTitle: true, backgroundColor: kColor51),
+      appBar: AppBar(title: const Text('My Pantries', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
       body: ListView.builder(
           itemCount: pantryList.length + 1,
           itemBuilder: (_, index) {

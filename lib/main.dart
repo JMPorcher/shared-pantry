@@ -38,7 +38,7 @@ class SharedPantry extends StatelessWidget {
   Widget build(BuildContext context) {
     final appStateProvider =
         AppStateProvider(lastShownScreen, lastShownPantryIndex);
-    final AuthProvider authProvider = AuthProvider();
+    final SpAuthProvider authProvider = SpAuthProvider();
     final pantryProvider = PantryProvider(appStateProvider, authProvider);
 
     SystemChrome.setPreferredOrientations(

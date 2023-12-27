@@ -77,7 +77,7 @@ class RegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthProvider authProvider = context.watch<AuthProvider>();
+    final SpAuthProvider authProvider = context.watch<SpAuthProvider>();
     return SpButton.filledButton(
         onTap: () async {
           final currentState = formKey.currentState;
@@ -92,7 +92,7 @@ class RegisterButton extends StatelessWidget {
                   email: eMail, password: password);
               await authProvider.firebaseAuth.signInWithEmailAndPassword(
                   email: eMail, password: password).then((_) => navigator.pushNamed(MainScreen.id));
-            } on FirebaseAuthException catch (e) {
+            } on FirebaseAuthException catch (_) {
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
