@@ -9,6 +9,7 @@
 [x] Short info shopping screen
 [] Self-explaining toggles Pantry Screen
 [] Gather checked-off items at the end of shopping list?
+[] Rebuild Expansion Tiles with AnimatedContainer custom tiles
 
 
 # shared_pantry
