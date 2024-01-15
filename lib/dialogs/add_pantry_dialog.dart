@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
+import 'package:shared_pantry/providers/auth_provider.dart';
 
 import '../providers/pantry_provider.dart';
+import '../screens/first_startup_screen.dart';
 
 class AddPantryDialog extends StatelessWidget {
   AddPantryDialog({super.key});
@@ -15,6 +18,7 @@ class AddPantryDialog extends StatelessWidget {
     titleTextController.text = pantryTitleValueNotifier.value;
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
     final PageController pageController = context.watch<AppStateProvider>().mainScreenPageController;
+
     //TODO Background image picker
 
     return Column(
@@ -29,8 +33,19 @@ class AddPantryDialog extends StatelessWidget {
               ),
               actions: [
                 TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+                    onPressed: () async {
+                      final navigator = Navigator.of(context);
+                      final User? currentUser = await SpAuthProvider().getCurrentUser();
+                       if (currentUser == null) {
+                         navigator.popAndPushNamed(FirstStartupScreen.id);
+                       } else {
+                         //TODO add pantry to /pantries
+                         //TODO add added to /users/user/pantries
+                         //TODO add UserID to /users/user/pantries/pantry/users
+                         //TODO add UserID to /users/user/pantries/pantry/moderators
+                         //TODO Load pantry from database back to UI
+                         navigator.pop();
+                       }
                     },
                     child: const Text('Cancel')),
                 AddPantryButton(titleTextController: titleTextController, pantryProvider: pantryProvider, pageController: pageController)

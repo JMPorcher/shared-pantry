@@ -49,6 +49,10 @@ JSON Pantry Model
   "generated_user_id",
   "generated_user_id",
  ],
+ moderators: [
+  "generated_user_id",
+  "generated_user_id",
+ ],
  categories: [
     {
       category: "Category 1",

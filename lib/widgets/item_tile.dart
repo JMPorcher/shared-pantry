@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_pantry/widgets/switch.dart';
+import 'package:shared_pantry/widgets/sp_switch.dart';
 
 import '../constants.dart';
 

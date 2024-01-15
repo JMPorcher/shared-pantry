@@ -56,7 +56,7 @@ class MainScreen extends StatelessWidget {
               deactivatedIcon: const Icon(Icons.home_outlined),
               active: true,
               activeIconColor: kColor4,
-              selectedIcon: const Icon(Icons.home_filled)),
+              selectedIcon: const Icon(Icons.home)),
           SpBottomNavigationBarItem(
               activatedIcon: const Icon(Icons.summarize_outlined),
               deactivatedIcon: Icon(Icons.summarize_outlined,

@@ -14,7 +14,7 @@ class NoPantriesSplash extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SvgStack(),
-          FirstPantryButton()
+          AddFirstPantryButton()
         ]);
   }
 }
@@ -60,8 +60,8 @@ class SvgStack extends StatelessWidget {
   }
 }
 
-class FirstPantryButton extends StatelessWidget {
-  const FirstPantryButton({
+class AddFirstPantryButton extends StatelessWidget {
+  const AddFirstPantryButton({
     super.key,
   });
 
