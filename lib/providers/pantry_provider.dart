@@ -10,6 +10,8 @@ import 'app_state_provider.dart';
 import '../models/item.dart';
 import '../models/pantry.dart';
 
+//TODO Think about if this makes sense as a provider. Does it cover a scenario where a user has several pantries?
+
 class PantryProvider with ChangeNotifier {
   PantryProvider(this.appStateProvider, this.authProvider);
 
