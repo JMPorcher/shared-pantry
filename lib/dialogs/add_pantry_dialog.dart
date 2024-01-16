@@ -1,9 +1,10 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../providers/pantry_provider.dart';
 import '../screens/first_startup_screen.dart';
 
@@ -12,6 +13,8 @@ class AddPantryDialog extends StatelessWidget {
 
   final ValueNotifier<String> pantryTitleValueNotifier = ValueNotifier<String>('');
   final titleTextController = TextEditingController();
+  final SpAuthProvider authProvider = SpAuthProvider();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +38,11 @@ class AddPantryDialog extends StatelessWidget {
                 TextButton(
                     onPressed: () async {
                       final navigator = Navigator.of(context);
-                      final User? currentUser = await SpAuthProvider().getCurrentUser();
+                      final User? currentUser = await authProvider.getCurrentUser();
                        if (currentUser == null) {
                          navigator.popAndPushNamed(FirstStartupScreen.id);
                        } else {
-                         //TODO add pantry to /pantries
-                         //TODO add added to /users/user/pantries
-                         //TODO add UserID to /users/user/pantries/pantry/users
-                         //TODO add UserID to /users/user/pantries/pantry/moderators
-                         //TODO Load pantry from database back to UI
+                         await pantryProvider.addPantryWithTitle(titleTextController.text);
                          navigator.pop();
                        }
                     },
@@ -75,9 +74,7 @@ class AddPantryButton extends StatelessWidget {
             await pantryProvider.addPantryWithTitle(pantryTitle);
             pantryProvider.switchPantry(pantryProvider.pantriesList.length - 1);
             pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
-                //TODO Should add with background image
-                //TODO Should add founder name of currentUser ID (FirebaseAuth.instance.currentUser.uid), nullable for anonymous user
-                //TODO Should add with generated document ID from firebase
+
             if (context.mounted) {
               Navigator.of(context).pop();
             }
@@ -87,5 +84,3 @@ class AddPantryButton extends StatelessWidget {
   }
 
 }
-
-//TODO For Add Pantry dialog: Give option to use assistant with pre-built pantries, categories and items

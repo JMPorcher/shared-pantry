@@ -12,12 +12,13 @@ class RegistrationForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final ValueNotifier<bool> isFormValidNotifier = ValueNotifier<bool>(false);
     final TextEditingController usernameTEController = TextEditingController();
     final TextEditingController emailTEController = TextEditingController();
     final TextEditingController passwordTEController = TextEditingController();
+    final SpAuthProvider spAuth = SpAuthProvider();
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     return Padding(
       padding: const EdgeInsets.all(24.0),
@@ -42,12 +43,26 @@ class RegistrationForm extends StatelessWidget {
                           flex: 4,
                           child: RegisterButton(
                               formKey: formKey,
+                              firestore: firestore,
                               usernameTEController: usernameTEController,
                               emailTEController: emailTEController,
                               passwordTEController: passwordTEController,
                               isFormValidNotifier: isFormValidNotifier)),
-                      const Expanded(flex: 1, child: Text('OR', textAlign: TextAlign.center,)),
-                      const Expanded(flex: 4, child: LoginButton())
+                      const Expanded(
+                          flex: 1,
+                          child: Text(
+                            'OR',
+                            textAlign: TextAlign.center,
+                          )),
+                      Expanded(
+                          flex: 4,
+                          child: LoginButton(spAuth,
+                              formKey: formKey,
+                              firestore: firestore,
+                              usernameTEController: usernameTEController,
+                              emailTEController: emailTEController,
+                              passwordTEController: passwordTEController,
+                              isFormValidNotifier: isFormValidNotifier))
                     ],
                   );
                 }),
@@ -58,11 +73,11 @@ class RegistrationForm extends StatelessWidget {
   }
 }
 
-
 class RegisterButton extends StatelessWidget {
   const RegisterButton({
     super.key,
     required this.formKey,
+    required this.firestore,
     required this.usernameTEController,
     required this.emailTEController,
     required this.passwordTEController,
@@ -70,6 +85,7 @@ class RegisterButton extends StatelessWidget {
   });
 
   final GlobalKey<FormState> formKey;
+  final FirebaseFirestore firestore;
   final TextEditingController usernameTEController;
   final TextEditingController emailTEController;
   final TextEditingController passwordTEController;
@@ -87,26 +103,25 @@ class RegisterButton extends StatelessWidget {
             final String password = passwordTEController.text;
 
             final navigator = Navigator.of(context);
+            final scaffoldMessenger = ScaffoldMessenger.of(context);
             try {
               await authProvider.firebaseAuth.createUserWithEmailAndPassword(
                   email: eMail, password: password);
-              await authProvider.firebaseAuth.signInWithEmailAndPassword(
-                  email: eMail, password: password).then((_) => navigator.pushNamed(MainScreen.id));
+              final userID = authProvider.user?.uid;
+              firestore.collection('users').doc(userID).set({
+                'email': eMail,
+                'display_name' : userName,
+                'subscribed_pantries' : []
+              }, SetOptions(merge: true));
+              await authProvider.firebaseAuth
+                  .signInWithEmailAndPassword(email: eMail, password: password)
+                  .then((_) => navigator.pushNamed(MainScreen.id));
             } on FirebaseAuthException catch (_) {
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Email already has an account. Use a different one or reset your password.')));
-              }
+              scaffoldMessenger.showSnackBar(const SnackBar(
+                  content: Text(
+                      'Email already has an account. Use a different one or reset your password.')));
               rethrow;
             }
-
-            final uid = authProvider.user?.uid;
-            CollectionReference usersCollection =
-                FirebaseFirestore.instance.collection('users');
-            usersCollection.doc(uid).set(
-                {'display_name': userName},
-                SetOptions(merge: true));
           } else {
             isFormValidNotifier.value = false;
           }
@@ -128,21 +143,43 @@ class RegisterButton extends StatelessWidget {
   }
 }
 
-
 class LoginButton extends StatelessWidget {
-  const LoginButton({
-    super.key,
-  });
+  const LoginButton(this.spAuth,
+      {required this.formKey,
+      required this.firestore,
+      required this.usernameTEController,
+      required this.emailTEController,
+      required this.passwordTEController,
+      required this.isFormValidNotifier,
+      super.key});
+
+  final SpAuthProvider spAuth;
+  final GlobalKey<FormState> formKey;
+  final FirebaseFirestore firestore;
+  final TextEditingController usernameTEController;
+  final TextEditingController emailTEController;
+  final TextEditingController passwordTEController;
+  final ValueNotifier<bool> isFormValidNotifier;
 
   @override
   Widget build(BuildContext context) {
-    return SpButton.outlineButton(onTap: (){}, horizontalPadding: 0, child: const Text(
-      'Login',
-      style: kOutlineButtonTextStyle,
-    ),);
+    final String email = emailTEController.text;
+    final String password = passwordTEController.text;
+    return SpButton.outlineButton(
+      onTap: () async {
+        try {
+          await spAuth.firebaseAuth
+              .signInWithEmailAndPassword(email: email, password: password)
+              .then((_) => Navigator.pushNamed(context, MainScreen.id));
+        } on FirebaseAuthException catch (e) {
+          print(e);
+        }
+      },
+      horizontalPadding: 0,
+      child: const Text('Login', style: kOutlineButtonTextStyle),
+    );
   }
 }
-
 
 //Form Fields
 

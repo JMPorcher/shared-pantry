@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/screens/first_startup_screen.dart';
 
 import '../constants.dart';
@@ -13,7 +14,7 @@ class ProfilePage extends StatelessWidget {
 
   static const String id = 'profile';
 
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth firebaseAuth = SpAuthProvider().firebaseAuth;
 
   Future<Map<String, dynamic>?> getUserInfo() async {
     try {

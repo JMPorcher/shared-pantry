@@ -39,9 +39,19 @@ class PantryProvider with ChangeNotifier {
   Future addPantryWithTitle(String title) async {
     final User? user = await authProvider.getCurrentUser();
     DocumentReference<Map<String, dynamic>> documentReference = await FirebaseFirestore.instance.collection('pantries').add({
-      'pantry_title': title,
+      'title': title,
       'founder_id' : user?.uid,
-      'users' : [user?.uid]
+      'users' : [user?.uid],
+      'moderators': [user?.uid],
+
+      //TODO add UserID to /users/user/pantries/pantry/users
+      //TODO add UserID to /users/user/pantries/pantry/moderators
+      //TODO Load pantry from database back to UI
+
+      //TODO Should add with background image
+      //TODO Should add founder ID of currentUser ID (SpAuthProvider.instance.currentUser.uid)
+      //TODO Should add with generated document ID from firebase
+
       //TODO Once assistant is created: Add categories and items
     });
     final String pantryId = documentReference.id;

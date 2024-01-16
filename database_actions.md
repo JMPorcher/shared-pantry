@@ -1,5 +1,35 @@
-ACTIONS THAT TRIGGER DATABASE CHANGES
+  ACTIONS THAT TRIGGER DATABASE CHANGES
 
+
+  VERSION WITHOUT OTHER USERS:
+- User creates account
+  [X] User is added to /users
+- User adds new PANTRY
+  [] added to /pantries
+  [] added to /users/user/pantries
+  [] User is added to /users/user/pantries/pantry/users
+  [] User is added to /users/user/pantries/pantry/moderators
+- User adds CATEGORY
+  [] added to /pantries/pantry
+  [] change is logged in PANTRY history
+- User adds ITEM
+  [] added to /pantries/pantry/category
+  [] change is logged in PANTRY history
+
+- User deletes account
+  - All their PANTRIES are deleted
+- User deletes/leaves PANTRY
+  - PANTRY is deleted from /pantries
+- User deletes CATEGORY
+  - deleted from /pantries/pantry
+  - change is logged in PANTRY history
+- User deletes ITEM
+  - deleted from /pantries/pantry/category
+  - change is logged in PANTRY history
+
+- User switches/buys ITEM
+  - ITEM's status is switched in /pantries/pantry/category
+  - change is logged in PANTRY history
 - User creates account
   - User is added to /users
 - User adds new PANTRY
@@ -43,32 +73,3 @@ ACTIONS THAT TRIGGER DATABASE CHANGES
   - change is logged in PANTRY history
 
 
-VERSION WITHOUT OTHER USERS:
-- User creates account
-  [X] User is added to /users
-- User adds new PANTRY
-  [] added to /pantries
-  [] added to /users/user/pantries
-  [] User is added to /users/user/pantries/pantry/users
-  [] User is added to /users/user/pantries/pantry/moderators
-- User adds CATEGORY
-  [] added to /pantries/pantry
-  [] change is logged in PANTRY history
-- User adds ITEM
-  [] added to /pantries/pantry/category
-  [] change is logged in PANTRY history
-
-- User deletes account
-  - All their PANTRIES are deleted
-- User deletes/leaves PANTRY
-  - PANTRY is deleted from /pantries
-- User deletes CATEGORY
-  - deleted from /pantries/pantry
-  - change is logged in PANTRY history
-- User deletes ITEM
-  - deleted from /pantries/pantry/category
-  - change is logged in PANTRY history
-
-- User switches/buys ITEM
-  - ITEM's status is switched in /pantries/pantry/category
-  - change is logged in PANTRY history
