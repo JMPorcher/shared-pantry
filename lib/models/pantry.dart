@@ -3,21 +3,21 @@ import 'item_category.dart';
 
 class Pantry {
   Pantry(
-      {required this.title,
+      {required this.moderatorsID, required this.title,
         required this.pantryID,
         required this.founderID,
         List<ItemCategory>? categories}) : categories = categories ?? [];
 
-      //TODO required String(userId) founder
       //TODO optional SvgPicture backgroundImage = default_image_asset
       //TODO List<String(userId), Item> activityHistory = []
 
+  //TODO replace with constructor parameter once pantry creation assistant is there
   List<ItemCategory> categories = [];
 
-  //Change later to add user as stated in to do above
   List<Item> activityHistory = [];
   final String? pantryID;
   final String? founderID;
+  final String? moderatorsID;
 
   bool _selectedForShopping = true;
   bool get selectedForShopping => _selectedForShopping;
@@ -25,16 +25,19 @@ class Pantry {
     _selectedForShopping = newValue;
   }
 
+  //TODO Make final once database function is there
   String title;
+
   void editTitle(String newTitle) {
     title = newTitle;
+    //TODO update Title in database
   }
 
+
+  // Local functionality
   bool _selectedForPushNotifications = true;
   bool get selectedForPushNotifications => _selectedForPushNotifications;
   void toggleSelectedForPushNotifications(bool newValue) {
     _selectedForPushNotifications = newValue;
   }
-
-
 }
