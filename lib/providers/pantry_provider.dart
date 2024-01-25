@@ -22,9 +22,7 @@ class PantryProvider with ChangeNotifier {
   // ===========MOCK DATA===========
   List<ItemCategory> get categoriesList => _categoriesList;
 
-  final List<Pantry> _pantriesList = [
-    kTestPantry, kTestPantry2, kTestPantry3
-  ];
+  final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2, kTestPantry3];
 
   List<Pantry> get pantriesList => _pantriesList;
 
@@ -34,23 +32,18 @@ class PantryProvider with ChangeNotifier {
 
   void updateData() async {
     final User? user = authProvider.user;
-    print('User ID: ${user?.uid}');
-    final userDocumentRef = db.collection('users').doc(user?.uid);
 
+    final userDocumentRef = db.collection('users').doc(user?.uid);
     userDocumentRef.get().then((docSnapshot) {
       if (docSnapshot.exists) {
-        // Get the data as a Map
         Map<String, dynamic>? userData = docSnapshot.data();
-
-        // Check if the 'subscribed_pantries' field exists and is a List
-        if (userData!.containsKey('subscribed_pantries') && userData['subscribed_pantries'] is List) {
-          // Cast the 'subscribed_pantries' field to a List
+        if (userData!.containsKey('subscribed_pantries') &&
+            userData['subscribed_pantries'] is List) {
           List<dynamic> pantries = userData['subscribed_pantries'];
-
-          // Loop through each pantry in the list and print its value
           for (var pantry in pantries) {
             print(pantry); // Print each pantry
           }
+          //TODO Use the retrieved pantry IDs to return Pantry objects for the UI
         } else {
           print('No subscribed pantries found');
         }
@@ -60,23 +53,6 @@ class PantryProvider with ChangeNotifier {
     }).catchError((error) {
       print('Error retrieving document: $error');
     });
-
-
-
-    //final userDocumentRef = db.collection('users').doc(user?.uid).collection('subscribed_pantries');
-    // userDocumentRef.get().then(
-    //         (snapshot) {
-    //           //TODO Why are the subscribed_pantries screenshots empty?
-    //           // for (var pantrySnapshot in snapshot.docs) {
-    //           //   print('${pantrySnapshot..} => ${pantrySnapshot.data()}');
-    //           // }
-    //         },
-    // );
-
-    //Retrieve ID list  subscribed_pantries from user.uid
-    //Loop through pantry IDs, retrieve every pantry through its ID and create a Pantry object from it
-
-    //updateState();
   }
 
   void updateState() {
@@ -87,10 +63,11 @@ class PantryProvider with ChangeNotifier {
   Future addPantryWithTitle(String title) async {
     final User? user = await authProvider.getCurrentUser();
 
-    DocumentReference<Map<String, dynamic>> pantryDocumentReference = await db.collection('pantries').add({
+    DocumentReference<Map<String, dynamic>> pantryDocumentReference =
+        await db.collection('pantries').add({
       'title': title,
-      'founder' : user?.uid,
-      'users' : [user?.uid],
+      'founder': user?.uid,
+      'users': [user?.uid],
       'moderators': [user?.uid],
 
       //TODO Load pantry from database back to UI
@@ -98,12 +75,12 @@ class PantryProvider with ChangeNotifier {
       //TODO Should add with background image
       //TODO Once assistant is created: Add categories and items
     });
-    
-    DocumentReference<Map<String, dynamic>> userDocumentReference = db.collection('users')
-        .doc(user?.uid);
+
+    DocumentReference<Map<String, dynamic>> userDocumentReference =
+        db.collection('users').doc(user?.uid);
     userDocumentReference.update({
-      'subscribed_pantries' : FieldValue.arrayUnion([pantryDocumentReference.id])}
-    );
+      'subscribed_pantries': FieldValue.arrayUnion([pantryDocumentReference.id])
+    });
 
     //TODO Possibly remove local adding of pantry
     //_pantriesList.add(Pantry(title: title, founderID: user?.uid, pantryID: pantryId));
@@ -128,12 +105,12 @@ class PantryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void togglePantrySelectedForShopping(Pantry pantry, bool newValue){
+  void togglePantrySelectedForShopping(Pantry pantry, bool newValue) {
     pantry.toggleSelectedForShopping(newValue);
     notifyListeners();
   }
 
-  void toggleSelectedForPushNotifications(Pantry pantry, bool newValue){
+  void toggleSelectedForPushNotifications(Pantry pantry, bool newValue) {
     pantry.toggleSelectedForPushNotifications(newValue);
     notifyListeners();
   }

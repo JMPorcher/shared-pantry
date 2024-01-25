@@ -17,7 +17,7 @@ class Pantry {
   List<Item> activityHistory = [];
   final String? pantryID;
   final String? founderID;
-  final String? moderatorsID;
+  final List<String?> moderatorsID;
 
   bool _selectedForShopping = true;
   bool get selectedForShopping => _selectedForShopping;

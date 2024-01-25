@@ -5,9 +5,9 @@ import 'package:shared_pantry/models/item_category.dart';
 import 'models/item.dart';
 import 'models/pantry.dart';
 
-Pantry kTestPantry = Pantry(title: 'Persönlich', categories: [kTestCategory, kTestCategory4, kTestCategory5], pantryID: 'testPantryID', founderID: 'testFounderID', moderatorsID: 'testModeratorID');
-Pantry kTestPantry2 = Pantry(title: 'WG', categories: [kTestCategory2], pantryID: 'testPantryID', founderID: 'testFounderID', moderatorsID: 'testModeratorID');
-Pantry kTestPantry3 = Pantry(title: 'Werkzeug', categories: [kTestCategory3], pantryID: 'testPantryID', founderID: 'testFounderID', moderatorsID: 'testModeratorID');
+Pantry kTestPantry = Pantry(title: 'Persönlich', categories: [kTestCategory, kTestCategory4, kTestCategory5], pantryID: 'testPantryID', founderID: 'testFounderID', moderatorsID: ['testModeratorID']);
+Pantry kTestPantry2 = Pantry(title: 'WG', categories: [kTestCategory2], pantryID: 'testPantryID', founderID: 'testFounderID', moderatorsID: ['testModeratorID']);
+Pantry kTestPantry3 = Pantry(title: 'Werkzeug', categories: [kTestCategory3], pantryID: 'testPantryID', founderID: 'testFounderID', moderatorsID: ['testModeratorID']);
 
 ItemCategory kTestCategory = ItemCategory(
   'Kühlschrank',
