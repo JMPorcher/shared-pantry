@@ -35,15 +35,43 @@ class PantryProvider with ChangeNotifier {
   void updateData() async {
     final User? user = authProvider.user;
     print('User ID: ${user?.uid}');
-    final userDocumentRef = db.collection('users').doc(user?.uid).collection('subscribed_pantries');
-    userDocumentRef.get().then(
-            (snapshot) {
-              //TODO Why are the subscribed_pantries screenshots empty?
-              // for (var pantrySnapshot in snapshot.docs) {
-              //   print('${pantrySnapshot..} => ${pantrySnapshot.data()}');
-              // }
-            },
-    );
+    final userDocumentRef = db.collection('users').doc(user?.uid);
+
+    userDocumentRef.get().then((docSnapshot) {
+      if (docSnapshot.exists) {
+        // Get the data as a Map
+        Map<String, dynamic>? userData = docSnapshot.data();
+
+        // Check if the 'subscribed_pantries' field exists and is a List
+        if (userData!.containsKey('subscribed_pantries') && userData['subscribed_pantries'] is List) {
+          // Cast the 'subscribed_pantries' field to a List
+          List<dynamic> pantries = userData['subscribed_pantries'];
+
+          // Loop through each pantry in the list and print its value
+          for (var pantry in pantries) {
+            print(pantry); // Print each pantry
+          }
+        } else {
+          print('No subscribed pantries found');
+        }
+      } else {
+        print('Document does not exist');
+      }
+    }).catchError((error) {
+      print('Error retrieving document: $error');
+    });
+
+
+
+    //final userDocumentRef = db.collection('users').doc(user?.uid).collection('subscribed_pantries');
+    // userDocumentRef.get().then(
+    //         (snapshot) {
+    //           //TODO Why are the subscribed_pantries screenshots empty?
+    //           // for (var pantrySnapshot in snapshot.docs) {
+    //           //   print('${pantrySnapshot..} => ${pantrySnapshot.data()}');
+    //           // }
+    //         },
+    // );
 
     //Retrieve ID list  subscribed_pantries from user.uid
     //Loop through pantry IDs, retrieve every pantry through its ID and create a Pantry object from it
