@@ -4,11 +4,13 @@
   VERSION WITHOUT OTHER USERS:
 - User creates account
   [X] User is added to /users
-- User adds new PANTRY
-  [] added to /pantries
-  [] added to /users/user/pantries
-  [] User is added to /users/user/pantries/pantry/users
-  [] User is added to /users/user/pantries/pantry/moderators
+- [X] User adds new PANTRY
+    Add to database:
+      [X] added to /pantries
+      [X] added to /users/user/pantries
+      [X] User is added to /users/user/pantries/pantry/users
+      [X] User is added to /users/user/pantries/pantry/moderators
+    Read from database:
 - User adds CATEGORY
   [] added to /pantries/pantry
   [] change is logged in PANTRY history

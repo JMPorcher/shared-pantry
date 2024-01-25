@@ -44,6 +44,7 @@ class AddPantryDialog extends StatelessWidget {
                        } else {
                          await pantryProvider.addPantryWithTitle(titleTextController.text);
                          navigator.pop();
+                         //pantryProvider.updateData();
                        }
                     },
                     child: const Text('Cancel')),

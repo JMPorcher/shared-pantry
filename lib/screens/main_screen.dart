@@ -19,8 +19,9 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
+    //TODO Remove this line
+    pantryProvider.updateData();
     final AppStateProvider appStateProvider = Provider.of<AppStateProvider>(context);
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
