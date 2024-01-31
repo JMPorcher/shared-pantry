@@ -20,7 +20,7 @@ class PantryProvider with ChangeNotifier {
   // ===========MOCK DATA===========
   List<ItemCategory> get categoriesList => _categoriesList;
 
-  final List<Pantry> _pantriesList = [kTestPantry, kTestPantry2, kTestPantry3];
+  List<Pantry> _pantriesList = [];
 
   List<Pantry> get pantriesList => _pantriesList;
 
@@ -31,70 +31,66 @@ class PantryProvider with ChangeNotifier {
   void updateData() async {
     final User? user = authProvider.user;
 
-    List<dynamic> ids = getUsersPantryIds(user?.uid);
-    print(ids.length);
-
-    List<Pantry> userPantries = ids.isNotEmpty
-    ? generatePantryObjects(ids)
-    : [];
-
-    print(userPantries.length);
-    for (Pantry pantry in userPantries) {
-      print('${pantry.title} - ${pantry.pantryID} - ${pantry.founderID} - ${pantry.moderatorIds}');
+    List<Pantry> userPantries = [];
+    List<dynamic> ids = await getUsersPantryIds(user?.uid);
+    if (ids.isNotEmpty){
+      List<dynamic> pantryObjects = await generatePantryObjects(ids);
+      userPantries = pantryObjects.cast<Pantry>();
     }
+    _pantriesList = userPantries;
+    //TODO Actually turn the pantriesList into UI elements
   }
 
-  List<dynamic> getUsersPantryIds(String? uid) {
+  Future<List<dynamic>> getUsersPantryIds(String? uid) async {
     final userDocumentRef = db.collection('users').doc(uid);
     List<dynamic> pantryIds = [];
-    userDocumentRef.get().then((docSnapshot) {
+
+    try {
+      var docSnapshot = await userDocumentRef.get();
       if (docSnapshot.exists) {
         Map<String, dynamic>? userData = docSnapshot.data();
         if (userData!.containsKey('subscribed_pantries') &&
             userData['subscribed_pantries'] is List) {
-          pantryIds = userData['subscribed_pantries'];
+          pantryIds.addAll(userData['subscribed_pantries']);
+          print('Length pantryIds ${pantryIds.length}');
         } else {
           print('No subscribed pantries found');
         }
       } else {
         print('Document does not exist');
       }
-    }).catchError((error) {
-      print('Error retrieving document: $error');
-    });
+    } catch (e) {
+      print(e);
+    }
     return pantryIds;
   }
 
-  List<Pantry> generatePantryObjects(List<dynamic> ids){
+  Future<List<Pantry>> generatePantryObjects(List<dynamic> ids) async {
     List<Pantry> pantryObjects = [];
-
     for (var id in ids) {
-      //TODO get info from DB
       final pantryDocumentRef = db.collection('pantries').doc(id);
-      pantryDocumentRef.get().then((pantrySnapshot) {
-          if (pantrySnapshot.exists) {
-            Map<String, dynamic>? pantryData = pantrySnapshot.data();
-            final String title = pantryData!.containsKey('title')
-            ? pantryData['title']
-            : '';
-            final String founder = pantryData.containsKey('founder')
-            ? pantryData['founder']
-            : '';
-            List<String> moderators = pantryData.containsKey('moderators') && pantryData['moderators'] is List
+      var pantrySnapshot = await pantryDocumentRef.get();
+      if (pantrySnapshot.exists) {
+        Map<String, dynamic>? pantryData = pantrySnapshot.data();
+        final String title =
+            pantryData!.containsKey('title') ? pantryData['title'] : '';
+        final String founder =
+            pantryData.containsKey('founder') ? pantryData['founder'] : '';
+        List<dynamic> moderators = pantryData.containsKey('moderators') &&
+                pantryData['moderators'] is List
             ? pantryData['moderators']
             : [];
-            pantryObjects.add(Pantry(
-              title: title,
-              founderID: founder,
-              pantryID: id,
-              moderatorIds: moderators,
-            ));
-          }
-        }
-      );
+        pantryObjects.add(Pantry(
+          title: title,
+          founderID: founder,
+          pantryID: id,
+          moderatorIds: moderators,
+        ));
+      }
     }
     return pantryObjects;
   }
+
   void updateState() {
     notifyListeners();
   }
