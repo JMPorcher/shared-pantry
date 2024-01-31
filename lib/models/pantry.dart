@@ -3,7 +3,7 @@ import 'item_category.dart';
 
 class Pantry {
   Pantry(
-      {required this.moderatorsID, required this.title,
+      {required this.moderatorIds, required this.title,
         required this.pantryID,
         required this.founderID,
         List<ItemCategory>? categories}) : categories = categories ?? [];
@@ -17,7 +17,7 @@ class Pantry {
   List<Item> activityHistory = [];
   final String? pantryID;
   final String? founderID;
-  final List<String?> moderatorsID;
+  final List<String?> moderatorIds;
 
   bool _selectedForShopping = true;
   bool get selectedForShopping => _selectedForShopping;

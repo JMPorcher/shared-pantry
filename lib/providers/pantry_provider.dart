@@ -10,8 +10,6 @@ import 'app_state_provider.dart';
 import '../models/item.dart';
 import '../models/pantry.dart';
 
-//TODO Think about if this makes sense as a provider. Does it cover a scenario where a user has several pantries?
-
 class PantryProvider with ChangeNotifier {
   PantryProvider(this.appStateProvider, this.authProvider);
 
@@ -33,17 +31,28 @@ class PantryProvider with ChangeNotifier {
   void updateData() async {
     final User? user = authProvider.user;
 
-    final userDocumentRef = db.collection('users').doc(user?.uid);
+    List<dynamic> ids = getUsersPantryIds(user?.uid);
+    print(ids.length);
+
+    List<Pantry> userPantries = ids.isNotEmpty
+    ? generatePantryObjects(ids)
+    : [];
+
+    print(userPantries.length);
+    for (Pantry pantry in userPantries) {
+      print('${pantry.title} - ${pantry.pantryID} - ${pantry.founderID} - ${pantry.moderatorIds}');
+    }
+  }
+
+  List<dynamic> getUsersPantryIds(String? uid) {
+    final userDocumentRef = db.collection('users').doc(uid);
+    List<dynamic> pantryIds = [];
     userDocumentRef.get().then((docSnapshot) {
       if (docSnapshot.exists) {
         Map<String, dynamic>? userData = docSnapshot.data();
         if (userData!.containsKey('subscribed_pantries') &&
             userData['subscribed_pantries'] is List) {
-          List<dynamic> pantries = userData['subscribed_pantries'];
-          for (var pantry in pantries) {
-            print(pantry); // Print each pantry
-          }
-          //TODO Use the retrieved pantry IDs to return Pantry objects for the UI
+          pantryIds = userData['subscribed_pantries'];
         } else {
           print('No subscribed pantries found');
         }
@@ -53,8 +62,39 @@ class PantryProvider with ChangeNotifier {
     }).catchError((error) {
       print('Error retrieving document: $error');
     });
+    return pantryIds;
   }
 
+  List<Pantry> generatePantryObjects(List<dynamic> ids){
+    List<Pantry> pantryObjects = [];
+
+    for (var id in ids) {
+      //TODO get info from DB
+      final pantryDocumentRef = db.collection('pantries').doc(id);
+      pantryDocumentRef.get().then((pantrySnapshot) {
+          if (pantrySnapshot.exists) {
+            Map<String, dynamic>? pantryData = pantrySnapshot.data();
+            final String title = pantryData!.containsKey('title')
+            ? pantryData['title']
+            : '';
+            final String founder = pantryData.containsKey('founder')
+            ? pantryData['founder']
+            : '';
+            List<String> moderators = pantryData.containsKey('moderators') && pantryData['moderators'] is List
+            ? pantryData['moderators']
+            : [];
+            pantryObjects.add(Pantry(
+              title: title,
+              founderID: founder,
+              pantryID: id,
+              moderatorIds: moderators,
+            ));
+          }
+        }
+      );
+    }
+    return pantryObjects;
+  }
   void updateState() {
     notifyListeners();
   }
