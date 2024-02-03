@@ -33,7 +33,7 @@ class PantryProvider with ChangeNotifier {
 
     List<Pantry> userPantries = [];
     List<dynamic> ids = await getUsersPantryIds(user?.uid);
-    if (ids.isNotEmpty){
+    if (ids.isNotEmpty) {
       List<dynamic> pantryObjects = await generatePantryObjects(ids);
       userPantries = pantryObjects.cast<Pantry>();
     }
@@ -60,7 +60,9 @@ class PantryProvider with ChangeNotifier {
       }
     } catch (e) {
       print(e);
+
     }
+    //TODO If any check fails, display snackbar to user about error. Maybe send info to admin (which is me)
     return pantryIds;
   }
 
@@ -69,21 +71,14 @@ class PantryProvider with ChangeNotifier {
     for (var id in ids) {
       final pantryDocumentRef = db.collection('pantries').doc(id);
       var pantrySnapshot = await pantryDocumentRef.get();
+
       if (pantrySnapshot.exists) {
         Map<String, dynamic>? pantryData = pantrySnapshot.data();
-        final String title =
-            pantryData!.containsKey('title') ? pantryData['title'] : '';
-        final String founder =
-            pantryData.containsKey('founder') ? pantryData['founder'] : '';
-        List<dynamic> moderators = pantryData.containsKey('moderators') &&
-                pantryData['moderators'] is List
-            ? pantryData['moderators']
-            : [];
         pantryObjects.add(Pantry(
-          title: title,
-          founderID: founder,
+          title: pantryData?['title'] ?? '(no title found)',
+          founderID: pantryData?['founder'] ?? '(no founder found)',
           pantryID: id,
-          moderatorIds: moderators,
+          moderatorIds: pantryData?['moderators'] ?? ['(no title found)'],
         ));
       }
     }
