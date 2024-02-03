@@ -28,7 +28,7 @@ class PantryProvider with ChangeNotifier {
 
   // ===========GENERAL FUNCTIONS===========
 
-  void updateData() async {
+  void updateLocalPantries() async {
     final User? user = authProvider.user;
 
     List<Pantry> userPantries = [];
@@ -52,7 +52,6 @@ class PantryProvider with ChangeNotifier {
         if (userData!.containsKey('subscribed_pantries') &&
             userData['subscribed_pantries'] is List) {
           pantryIds.addAll(userData['subscribed_pantries']);
-          print('Length pantryIds ${pantryIds.length}');
         } else {
           print('No subscribed pantries found');
         }

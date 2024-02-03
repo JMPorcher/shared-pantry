@@ -45,7 +45,7 @@ class SharedPantry extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider.value(value: appStateProvider),
+          ChangeNotifierProvider.value(value: appStateProvider ),
           ChangeNotifierProvider.value(value: pantryProvider),
           ChangeNotifierProvider.value(value: authProvider),
         ],
