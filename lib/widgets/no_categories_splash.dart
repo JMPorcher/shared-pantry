@@ -31,7 +31,7 @@ class NoCategoriesSplashScreen extends StatelessWidget {
             child: Card(
               child: Padding(
                 padding: EdgeInsets.all(24.0),
-                child: Text('This pantry has no categories yet.'),
+                child: Text('This pantry has is empty at the moment.'),
               ),
             ),
           ),

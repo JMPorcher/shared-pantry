@@ -66,21 +66,14 @@ class PantryProvider with ChangeNotifier {
     return pantryIds;
   }
 
-  Future<List<Pantry>> generatePantryObjects(List<dynamic> ids) async {
-    List<Pantry> pantryObjects = [];
+  Stream<List<Pantry>> generatePantryObjects(List<dynamic> ids) async {
+    Stream<List<Pantry>> pantryObjects = [];
     for (var id in ids) {
-      final pantryDocumentRef = db.collection('pantries').doc(id);
-      var pantrySnapshot = await pantryDocumentRef.get();
+      var pantrySnapshot = db.collection('pantries').doc(id)
+      .snapshots()
+      .map((snapshot) => pantryObjects.add(Pantry.fromJson(snapshot.data(), id))
+      );
 
-      if (pantrySnapshot.exists) {
-        Map<String, dynamic>? pantryData = pantrySnapshot.data();
-        pantryObjects.add(Pantry(
-          title: pantryData?['title'] ?? '(no title found)',
-          founderID: pantryData?['founder'] ?? '(no founder found)',
-          pantryID: id,
-          moderatorIds: pantryData?['moderators'] ?? ['(no title found)'],
-        ));
-      }
     }
     return pantryObjects;
   }
@@ -92,31 +85,31 @@ class PantryProvider with ChangeNotifier {
   // ===========PANTRY FUNCTIONS===========
   Future addPantryWithTitle(String title) async {
     final User? user = await authProvider.getCurrentUser();
+    final uid = user?.uid;
 
+    //Add the pantry to the pantries collection
     DocumentReference<Map<String, dynamic>> pantryDocumentReference =
         await db.collection('pantries').add({
       'title': title,
-      'founder': user?.uid,
-      'users': [user?.uid],
-      'moderators': [user?.uid],
-
-      //TODO Load pantry from database back to UI
+      'founder': uid,
+      'users': [uid],
+      'moderators': [uid],
 
       //TODO Should add with background image
       //TODO Once assistant is created: Add categories and items
     });
 
+    //Add the pantry to the user data in firebase
     DocumentReference<Map<String, dynamic>> userDocumentReference =
-        db.collection('users').doc(user?.uid);
+        db.collection('users').doc(uid);
     userDocumentReference.update({
       'subscribed_pantries': FieldValue.arrayUnion([pantryDocumentReference.id])
     });
 
-    //TODO Possibly remove local adding of pantry
-    //_pantriesList.add(Pantry(title: title, founderID: user?.uid, pantryID: pantryId));
     appStateProvider.switchActiveScreen(1);
     notifyListeners();
   }
+
 
   void renamePantry(Pantry pantry, String newTitle) {
     pantry.editTitle(newTitle);

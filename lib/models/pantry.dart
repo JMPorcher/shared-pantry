@@ -8,6 +8,12 @@ class Pantry {
         required this.founderID,
         List<ItemCategory>? categories}) : categories = categories ?? [];
 
+  Pantry.fromJson(Map<String, dynamic>? parsedJson, String id)
+      : title = parsedJson?['title'],
+        founderID = parsedJson?['founder'],
+        pantryID = id,
+        moderatorIds = parsedJson?['moderators'];
+
       //TODO optional SvgPicture backgroundImage = default_image_asset
       //TODO List<String(userId), Item> activityHistory = []
 
@@ -17,7 +23,7 @@ class Pantry {
   List<Item> activityHistory = [];
   final String? pantryID;
   final String? founderID;
-  final List<dynamic?> moderatorIds;
+  final List<dynamic> moderatorIds;
 
   bool _selectedForShopping = true;
   bool get selectedForShopping => _selectedForShopping;
