@@ -28,54 +28,34 @@ class PantryProvider with ChangeNotifier {
 
   // ===========GENERAL FUNCTIONS===========
 
-  void updateLocalPantries() async {
-    final User? user = authProvider.user;
+  // void updateLocalPantries() async {
+  //   final User? user = authProvider.user;
+  //
+  //   List<Pantry> userPantries = [];
+  //   List<dynamic> ids = await getUsersPantryIds(user?.uid);
+  //   if (ids.isNotEmpty) {
+  //     List<dynamic> pantryObjects = await generatePantryObjects(ids);
+  //     userPantries = pantryObjects.cast<Pantry>();
+  //   }
+  //   _pantriesList = userPantries;
+  //   //TODO Actually turn the pantriesList into UI elements
+  // }
 
-    List<Pantry> userPantries = [];
-    List<dynamic> ids = await getUsersPantryIds(user?.uid);
-    if (ids.isNotEmpty) {
-      List<dynamic> pantryObjects = await generatePantryObjects(ids);
-      userPantries = pantryObjects.cast<Pantry>();
-    }
-    _pantriesList = userPantries;
-    //TODO Actually turn the pantriesList into UI elements
-  }
-
-  Future<List<dynamic>> getUsersPantryIds(String? uid) async {
-    final userDocumentRef = db.collection('users').doc(uid);
-    List<dynamic> pantryIds = [];
-
-    try {
-      var docSnapshot = await userDocumentRef.get();
-      if (docSnapshot.exists) {
-        Map<String, dynamic>? userData = docSnapshot.data();
-        if (userData!.containsKey('subscribed_pantries') &&
-            userData['subscribed_pantries'] is List) {
-          pantryIds.addAll(userData['subscribed_pantries']);
-        } else {
-          print('No subscribed pantries found');
-        }
-      } else {
-        print('Document does not exist');
+  Stream<String> getUsersPantryIds(String? uid) async* {
+      var userPantryIds = await db.collection('users').doc(uid).collection('subscribed_pantries').get();
+      Map<String, dynamic> ids =
+      for (var id in userPantryIds.docs) {
+        yield id.data();
       }
-    } catch (e) {
-      print(e);
 
-    }
     //TODO If any check fails, display snackbar to user about error. Maybe send info to admin (which is me)
-    return pantryIds;
   }
 
-  Stream<List<Pantry>> generatePantryObjects(List<dynamic> ids) async {
-    Stream<List<Pantry>> pantryObjects = [];
-    for (var id in ids) {
-      var pantrySnapshot = db.collection('pantries').doc(id)
-      .snapshots()
-      .map((snapshot) => pantryObjects.add(Pantry.fromJson(snapshot.data(), id))
-      );
+  Stream<Pantry> generatePantryObjects(Stream<dynamic> ids) async* {
+    await for (var id in ids) {
+      var pantrySnapshot = db.collection('pantries').doc(id).snapshots();
 
     }
-    return pantryObjects;
   }
 
   void updateState() {

@@ -36,16 +36,8 @@ class AddPantryDialog extends StatelessWidget {
               ),
               actions: [
                 TextButton(
-                    onPressed: () async {
-                      final navigator = Navigator.of(context);
-                      final User? currentUser = await authProvider.getCurrentUser();
-                       if (currentUser == null) {
-                         navigator.popAndPushNamed(FirstStartupScreen.id);
-                       } else {
-                         await pantryProvider.addPantryWithTitle(titleTextController.text);
-                         navigator.pop();
-                         //pantryProvider.updateData();
-                       }
+                    onPressed: () {
+                       Navigator.pop(context);
                     },
                     child: const Text('Cancel')),
                 AddPantryButton(titleTextController: titleTextController, pantryProvider: pantryProvider, pageController: pageController)
