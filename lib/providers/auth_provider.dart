@@ -3,17 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class SpAuthProvider extends ChangeNotifier {
   SpAuthProvider() {
-    _firebaseAuth.authStateChanges().listen((User? user) {
-      if (user != null) {
-        if (user.isAnonymous || user.email != null) {
-          _user = user;
-          notifyListeners(); // Notify listener}s when authentication state changes
-        } else {
-          _user = null;
-        }
-      }
-    });
+    Stream<User?> _authStateStream = _firebaseAuth.authStateChanges();
+
   }
+
+  late Stream<User?> _authStateStream;
+  Stream<User?> get authStateStream => _authStateStream;
 
   Future<User?> getCurrentUser() async {
     return _firebaseAuth.currentUser;

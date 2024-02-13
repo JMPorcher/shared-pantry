@@ -49,8 +49,8 @@ class SharedPantry extends StatelessWidget {
           ChangeNotifierProvider.value(value: pantryProvider),
           ChangeNotifierProvider.value(value: authProvider),
         ],
-        child: FutureBuilder<User?>(
-          future: authProvider.getCurrentUser(),
+        child: StreamBuilder<User?>(
+          stream: authProvider.authStateStream,
           builder: (context, snapshot) {
             User? user;
             if (snapshot.connectionState == ConnectionState.done) {

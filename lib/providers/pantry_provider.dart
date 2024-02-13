@@ -42,40 +42,28 @@ class PantryProvider with ChangeNotifier {
   }
 
   Future<List<dynamic>> getUsersPantryIds(String? uid) async {
-    final userDocumentRef = db.collection('users').doc(uid);
-    List<dynamic> pantryIds = [];
-
-    try {
+    final Stream<dynamic> id = db.collection('users').doc(uid).;
+    Stream<dynamic> pantryIds;
       var docSnapshot = await userDocumentRef.get();
       if (docSnapshot.exists) {
         Map<String, dynamic>? userData = docSnapshot.data();
         if (userData!.containsKey('subscribed_pantries') &&
             userData['subscribed_pantries'] is List) {
-          pantryIds.addAll(userData['subscribed_pantries']);
-        } else {
-          print('No subscribed pantries found');
-        }
-      } else {
-        print('Document does not exist');
-      }
-    } catch (e) {
-      print(e);
 
-    }
+        }
+      }
+
     //TODO If any check fails, display snackbar to user about error. Maybe send info to admin (which is me)
-    return pantryIds;
   }
 
-  Stream<List<Pantry>> generatePantryObjects(List<dynamic> ids) async {
-    Stream<List<Pantry>> pantryObjects = [];
-    for (var id in ids) {
-      var pantrySnapshot = db.collection('pantries').doc(id)
-      .snapshots()
-      .map((snapshot) => pantryObjects.add(Pantry.fromJson(snapshot.data(), id))
+  Stream<Pantry> generatePantryObjects(List<dynamic> ids) async* {
+    await for (var id in ids) {
+      Map<String, dynamic>? pantrySnapshot = db.collection('pantries').doc(id)
+      yield Pantry.fromJson(pantrySnapshot.first, id));
       );
 
     }
-    return pantryObjects;
+    //return pantryObjects;
   }
 
   void updateState() {
