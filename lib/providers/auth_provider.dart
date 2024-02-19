@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class SpAuthProvider extends ChangeNotifier {
   SpAuthProvider() {
-    Stream<User?> _authStateStream = _firebaseAuth.authStateChanges();
-
+    _authStateStream = _firebaseAuth.authStateChanges();
   }
 
   late Stream<User?> _authStateStream;

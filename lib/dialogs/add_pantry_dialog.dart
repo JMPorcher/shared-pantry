@@ -16,11 +16,13 @@ class AddPantryDialog extends StatelessWidget {
   final SpAuthProvider authProvider = SpAuthProvider();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+
   @override
   Widget build(BuildContext context) {
+
     titleTextController.text = pantryTitleValueNotifier.value;
     final PantryProvider pantryProvider = context.watch<PantryProvider>();
-    final PageController pageController = context.watch<AppStateProvider>().mainScreenPageController;
+    final AppStateProvider appStateProvider = Provider.of<AppStateProvider>(context);
 
     //TODO Background image picker
 
@@ -48,7 +50,7 @@ class AddPantryDialog extends StatelessWidget {
                        }
                     },
                     child: const Text('Cancel')),
-                AddPantryButton(titleTextController: titleTextController, pantryProvider: pantryProvider, pageController: pageController)
+                AddPantryButton(titleTextController: titleTextController, pantryProvider: pantryProvider, pageController: appStateProvider.mainScreenPageController)
               ]),
         ]);
   }
@@ -73,12 +75,16 @@ class AddPantryButton extends StatelessWidget {
           final String pantryTitle = titleTextController.text;
           if (pantryTitle.isNotEmpty) {
             await pantryProvider.addPantryWithTitle(pantryTitle);
+            for (var pantry in pantryProvider.pantriesList) {
+              print('Pantry ${pantry.title}');
+            }
             pantryProvider.switchPantry(pantryProvider.pantriesList.length - 1);
             pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
 
             if (context.mounted) {
               Navigator.of(context).pop();
             }
+
           }
         },
         child: const Text('Add'));
