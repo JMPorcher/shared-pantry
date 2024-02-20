@@ -94,14 +94,18 @@ class MainScreen extends StatelessWidget {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-          bottomNavigationBar: buildSpBottomNavigationBar(),
-          body: PageView(
-              onPageChanged: (index) => switchScreen(index),
-              controller: pageController,
-              children: buildPages()),
-      )
+    return StreamProvider<List<Pantry>>(
+      builder: (context, snapshot) {
+        return SafeArea(
+          child: Scaffold(
+              bottomNavigationBar: buildSpBottomNavigationBar(),
+              body: PageView(
+                  onPageChanged: (index) => switchScreen(index),
+                  controller: pageController,
+                  children: buildPages()),
+          )
+        );
+      }
     );
   }
 }
