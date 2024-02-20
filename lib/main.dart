@@ -49,26 +49,29 @@ class SharedPantry extends StatelessWidget {
           ChangeNotifierProvider.value(value: pantryProvider),
           ChangeNotifierProvider.value(value: authProvider),
         ],
-        child: FutureBuilder<User?>(
-          future: authProvider.getCurrentUser(),
+        child: StreamBuilder<User?>(
+          stream: authProvider.authStateStream,
           builder: (context, snapshot) {
-            User? user;
-            if (snapshot.connectionState == ConnectionState.done) {
-              user = snapshot.data;
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else {
+              User? user = snapshot.data;
+              return MaterialApp(
+                  title: 'Shared Pantry',
+                  theme: ThemeData(
+                    primarySwatch: Colors.blue,
+                  ),
+                  home: (user == null)
+                      ? const FirstStartupScreen()
+                      : const MainScreen(),
+                  routes: {
+                    ProfilePage.id: (context) => ProfilePage(),
+                    MainScreen.id: (context) => const MainScreen(),
+                    FirstStartupScreen.id: (context) => const FirstStartupScreen(),
+                  });
+
             }
-            return MaterialApp(
-                title: 'Shared Pantry',
-                theme: ThemeData(
-                  primarySwatch: Colors.blue,
-                ),
-                home: (user == null)
-                    ? const FirstStartupScreen()
-                    : const MainScreen(),
-                routes: {
-                  ProfilePage.id: (context) => ProfilePage(),
-                  MainScreen.id: (context) => const MainScreen(),
-                  FirstStartupScreen.id: (context) => const FirstStartupScreen(),
-                });
+
           },
         ));
   }

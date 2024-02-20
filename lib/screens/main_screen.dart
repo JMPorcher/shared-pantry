@@ -6,7 +6,6 @@ import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
@@ -28,8 +27,6 @@ class MainScreen extends StatelessWidget {
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);
-      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      sharedPreferences.setInt('Last shown screen', activeScreenIndex);
     }
 
     List<Widget> buildPages() {
@@ -86,18 +83,11 @@ class MainScreen extends StatelessWidget {
             ? 0
             : 3,
         onTap: (index) {
-          if (pantryList.isNotEmpty) {
-            switchScreen(index);
+          if (pantryList.isNotEmpty || index == 0 || index == 3) {
+            appStateProvider.switchActiveScreen(index);
             pageController.animateToPage(index,
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.ease);
-          } else {
-            if (index == 0 || index == 3) {
-              switchScreen(index);
-              pageController.animateToPage(index,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease);
-            }
           }
         },
       );

@@ -139,7 +139,8 @@ class DeleteAccountButton extends StatelessWidget {
     return SpButton.filledButton(
       onTap: () {
         auth.signOut();
-        navigator.pushNamedAndRemoveUntil(FirstStartupScreen.id, (route) => false);
+        //Following line should be implied by the entire app listening to authstate
+        //navigator.pushNamedAndRemoveUntil(FirstStartupScreen.id, (route) => false);
       },
       child: const Text('Delete account',
           style: kFilledButtonTextStyle),
