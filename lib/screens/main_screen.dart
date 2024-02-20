@@ -6,6 +6,7 @@ import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
+import 'package:shared_pantry/services/database_services.dart';
 
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
@@ -93,7 +94,8 @@ class MainScreen extends StatelessWidget {
       );
     }
 
-    return StreamProvider<List<Pantry>>(
+    return StreamBuilder<List<Pantry>>(
+      stream: DatabaseService(uid: '').pantryData,
       builder: (context, snapshot) {
         return SafeArea(
           child: Scaffold(
@@ -104,7 +106,7 @@ class MainScreen extends StatelessWidget {
                   children: buildPages()),
           )
         );
-      }
+      },
     );
   }
 }
