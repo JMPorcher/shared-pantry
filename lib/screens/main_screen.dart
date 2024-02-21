@@ -20,6 +20,7 @@ class MainScreen extends StatelessWidget {
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
     final List<String> pantryIds = Provider.of<List<String>>(context);
+    // ignore: unused_local_variable
     final List<PantryProvider> pantryProviders = pantryIds
         .map((id) => Provider.of<PantryProvider>(context, listen: false))
         .toList();
@@ -32,7 +33,7 @@ class MainScreen extends StatelessWidget {
       if (pantryIds.isNotEmpty) {
         return [
           const OverviewPage(),
-          const PantryPage(), //currentPantry: (activePantryIndex < pantryList.length) ? pantryList[activePantryIndex] : pantryList[0]
+          PantryPage(pantryProvider: pantryProviders[0]),//TODO Make sure last shown pantry is shown
           const ShoppingPage(),
           ProfilePage(),
         ];
@@ -92,20 +93,14 @@ class MainScreen extends StatelessWidget {
       );
     }
 
-    return MultiProvider(
-      providers: [
-        for (var id in pantryIds)
-          Provider(create: (_) => PantryProvider(pantryId: id))
-      ],
-      child: SafeArea(
-            child: Scaffold(
-                bottomNavigationBar: buildSpBottomNavigationBar(),
-                body: PageView(
-                    onPageChanged: (index) => switchScreen(index),
-                    controller: pageController,
-                    children: buildPages()),
-            )
-          ),
-    );
+    return SafeArea(
+          child: Scaffold(
+              bottomNavigationBar: buildSpBottomNavigationBar(),
+              body: PageView(
+                  onPageChanged: (index) => switchScreen(index),
+                  controller: pageController,
+                  children: buildPages()),
+          )
+        );
   }
 }

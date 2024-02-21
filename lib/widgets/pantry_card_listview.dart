@@ -31,13 +31,9 @@ class OverviewCardListView extends StatelessWidget {
           itemCount: pantryProviders.length + 1,
           itemBuilder: (_, index) {
             if (index < pantryProviders.length) {
-              return PantryProvider(
-                pantryId: pantryProviders[index].pantryId,
-                child: const PantryCard(),
-              );
+              return PantryCard(pantryProviders[index]);
             } else {
               return
-                  //const AddPantryButton()
                   AddPantryCard(
                       onTap: () => AddPantryDialog(), cardText: 'Add a pantry');
             }
@@ -47,12 +43,14 @@ class OverviewCardListView extends StatelessWidget {
 }
 
 class PantryCard extends StatelessWidget {
-  const PantryCard(
-      {super.key});
+  const PantryCard(this.pantryProvider,
+      {super.key}
+  );
+  final PantryProvider pantryProvider;
 
   @override
   Widget build(BuildContext context) {
-    final Pantry pantry = context.watch<Pantry>();
+    final Pantry pantry = Provider.of<Pantry>(context);
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     return GestureDetector(
       onTap: () => appStateProvider.newSelectedPantryId = pantry.id.toString(),

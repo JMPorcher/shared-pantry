@@ -28,7 +28,7 @@ class PantryProvider extends StatelessWidget {
       create: (context) => DatabaseService().streamPantryDetails(pantryId),
       initialData:
           Pantry(moderatorIds: [], title: '', id: '', founderID: ''),
-      //child: child,
+      child: child,
     );
   }
 

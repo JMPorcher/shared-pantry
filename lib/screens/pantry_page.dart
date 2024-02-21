@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/widgets/no_categories_splash.dart';
 import 'package:shared_pantry/widgets/sp_card.dart';
 
@@ -12,12 +13,14 @@ import '../models/pantry.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryPage extends StatelessWidget {
-  const PantryPage({super.key});
+  const PantryPage({super.key, required this.pantryProvider});
+
+  final PantryProvider pantryProvider;
 
   @override
   Widget build(BuildContext context) {
 
-    final pantry =
+    final Pantry pantry =
         context.watch<Pantry>();
     final currentCategoryList = <ItemCategory>[];//pantry.categories;
 

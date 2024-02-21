@@ -19,21 +19,16 @@ class _ShoppingPageState extends State<ShoppingPage> {
   List<Item> relevantItems = [];
   List<Item> quickaddedItems = [];
 
-  void filterItems(List<Pantry> pantryList) {
-    relevantItems.clear();
-    pantryList.where((pantry) => pantry.selectedForShopping).forEach((pantry) {
-      relevantItems.addAll(pantry.categories.expand(
-          (category) => category.items.where((item) => !item.isAvailable)));
-    });
+  void filterItems(List<PantryProvider> pantryProviders) {
+    //Loop through pantries and use DatabaseService to retrieve all unavailable items
     relevantItems.addAll(quickaddedItems);
   }
 
   @override
   Widget build(BuildContext context) {
-    final PantryProvider pantryProvider = context.watch<PantryProvider>();
-    final List<Pantry> pantryList = pantryProvider.pantriesList;
+    final List<PantryProvider> pantryProviders = context.watch<List<PantryProvider>>();
 
-    filterItems(pantryList);
+    filterItems(pantryProviders);
     return Scaffold(
       appBar: AppBar(title: const Text('My Shopping List', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
       body: SingleChildScrollView(
@@ -43,11 +38,11 @@ class _ShoppingPageState extends State<ShoppingPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const PantryFilterInfoText(),
-                buildPantrySwitchList(pantryProvider),
+                buildPantrySwitchList(),
                 const DividerLine(),
                 const ItemsInfoText(),
                 Consumer<PantryProvider>(builder: (context, pantryProvider, child) {
-                  filterItems(pantryList);
+                  //filterItems(pantryList);
                   return buildCheckboxList();
                 })
               ],
@@ -57,21 +52,23 @@ class _ShoppingPageState extends State<ShoppingPage> {
   }
 
 
-  SizedBox buildPantrySwitchList(PantryProvider pantryProvider) {
-    final List<Pantry> pantryList = pantryProvider.pantriesList;
+  SizedBox buildPantrySwitchList() {
+    final List<PantryProvider> pantryProviders = context.watch<List<PantryProvider>>();
     return SizedBox(
       width: double.maxFinite,
-      height: pantryList.length * 40 + 20,
+      height: pantryProviders.length * 40 + 20,
       child: ListView.builder(
-          itemCount: pantryList.length,
+          itemCount: pantryProviders.length,
           itemExtent: 40,
           itemBuilder: (_, index) {
-            final Pantry currentPantry = pantryList[index];
+            PantryProvider pantryProvider = pantryProviders[index];
+            Pantry pantry = context.watch<Pantry>();
             return ListTile(
-              leading: Text(currentPantry.title),
+              leading: Text(pantry.title),
               trailing: SpSwitch(
-                switchValue: currentPantry.selectedForShopping, 
-                toggleSwitch: (newValue) => pantryProvider.togglePantrySelectedForShopping(currentPantry, newValue),
+                switchValue: pantry.selectedForShopping,
+                toggleSwitch: (newValue) => {}
+                  //pantryProvider.togglePantrySelectedForShopping(currentPantry, newValue),
               )
             );
           }),
@@ -90,9 +87,9 @@ class _ShoppingPageState extends State<ShoppingPage> {
             if (quickaddedItems.contains(currentItem)) {
               quickaddedItems.remove(currentItem);
             } else {
-              context
-                  .read<PantryProvider>()
-                  .toggleItemAvailability(currentItem);
+              // context
+              //     .read<PantryProvider>()
+              //     .toggleItemAvailability(currentItem);
             }
           });
         },
