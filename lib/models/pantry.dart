@@ -4,14 +4,13 @@ import 'item_category.dart';
 class Pantry {
   Pantry(
       {required this.moderatorIds, required this.title,
-        required this.pantryID,
+        required this.id,
         required this.founderID,
         List<ItemCategory>? categories}) : categories = categories ?? [];
 
-  Pantry.fromJson(Map<String, dynamic>? parsedJson, String id)
+  Pantry.fromJson(Map<String, dynamic>? parsedJson, String this.id)
       : title = parsedJson?['title'],
         founderID = parsedJson?['founder'],
-        pantryID = id,
         moderatorIds = parsedJson?['moderators'];
 
       //TODO optional SvgPicture backgroundImage = default_image_asset
@@ -21,7 +20,7 @@ class Pantry {
   List<ItemCategory> categories = [];
 
   List<Item> activityHistory = [];
-  final String? pantryID;
+  final String? id;
   final String? founderID;
   final List<dynamic> moderatorIds;
 

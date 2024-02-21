@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
-import 'package:shared_pantry/providers/pantry_provider.dart';
+import 'package:shared_pantry/providers/user_provider.dart';
 import 'package:shared_pantry/screens/first_startup_screen.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
@@ -39,14 +39,12 @@ class SharedPantry extends StatelessWidget {
     final appStateProvider =
         AppStateProvider(lastShownScreen, lastShownPantryIndex);
     final SpAuthProvider authProvider = SpAuthProvider();
-    final pantryProvider = PantryProvider(appStateProvider, authProvider);
 
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: appStateProvider ),
-          ChangeNotifierProvider.value(value: pantryProvider),
           ChangeNotifierProvider.value(value: authProvider),
         ],
         child: StreamBuilder<User?>(
@@ -63,7 +61,10 @@ class SharedPantry extends StatelessWidget {
                   ),
                   home: (user == null)
                       ? const FirstStartupScreen()
-                      : const MainScreen(),
+                      : UserProvider(
+                          userId: user.uid,
+                          child: const MainScreen()
+                        ),
                   routes: {
                     ProfilePage.id: (context) => ProfilePage(),
                     MainScreen.id: (context) => const MainScreen(),

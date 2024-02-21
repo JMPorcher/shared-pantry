@@ -6,10 +6,6 @@ import 'package:shared_pantry/screens/overview_screen.dart';
 import 'package:shared_pantry/screens/shopping_screen.dart';
 import 'package:shared_pantry/screens/pantry_screen.dart';
 import 'package:shared_pantry/screens/profile_screen.dart';
-import 'package:shared_pantry/services/database_services.dart';
-
-import '../models/pantry.dart';
-import '../providers/pantry_provider.dart';
 import '../widgets/sp_bottom_navigation_bar.dart';
 
 class MainScreen extends StatelessWidget {
@@ -19,19 +15,17 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PantryProvider pantryProvider = Provider.of<PantryProvider>(context);
-
     final AppStateProvider appStateProvider = Provider.of<AppStateProvider>(context);
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
-    final List<Pantry> pantryList = pantryProvider.pantriesList;
+    final List<String> pantryIds = Provider.of<List<String>>(context);
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);
     }
 
     List<Widget> buildPages() {
-      if (pantryList.isNotEmpty) {
+      if (pantryIds.isNotEmpty) {
         return [
           const OverviewPage(),
           const PantryPage(), //currentPantry: (activePantryIndex < pantryList.length) ? pantryList[activePantryIndex] : pantryList[0]
@@ -59,7 +53,7 @@ class MainScreen extends StatelessWidget {
               activatedIcon: const Icon(Icons.summarize_outlined),
               deactivatedIcon: Icon(Icons.summarize_outlined,
                   color: Colors.grey.shade700, size: 24),
-              active: pantryList.isNotEmpty,
+              active: pantryIds.isNotEmpty,
               activeIconColor: kColor4,
               selectedIcon: const Icon(Icons.summarize)),
           SpBottomNavigationBarItem(
@@ -67,7 +61,7 @@ class MainScreen extends StatelessWidget {
               deactivatedIcon: Icon(Icons.shopping_cart_outlined,
                   color: Colors.grey.shade700, size: 24),
               activeIconColor: kColor3,
-              active: pantryList.isNotEmpty,
+              active: pantryIds.isNotEmpty,
               selectedIcon: const Icon(Icons.shopping_cart)),
           SpBottomNavigationBarItem(
               activatedIcon: const Icon(
@@ -78,13 +72,13 @@ class MainScreen extends StatelessWidget {
               activeIconColor: kColor4,
               selectedIcon: const Icon(Icons.account_circle)),
         ],
-        currentIndex: pantryList.isNotEmpty
+        currentIndex: pantryIds.isNotEmpty
             ? activeScreenIndex
             : activeScreenIndex == 0
             ? 0
             : 3,
         onTap: (index) {
-          if (pantryList.isNotEmpty || index == 0 || index == 3) {
+          if (pantryIds.isNotEmpty || index == 0 || index == 3) {
             appStateProvider.switchActiveScreen(index);
             pageController.animateToPage(index,
                 duration: const Duration(milliseconds: 500),
@@ -94,10 +88,7 @@ class MainScreen extends StatelessWidget {
       );
     }
 
-    return StreamBuilder<List<Pantry>>(
-      stream: DatabaseService(uid: '').pantryData,
-      builder: (context, snapshot) {
-        return SafeArea(
+    return SafeArea(
           child: Scaffold(
               bottomNavigationBar: buildSpBottomNavigationBar(),
               body: PageView(
@@ -106,7 +97,5 @@ class MainScreen extends StatelessWidget {
                   children: buildPages()),
           )
         );
-      },
-    );
   }
 }

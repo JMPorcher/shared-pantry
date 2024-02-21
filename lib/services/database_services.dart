@@ -3,18 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/pantry.dart';
 
 class DatabaseService {
-  DatabaseService(this.uid) {
-    userDataReference = FirebaseFirestore.instance.collection('users').doc(uid);
+  DatabaseService() {
+    userDataReference = FirebaseFirestore.instance.collection('users');
     pantryCollectionReference = FirebaseFirestore.instance.collection('pantries');
   }
 
-  final String uid;
-  late final DocumentReference userDataReference;
+  late final CollectionReference userDataReference;
   late final CollectionReference<Map<String, dynamic>>  pantryCollectionReference;
 
 
-  Stream<List<String>> streamSubscribedPantries() {
+  Stream<List<String>> streamSubscribedPantries(String uid) {
     return userDataReference
+        .doc(uid)
         .collection('subscribed_pantries')
         .snapshots()
         .map((snapshot) => snapshot.docs
@@ -31,29 +31,14 @@ class DatabaseService {
 
   Pantry _getPantryFromDocumentSnapshot(DocumentSnapshot doc) {
          return Pantry(
-             pantryID: doc.id,
+             id: doc.id,
              title: doc['title'],
              moderatorIds: doc['moderators'],
              founderID: doc['founder']
            );
   }
 
-  Stream<List<Pantry>> get pantryData {
-    //Get userData snapshot,
-    return userDataReference.snapshots()
-    // then map every ID in the snapshot to a new stream of the corresponding pantry,
-        .map((snapshot) => snapshot['subscribed_pantries']
-        .map((id) => pantryCollectionReference.doc(id).snapshots())
-    // then return the pantry snapshots as list of pantry objects
-        .map((pantrySnapshot) => _getPantryFromDocumentSnapshot(pantrySnapshot))
-    );
-  }
-
   Future addPantryWithTitle(String title, String uid) async {
-    //TODO Move this to add pantry screen
-    // final User? user = await authProvider.getCurrentUser();
-    // final uid = user?.uid;
-
     //Add the pantry to the pantries collection
     DocumentReference<Map<String, dynamic>> pantryDocumentReference =
     await pantryCollectionReference.add({
@@ -67,7 +52,7 @@ class DatabaseService {
     });
 
     //Add the pantry to the user data in firebase
-    userDataReference.update({
+    userDataReference.doc(uid).update({
       'subscribed_pantries': FieldValue.arrayUnion([pantryDocumentReference.id])
     });
 
@@ -75,4 +60,7 @@ class DatabaseService {
     //appStateProvider.switchActiveScreen(1);
   }
 
+    Future removePantryFromDatabase(String? uid) {
+      return userDataReference.doc(uid).delete();
+    }
 }

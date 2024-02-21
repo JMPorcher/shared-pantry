@@ -15,19 +15,17 @@ import '../models/pantry.dart';
 class OverviewScreenCard extends StatelessWidget {
   const OverviewScreenCard(
       {super.key,
-      required this.index,
       required this.isSelected,
       required this.title});
 
   final bool? isSelected;
-  final int index;
   final String title;
 
   @override
   Widget build(BuildContext context) {
 
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
-    final PantryProvider pantryProvider = context.watch<PantryProvider>();
+    final Pantry pantry = context.watch<Pantry>();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
@@ -35,8 +33,8 @@ class OverviewScreenCard extends StatelessWidget {
         width: double.infinity,
         child: GestureDetector(
           onTap: () {
-            final bool newIndexIsOldIndex = (index == appStateProvider.selectedPantryIndex);
-            pantryProvider.switchPantry(index);
+            final bool newSelectedIdIsOldSelectedId = (pantry.id == appStateProvider.lastShownPantryId);
+            appStateProvider.newSelectedPantryId(pantry.id);
             Timer(
                 Duration(
                     milliseconds: newIndexIsOldIndex

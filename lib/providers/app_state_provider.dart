@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppStateProvider extends ChangeNotifier {
-  AppStateProvider(this.lastShownScreen, this.lastShownPantryIndex) {
+  AppStateProvider(this.lastShownScreen, this.lastShownPantryId) {
     shownScreenIndex = lastShownScreen;
-    _selectedPantryIndex = lastShownPantryIndex;
+    _selectedPantryId = lastShownPantryId;
     mainScreenPageController = PageController(initialPage: shownScreenIndex);
   }
 
-  final int lastShownPantryIndex;
-  int _selectedPantryIndex = 0;
-  int get selectedPantryIndex => _selectedPantryIndex;
-  set newPantryIndex(int newIndex){
-    _selectedPantryIndex = newIndex;
+  final String lastShownPantryId;
+  String _selectedPantryId = '';
+  String get selectedPantryId => _selectedPantryId;
+  set newSelectedPantryId(String newId){
+    _selectedPantryId = newId;
   }
 
   final int lastShownScreen;
