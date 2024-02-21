@@ -29,6 +29,17 @@ class DatabaseService {
         .map((snapshot) => _getPantryFromDocumentSnapshot(snapshot));
   }
 
+  Stream<List<String>> streamUnavailableItems(String pantryId) {
+    //Stream pantry and return a list of items filtered where available == false
+    return pantryCollectionReference
+        .doc(pantryId)
+        .snapshots()
+        .map((snapshot) {
+       List<String> unavailableItems = snapshot[]
+    });
+    //TODO
+}
+
   Pantry _getPantryFromDocumentSnapshot(DocumentSnapshot doc) {
          return Pantry(
              id: doc.id,
@@ -61,6 +72,6 @@ class DatabaseService {
   }
 
     Future removePantryFromDatabase(String? uid) {
-      return userDataReference.doc(uid).delete();
+      return pantryCollectionReference.doc(uid).delete();
     }
 }

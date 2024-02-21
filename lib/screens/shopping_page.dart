@@ -42,10 +42,10 @@ class _ShoppingPageState extends State<ShoppingPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                PantryFilterInfoText(),
+                const PantryFilterInfoText(),
                 buildPantrySwitchList(pantryProvider),
                 const DividerLine(),
-                ItemsInfoText(),
+                const ItemsInfoText(),
                 Consumer<PantryProvider>(builder: (context, pantryProvider, child) {
                   filterItems(pantryList);
                   return buildCheckboxList();

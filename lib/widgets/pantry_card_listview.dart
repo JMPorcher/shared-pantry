@@ -22,16 +22,17 @@ class OverviewCardListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO Add a list of PantryProviders then build each card using the index on this list
+    final List<PantryProvider> pantryProviders = context.watch<List<PantryProvider>>();
 
-    final List<String> pantryIds = context.watch<List<String>>();
     return Scaffold(
       appBar: AppBar(title: const Text('My Pantries', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
       body: ListView.builder(
-          itemCount: pantryIds.length + 1,
+          itemCount: pantryProviders.length + 1,
           itemBuilder: (_, index) {
-            if (index < pantryIds.length) {
+            if (index < pantryProviders.length) {
               return PantryProvider(
-                pantryId: pantryIds[index],
+                pantryId: pantryProviders[index].pantryId,
                 child: const PantryCard(),
               );
             } else {
@@ -54,7 +55,7 @@ class PantryCard extends StatelessWidget {
     final Pantry pantry = context.watch<Pantry>();
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     return GestureDetector(
-      onTap: () => {}, //switch screens
+      onTap: () => appStateProvider.newSelectedPantryId = pantry.id.toString(),
       onLongPress: () => DatabaseService().removePantryFromDatabase(pantry.id),
       child: OverviewScreenCard(
           isSelected: pantry.id == appStateProvider.selectedPantryId,

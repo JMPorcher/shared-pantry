@@ -14,10 +14,13 @@ import '../models/pantry.dart';
 
 class PantryProvider extends StatelessWidget {
   final String pantryId;
-  final Widget child;
+  final Widget? child;
 
   const PantryProvider(
-      {super.key, required this.pantryId, required this.child});
+      {super.key,
+        required this.pantryId,
+        required this.child
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class PantryProvider extends StatelessWidget {
       create: (context) => DatabaseService().streamPantryDetails(pantryId),
       initialData:
           Pantry(moderatorIds: [], title: '', id: '', founderID: ''),
-      child: child,
+      //child: child,
     );
   }
 

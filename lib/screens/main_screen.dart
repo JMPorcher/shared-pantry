@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
-import 'package:shared_pantry/screens/overview_screen.dart';
-import 'package:shared_pantry/screens/shopping_screen.dart';
-import 'package:shared_pantry/screens/pantry_screen.dart';
-import 'package:shared_pantry/screens/profile_screen.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
+import 'package:shared_pantry/screens/overview_page.dart';
+import 'package:shared_pantry/screens/shopping_page.dart';
+import 'package:shared_pantry/screens/pantry_page.dart';
+import 'package:shared_pantry/screens/profile_page.dart';
 import '../widgets/sp_bottom_navigation_bar.dart';
 
 class MainScreen extends StatelessWidget {
@@ -19,6 +20,9 @@ class MainScreen extends StatelessWidget {
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
     final List<String> pantryIds = Provider.of<List<String>>(context);
+    final List<PantryProvider> pantryProviders = pantryIds
+        .map((id) => Provider.of<PantryProvider>(context, listen: false))
+        .toList();
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);
@@ -88,14 +92,20 @@ class MainScreen extends StatelessWidget {
       );
     }
 
-    return SafeArea(
-          child: Scaffold(
-              bottomNavigationBar: buildSpBottomNavigationBar(),
-              body: PageView(
-                  onPageChanged: (index) => switchScreen(index),
-                  controller: pageController,
-                  children: buildPages()),
-          )
-        );
+    return MultiProvider(
+      providers: [
+        for (var id in pantryIds)
+          Provider(create: (_) => PantryProvider(pantryId: id))
+      ],
+      child: SafeArea(
+            child: Scaffold(
+                bottomNavigationBar: buildSpBottomNavigationBar(),
+                body: PageView(
+                    onPageChanged: (index) => switchScreen(index),
+                    controller: pageController,
+                    children: buildPages()),
+            )
+          ),
+    );
   }
 }

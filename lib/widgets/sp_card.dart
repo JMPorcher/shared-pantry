@@ -1,10 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_pantry/providers/app_state_provider.dart';
-import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/widgets/buttons.dart';
 
 import '../constants.dart';
@@ -24,39 +19,19 @@ class OverviewScreenCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
-    final Pantry pantry = context.watch<Pantry>();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         height: 150,
         width: double.infinity,
-        child: GestureDetector(
-          onTap: () {
-            final bool newSelectedIdIsOldSelectedId = (pantry.id == appStateProvider.lastShownPantryId);
-            appStateProvider.newSelectedPantryId(pantry.id);
-            Timer(
-                Duration(
-                    milliseconds: newIndexIsOldIndex
-                        ? 0
-                        : 300),
-                    () {
-                  appStateProvider.mainScreenPageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.decelerate
-                  );
-                }
-            );
-          },
-          child: Card(
-            color: isSelected ?? false ? kColor3 : Colors.white,
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child:
-                _OverviewCardLayoutStack(cardText: title),
+        child: Card(
+          color: isSelected ?? false ? kColor3 : Colors.white,
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
           ),
+          child:
+              _OverviewCardLayoutStack(cardText: title),
         ),
       ),
     );

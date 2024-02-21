@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/providers/app_state_provider.dart';
-import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/widgets/no_categories_splash.dart';
 import 'package:shared_pantry/widgets/sp_card.dart';
 
@@ -18,11 +16,10 @@ class PantryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentPantryIndex =
-        context.watch<AppStateProvider>().selectedPantryIndex;
-    final currentPantry =
-        context.watch<PantryProvider>().pantriesList[currentPantryIndex];
-    final currentCategoryList = currentPantry.categories;
+
+    final pantry =
+        context.watch<Pantry>();
+    final currentCategoryList = <ItemCategory>[];//pantry.categories;
 
     return Scaffold(
         body: CustomScrollView(
@@ -30,7 +27,7 @@ class PantryPage extends StatelessWidget {
         SliverPersistentHeader(
           pinned: true,
           delegate: _SliverAppBarDelegate(
-            pantry: currentPantry,
+            pantry: pantry,
           ),
         ),
         if (currentCategoryList.isEmpty)
