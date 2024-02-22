@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
@@ -73,7 +74,8 @@ class SkipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SpAuthProvider spAuth = context.watch<SpAuthProvider>();
+    SpAuthProvider spAuth = SpAuthProvider();
+    //User? user = context.watch<User?>();
     final navigator = Navigator.of(context);
     return MaterialButton(
         onPressed: () async {

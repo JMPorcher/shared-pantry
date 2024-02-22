@@ -104,8 +104,7 @@ class CategoryItemListView extends StatelessWidget {
 
   ItemTile buildItemTile(Item currentItem, BuildContext context) {
     return ItemTile(
-      toggleSwitch: (_) =>
-          context.read<PantryProvider>().toggleItemAvailability(currentItem),
+      toggleSwitch: (_) => {}, //context.read<PantryProvider>().toggleItemAvailability(currentItem),
       itemTitle: currentItem.title,
       isAvailable: currentItem.isAvailable,
     );
@@ -133,17 +132,19 @@ class AddItemTile extends StatelessWidget {
         dense: true,
         leading: ItemTitleInputLine(
           textEditingController: textEditingController, fieldIsEmpty: fieldIsEmpty,),
-        trailing: AddItemButton(
-          fieldIsEmpty: fieldIsEmpty,
-          onPressed: () {
-            context.read<PantryProvider>().addItem(
-              itemList,
-              Item(textEditingController.text,
-                  isAvailable: true),
-            );
-            textEditingController.clear();
-            FocusScope.of(context).unfocus();
-          },),
+        trailing: null
+          //TODO Repair AddItemTile
+        // AddItemButton(
+        //   fieldIsEmpty: fieldIsEmpty,
+        //   onPressed: () {
+        //     context.read<PantryProvider>().addItem(
+        //       itemList,
+        //       Item(textEditingController.text,
+        //           isAvailable: true),
+        //     );
+        //     textEditingController.clear();
+        //     FocusScope.of(context).unfocus();
+        //   },),
       ),
     );
   }

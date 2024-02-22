@@ -33,7 +33,8 @@ class AddCategoryDialog extends StatelessWidget {
                   onPressed: () {
                     final String categoryTitle = titleTextController.text;
                     if (categoryTitle.isNotEmpty) {
-                      context.read<PantryProvider>().addCategory(currentCategoryList, ItemCategory(categoryTitle));
+                      //TODO Add category function
+                      //context.read<PantryProvider>().addCategory(currentCategoryList, ItemCategory(categoryTitle));
                       Navigator.pop(context);
                     }
                   },

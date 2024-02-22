@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
@@ -47,7 +46,9 @@ class RegistrationForm extends StatelessWidget {
                               usernameTEController: usernameTEController,
                               emailTEController: emailTEController,
                               passwordTEController: passwordTEController,
-                              isFormValidNotifier: isFormValidNotifier)),
+                              isFormValidNotifier: isFormValidNotifier,
+                              spAuth: spAuth,
+                          )),
                       const Expanded(
                           flex: 1,
                           child: Text(
@@ -82,6 +83,7 @@ class RegisterButton extends StatelessWidget {
     required this.emailTEController,
     required this.passwordTEController,
     required this.isFormValidNotifier,
+    required this.spAuth
   });
 
   final GlobalKey<FormState> formKey;
@@ -90,10 +92,9 @@ class RegisterButton extends StatelessWidget {
   final TextEditingController emailTEController;
   final TextEditingController passwordTEController;
   final ValueNotifier<bool> isFormValidNotifier;
-
+  final SpAuthProvider spAuth;
   @override
   Widget build(BuildContext context) {
-    final SpAuthProvider authProvider = context.watch<SpAuthProvider>();
     return SpButton.filledButton(
         onTap: () async {
           final currentState = formKey.currentState;
@@ -105,15 +106,15 @@ class RegisterButton extends StatelessWidget {
             final navigator = Navigator.of(context);
             final scaffoldMessenger = ScaffoldMessenger.of(context);
             try {
-              await authProvider.firebaseAuth.createUserWithEmailAndPassword(
+              await spAuth.firebaseAuth.createUserWithEmailAndPassword(
                   email: eMail, password: password);
-              final userID = authProvider.user?.uid;
+              final userID = spAuth.user?.uid;
               firestore.collection('users').doc(userID).set({
                 'email': eMail,
                 'display_name' : userName,
                 'subscribed_pantries' : []
               }, SetOptions(merge: true));
-              await authProvider.firebaseAuth
+              await spAuth.firebaseAuth
                   .signInWithEmailAndPassword(email: eMail, password: password)
                   .then((_) => navigator.pushNamed(MainScreen.id));
             } on FirebaseAuthException catch (_) {

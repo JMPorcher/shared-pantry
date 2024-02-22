@@ -35,8 +35,8 @@ class PantryPage extends StatelessWidget {
         ),
         if (currentCategoryList.isEmpty)
           NoCategoriesSplashView(currentCategoryList: currentCategoryList)
-        else
-          buildCategories(currentCategoryList),
+        //else
+          //buildCategories(currentCategoryList),
       ],
     ));
   }

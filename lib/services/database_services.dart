@@ -12,7 +12,7 @@ class DatabaseService {
   late final CollectionReference<Map<String, dynamic>>  pantryCollectionReference;
 
 
-  Stream<List<String>> streamSubscribedPantries(String uid) {
+  Stream<List<String>> streamSubscribedPantries(String? uid) {
     return userDataReference
         .doc(uid)
         .collection('subscribed_pantries')
@@ -38,27 +38,34 @@ class DatabaseService {
            );
   }
 
-  Future addPantryWithTitle(String title, String uid) async {
+  Future<DocumentReference> addPantryWithTitle(String title, String? userid) async {
     //Add the pantry to the pantries collection
     DocumentReference<Map<String, dynamic>> pantryDocumentReference =
     await pantryCollectionReference.add({
       'title': title,
-      'founder': uid,
-      'users': [uid],
-      'moderators': [uid],
+      'founder': userid,
+      'users': [userid],
+      'moderators': [userid],
 
       //TODO Should add with background image
       //TODO Once assistant is created: Add categories and items
     });
 
-    //Add the pantry to the user data in firebase
-    userDataReference.doc(uid).update({
+
+  //Add the pantry to the user data in firebase
+    userDataReference.doc(userid).update({
       'subscribed_pantries': FieldValue.arrayUnion([pantryDocumentReference.id])
     });
 
     //TODO Probably move this to add button
     //appStateProvider.switchActiveScreen(1);
+    return pantryDocumentReference;
   }
+
+  Future editPantryTitle(String? pantryId, String newTitle) async {
+    pantryCollectionReference.doc(pantryId).update({'title': newTitle});
+  }
+
 
     Future removePantryFromDatabase(String? uid) {
       return pantryCollectionReference.doc(uid).delete();

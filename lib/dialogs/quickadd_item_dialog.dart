@@ -32,17 +32,17 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
   @override
   Widget build(BuildContext context) {
     titleTextController.text = categoryTitleValueNotifier.value;
-    final PantryProvider pantryProvider = context.watch<PantryProvider>();
-    final pantryList = pantryProvider.pantriesList;
+    final List<PantryProvider> pantries = context.watch<List<PantryProvider>>();
     final List<String> pantryListTitles = [];
-    for (var pantry in pantryList) {
+    for (var pantry in pantries) {
+      Pantry pantry = context.watch<Pantry>();
       pantryListTitles.add(pantry.title);
     }
 
     final title = widget.title;
 
-    chosenPantry ??= pantryList[0];
-    chosenCategory ??= pantryList[0].categories[0];
+    chosenPantry ??= null; //pantries[0];
+    chosenCategory ??= null; //categories[0];
 
     DropdownMenuItem<Pantry> buildPantryWidget(Pantry pantry) {
       return DropdownMenuItem(value: pantry, child: Text(pantry.title));
@@ -54,8 +54,7 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
 
     void addToShoppingList() {
       widget.quickaddedItems.add(Item(widget.title));
-      widget.filterItems(pantryList);
-      pantryProvider.updateState();
+      //widget.filterItems(pantryList);
     }
 
     return AlertDialog(
@@ -64,8 +63,8 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TitleFittedBox(title: title),
-            buildPantryChooser(pantryList, buildPantryWidget,
-                buildCategoryWidget, title, addToShoppingList, context),
+            // buildPantryChooser(pantryList, buildPantryWidget,
+            //     buildCategoryWidget, title, addToShoppingList, context),
             const SizedBox(height: 40),
             AddToShoppingListOnlyButton(addToShoppingList),
           ],

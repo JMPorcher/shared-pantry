@@ -16,8 +16,8 @@ void main() {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final int lastShownScreen =
         sharedPreferences.getInt('Last shown screen') ?? 0;
-    final int lastShownPantryIndex =
-        sharedPreferences.getInt('Last shown pantry') ?? 0;
+    final String lastShownPantryIndex =
+        sharedPreferences.getString('Last shown pantry') ?? '0';
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(SharedPantry(lastShownScreen, lastShownPantryIndex));

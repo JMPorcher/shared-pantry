@@ -34,7 +34,8 @@ class DeleteCategoryDialog extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      context.read<PantryProvider>().removeCategory(currentCategoryList, currentCategory);
+                      //TODO Remove category function
+                      //context.read<PantryProvider>().removeCategory(currentCategoryList, currentCategory);
                     },
                     child: const Text('Yes'))
               ]),

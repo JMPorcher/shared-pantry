@@ -5,19 +5,20 @@ class Pantry {
   Pantry(
       {required this.moderatorIds, required this.title,
         required this.id,
-        required this.founderID});
+        required this.founderID, categories}) : categories = [];
 
   Pantry.fromJson(Map<String, dynamic>? parsedJson, String this.id)
       : title = parsedJson?['title'],
         founderID = parsedJson?['founder'],
-        moderatorIds = parsedJson?['moderators'];
+        moderatorIds = parsedJson?['moderators'],
+        categories = [];
 
 
       //TODO optional SvgPicture backgroundImage = default_image_asset
       //TODO List<String(userId), Item> activityHistory = []
 
   //TODO replace with constructor parameter once pantry creation assistant is there
-  List<ItemCategory> categories = [];
+  List<ItemCategory> categories;
 
   List<Item> activityHistory = [];
   final String? id;

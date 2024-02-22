@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
@@ -16,7 +17,9 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppStateProvider appStateProvider = Provider.of<AppStateProvider>(context);
+    final User? user = context.watch<User?>();
+
+    final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
     final List<String> pantryIds = Provider.of<List<String>>(context);

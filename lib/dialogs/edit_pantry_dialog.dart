@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
+import 'package:shared_pantry/services/database_services.dart';
 import '../models/pantry.dart';
 import '../providers/pantry_provider.dart';
 import 'package:provider/provider.dart';
@@ -12,10 +13,12 @@ class EditPantryDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Pantry pantry = context.watch<Pantry>();
     final ValueNotifier<String> textNotifier = ValueNotifier<String>(pantry.title);
     final pantryTitleTextController = TextEditingController();
     pantryTitleTextController.text = pantry.title;
     textNotifier.addListener(() => pantryTitleTextController.text = textNotifier.value);
+
 
     return AlertDialog(
         title: const Text('Edit Pantry name:', style: TextStyle(color: kColor51),),
@@ -65,11 +68,9 @@ class EditPantryContainer extends StatelessWidget {
           Expanded(
             flex: 1,
             child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   if (pantryTitleTextController.text.isNotEmpty) {
-                    context
-                        .read<PantryProvider>()
-                        .renamePantry(pantry, pantryTitleTextController.text);
+                    DatabaseService().editPantryTitle(pantry.id, pantry.title);
                     Navigator.pop(context);
                   }
                 },
@@ -93,7 +94,7 @@ class DeletePantryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.read<PantryProvider>().removePantry(pantry);
+        DatabaseService().removePantryFromDatabase(pantry.id);
         Navigator.pop(context);
       },
       child: Container(

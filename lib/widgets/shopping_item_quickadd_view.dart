@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_pantry/dialogs/quickadd_item_dialog.dart';
 import 'package:shared_pantry/widgets/text_input_fields.dart';
 
@@ -29,7 +28,8 @@ class _ShoppingItemQuickAddState extends State<ShoppingItemQuickAdd> {
     final Color backgroundColor = widget.backgroundColor;
 
     void showItemQuickAddDialog() => showDialog(
-        context: context, builder: (BuildContext context) => QuickaddItemDialog(widget.quickaddedItems, textEditingController.text, widget.filterItems));
+      //TODO Repair and implement quickadd
+        context: context, builder: (BuildContext context) => const Text('lol'));//QuickaddItemDialog(widget.quickaddedItems, textEditingController.text, widget.filterItems));
     textEditingController.text = itemTitleValueNotifier.value;
 
     ValueNotifier<bool> fieldIsEmpty = ValueNotifier(true);

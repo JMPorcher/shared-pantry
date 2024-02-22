@@ -55,9 +55,8 @@ class EditCategoryRow extends StatelessWidget {
         IconButton(
             onPressed: () {
               if (categoryTitleTextController.text.isNotEmpty) {
-                  context
-                      .read<PantryProvider>()
-                      .editCategoryName(itemCategory, categoryTitleTextController.text);
+                //TODO Edit category title function
+                //context.read<PantryProvider>().editCategoryName(itemCategory, categoryTitleTextController.text);
 
                 Navigator.pop(context);
               }

@@ -5,10 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
-import 'package:shared_pantry/providers/user_provider.dart';
+import 'package:shared_pantry/providers/pantry_id_provider.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/screens/first_startup_screen.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/profile_page.dart';
+import 'package:shared_pantry/services/database_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
@@ -36,39 +38,43 @@ class SharedPantry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appStateProvider =
-        AppStateProvider(lastShownScreen, lastShownPantryId);
     final SpAuthProvider authProvider = SpAuthProvider();
 
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    return StreamBuilder<User?>(
-      stream: authProvider.authStateStream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        } else {
-          User? user = snapshot.data;
-          return MaterialApp(
-              title: 'Shared Pantry',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
-              home: (user == null)
-                  ? const FirstStartupScreen()
-                  : UserProvider(
-                      userId: user.uid,
-                      child: const MainScreen()
+    return ChangeNotifierProvider(create: (BuildContext context) => AppStateProvider(lastShownScreen, lastShownPantryId),
+      child: StreamProvider<User?>.value(
+        initialData: null,
+        value: authProvider.authStateStream,
+        builder: (context, snapshot) {
+          User? user = context.watch<User?>();
+          return PantryIdProvider(
+              userId: user?.uid,
+              child: StreamBuilder<List<String>>(
+                stream: DatabaseService().streamSubscribedPantries(
+                user?.uid),
+                builder: (context, snapshot) {
+                  List<String> pantryIds = snapshot.data ?? [];
+                  return PantryProviders(
+                    pantryIds: pantryIds,
+                    child: MaterialApp(
+                      title: 'Shared Pantry',
+                      theme: ThemeData(
+                        primarySwatch: Colors.blue,
+                      ),
+                      routes: {
+                        ProfilePage.id: (context) => ProfilePage(),
+                        MainScreen.id: (context) => const MainScreen(),
+                        FirstStartupScreen.id: (context) => const FirstStartupScreen(),
+                      },
+                      home: user == null ? const FirstStartupScreen() : const MainScreen(),
                     ),
-              routes: {
-                ProfilePage.id: (context) => ProfilePage(),
-                MainScreen.id: (context) => const MainScreen(),
-                FirstStartupScreen.id: (context) => const FirstStartupScreen(),
-              });
-
-        }
-
-      },
+                  );
+                }
+              ),
+            );
+          },
+      ),
     );
   }
 }

@@ -1,37 +1,50 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/constants.dart';
-import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/providers/auth_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../services/database_services.dart';
-import 'app_state_provider.dart';
-
-import '../models/item.dart';
 import '../models/pantry.dart';
 
 class PantryProvider extends StatelessWidget {
   final String pantryId;
-  final Widget? child;
 
-  const PantryProvider(
-      {super.key,
-        required this.pantryId,
-        required this.child
-      });
+  const PantryProvider({super.key,
+    required this.pantryId,
+  });
 
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Pantry>(
       create: (context) => DatabaseService().streamPantryDetails(pantryId),
       initialData:
-          Pantry(moderatorIds: [], title: '', id: '', founderID: ''),
-      child: child,
+      Pantry(moderatorIds: [], title: '', id: '', founderID: ''),
     );
   }
+}
 
+class PantryProviders extends StatelessWidget {
+  final List<String> pantryIds;
+  final Widget child;
+
+  const PantryProviders({
+    required this.pantryIds,
+    required this.child,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (pantryIds.isNotEmpty) {
+      return MultiProvider(
+        providers: pantryIds.map((pantryId) {
+          return Provider<PantryProvider>(
+              create: (context) => PantryProvider(pantryId: pantryId));
+        }).toList(),
+        child: child,
+      );
+    } else {
+      return child;
+    }
+  }
+}
 // final AppStateProvider appStateProvider;
 // final SpAuthProvider authProvider;
 // final List<ItemCategory> _categoriesList = [kTestCategory];
@@ -122,4 +135,4 @@ class PantryProvider extends StatelessWidget {
 //   item.toggleAvailable();
 //   notifyListeners();
 // }
-}
+
