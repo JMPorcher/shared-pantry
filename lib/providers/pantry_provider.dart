@@ -32,16 +32,21 @@ class PantryProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Building providers with ${pantryIds.toString()}');
     if (pantryIds.isNotEmpty) {
       return MultiProvider(
-        providers: pantryIds.map((pantryId) {
-          return Provider<PantryProvider>(
-              create: (context) => PantryProvider(pantryId: pantryId));
-        }).toList(),
-        child: child,
-      );
+          providers: pantryIds.map((pantryId)
+      {
+        return StreamProvider<Pantry>(
+          create: (context) => DatabaseService().streamPantryDetails(pantryId),
+          initialData:
+          Pantry(moderatorIds: [], title: '', id: '', founderID: ''),
+        ).toList();
+      ,
+    child: child,
+    );
     } else {
-      return child;
+    return child;
     }
   }
 }

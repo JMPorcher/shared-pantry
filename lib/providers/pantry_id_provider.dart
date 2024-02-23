@@ -13,7 +13,7 @@ class PantryIdProvider extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return StreamProvider<List<String>>(
-        create: (context) => DatabaseService().streamSubscribedPantries(userId),
+        create: (context) => DatabaseService().streamPantrySubscriptionIds(userId),
         initialData: const [],
       child: child,
     );

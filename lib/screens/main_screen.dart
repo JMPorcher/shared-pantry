@@ -17,8 +17,6 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User? user = context.watch<User?>();
-
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
@@ -27,6 +25,8 @@ class MainScreen extends StatelessWidget {
     final List<PantryProvider> pantryProviders = pantryIds
         .map((id) => Provider.of<PantryProvider>(context, listen: false))
         .toList();
+
+    print('Streamed pantry Ids (main screen): ${pantryIds.toString()}');
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);

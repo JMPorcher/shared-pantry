@@ -5,21 +5,27 @@ import '../models/pantry.dart';
 class DatabaseService {
   DatabaseService() {
     userDataReference = FirebaseFirestore.instance.collection('users');
-    pantryCollectionReference = FirebaseFirestore.instance.collection('pantries');
+    pantryCollectionReference =
+        FirebaseFirestore.instance.collection('pantries');
   }
 
   late final CollectionReference userDataReference;
-  late final CollectionReference<Map<String, dynamic>>  pantryCollectionReference;
+  late final CollectionReference<Map<String, dynamic>>
+      pantryCollectionReference;
 
-
-  Stream<List<String>> streamSubscribedPantries(String? uid) {
-    return userDataReference
-        .doc(uid)
-        .collection('subscribed_pantries')
+  Stream<List<String>> streamPantrySubscriptionIds(String? userId) {
+    Stream<List<String>> pantryIds = userDataReference
+        .doc(userId)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-        .map((doc) => doc['pantry_id'] as String)
-        .toList());
+        .map((snapshot) {
+           if (snapshot.exists) {
+             final subscribedPantries = snapshot['subscribed_pantries'] as List<dynamic>;
+             return subscribedPantries.map((item) => item.toString()).toList();
+           } else {
+             return [];
+           }
+    });
+    return pantryIds;
   }
 
   Stream<Pantry> streamPantryDetails(String pantryId) {
@@ -30,18 +36,18 @@ class DatabaseService {
   }
 
   Pantry _getPantryFromDocumentSnapshot(DocumentSnapshot doc) {
-         return Pantry(
-             id: doc.id,
-             title: doc['title'],
-             moderatorIds: doc['moderators'],
-             founderID: doc['founder']
-           );
+    return Pantry(
+        id: doc.id,
+        title: doc['title'],
+        moderatorIds: doc['moderators'],
+        founderID: doc['founder']);
   }
 
-  Future<DocumentReference> addPantryWithTitle(String title, String? userid) async {
+  Future<DocumentReference> addPantryWithTitle(
+      String title, String? userid) async {
     //Add the pantry to the pantries collection
     DocumentReference<Map<String, dynamic>> pantryDocumentReference =
-    await pantryCollectionReference.add({
+        await pantryCollectionReference.add({
       'title': title,
       'founder': userid,
       'users': [userid],
@@ -51,8 +57,7 @@ class DatabaseService {
       //TODO Once assistant is created: Add categories and items
     });
 
-
-  //Add the pantry to the user data in firebase
+    //Add the pantry to the user data in firebase
     userDataReference.doc(userid).update({
       'subscribed_pantries': FieldValue.arrayUnion([pantryDocumentReference.id])
     });
@@ -66,12 +71,11 @@ class DatabaseService {
     pantryCollectionReference.doc(pantryId).update({'title': newTitle});
   }
 
+  Future removePantryFromDatabase(String? uid) {
+    return pantryCollectionReference.doc(uid).delete();
+  }
 
-    Future removePantryFromDatabase(String? uid) {
-      return pantryCollectionReference.doc(uid).delete();
-    }
-
-    List<String> filterPantryForUnavailableItems(String? uid) {
-      return <String>[]; //TODO Add filter function
-    }
+  List<String> filterPantryForUnavailableItems(String? uid) {
+    return <String>[]; //TODO Add filter function
+  }
 }

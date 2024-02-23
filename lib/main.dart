@@ -43,36 +43,38 @@ class SharedPantry extends StatelessWidget {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return ChangeNotifierProvider(create: (BuildContext context) => AppStateProvider(lastShownScreen, lastShownPantryId),
+      //StreamProvider that returns the user's ID
       child: StreamProvider<User?>.value(
         initialData: null,
         value: authProvider.authStateStream,
         builder: (context, snapshot) {
           User? user = context.watch<User?>();
-          return PantryIdProvider(
-              userId: user?.uid,
-              child: StreamBuilder<List<String>>(
-                stream: DatabaseService().streamSubscribedPantries(
-                user?.uid),
-                builder: (context, snapshot) {
-                  List<String> pantryIds = snapshot.data ?? [];
-                  return PantryProviders(
-                    pantryIds: pantryIds,
-                    child: MaterialApp(
-                      title: 'Shared Pantry',
-                      theme: ThemeData(
-                        primarySwatch: Colors.blue,
-                      ),
-                      routes: {
-                        ProfilePage.id: (context) => ProfilePage(),
-                        MainScreen.id: (context) => const MainScreen(),
-                        FirstStartupScreen.id: (context) => const FirstStartupScreen(),
-                      },
-                      home: user == null ? const FirstStartupScreen() : const MainScreen(),
-                    ),
-                  );
-                }
-              ),
-            );
+          //StreamProvider that returns the user's subscribed pantry ID's
+          return StreamProvider<List<String>>.value(
+            initialData: const [],
+            value: DatabaseService().streamPantrySubscriptionIds(
+            user?.uid),
+            builder: (context, snapshot) {
+              print('UserId sent to pantry ID stream: ${user?.uid}');
+              List<String> pantryIds = context.watch<List<String>>();
+              print('Streamed pantry Ids: ${pantryIds.toString()}');
+              return PantryProviders(
+                pantryIds: pantryIds,
+                child: MaterialApp(
+                  title: 'Shared Pantry',
+                  theme: ThemeData(
+                    primarySwatch: Colors.blue,
+                  ),
+                  routes: {
+                    ProfilePage.id: (context) => ProfilePage(),
+                    MainScreen.id: (context) => const MainScreen(),
+                    FirstStartupScreen.id: (context) => const FirstStartupScreen(),
+                  },
+                  home: user == null ? const FirstStartupScreen() : const MainScreen(),
+                ),
+              );
+            }
+          );
           },
       ),
     );
