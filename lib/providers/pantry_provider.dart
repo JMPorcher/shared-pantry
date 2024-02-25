@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import '../services/database_services.dart';
 import '../models/pantry.dart';
 
-class PantryProvider extends StatelessWidget {
+class PantryProvider extends SingleChildStatelessWidget  {
   final String pantryId;
+  final Widget child;
 
   const PantryProvider({super.key,
     required this.pantryId,
+    required this.child
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithChild(BuildContext context, Widget? child) {
+    print('It\'s me, pantry no. $pantryId');
     return StreamProvider<Pantry>(
       create: (context) => DatabaseService().streamPantryDetails(pantryId),
       initialData:
       Pantry(moderatorIds: [], title: '', id: '', founderID: ''),
+      child: child,
     );
   }
 }
 
-class PantryProviders extends StatelessWidget {
+class PantryStreamsProvider extends StatelessWidget {
   final List<String> pantryIds;
   final Widget child;
 
-  const PantryProviders({
+  const PantryStreamsProvider({
     required this.pantryIds,
     required this.child,
     super.key,
@@ -32,24 +37,17 @@ class PantryProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Building providers with ${pantryIds.toString()}');
-    if (pantryIds.isNotEmpty) {
-      return MultiProvider(
-          providers: pantryIds.map((pantryId)
-      {
-        return StreamProvider<Pantry>(
-          create: (context) => DatabaseService().streamPantryDetails(pantryId),
-          initialData:
-          Pantry(moderatorIds: [], title: '', id: '', founderID: ''),
-        ).toList();
-      ,
-    child: child,
+    List<Stream<Pantry>> pantryStreams = pantryIds.map((pantryId) {
+      return DatabaseService().streamPantryDetails(pantryId);
+    }).toList();
+
+    return Provider<List<Stream<Pantry>>>.value(
+      value: pantryStreams,
+      child: child,
     );
-    } else {
-    return child;
-    }
   }
 }
+
 // final AppStateProvider appStateProvider;
 // final SpAuthProvider authProvider;
 // final List<ItemCategory> _categoriesList = [kTestCategory];

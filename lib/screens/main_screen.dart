@@ -1,13 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
-import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/screens/overview_page.dart';
 import 'package:shared_pantry/screens/shopping_page.dart';
 import 'package:shared_pantry/screens/pantry_page.dart';
 import 'package:shared_pantry/screens/profile_page.dart';
+import '../models/pantry.dart';
 import '../widgets/sp_bottom_navigation_bar.dart';
 
 class MainScreen extends StatelessWidget {
@@ -20,23 +19,22 @@ class MainScreen extends StatelessWidget {
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
-    final List<String> pantryIds = Provider.of<List<String>>(context);
     // ignore: unused_local_variable
-    final List<PantryProvider> pantryProviders = pantryIds
-        .map((id) => Provider.of<PantryProvider>(context, listen: false))
-        .toList();
+    final pantryProviders = Provider.of<List<Stream<Pantry>>>(context);
 
-    print('Streamed pantry Ids (main screen): ${pantryIds.toString()}');
+    print('No. of streamed pantry Ids (main screen): ${pantryProviders.length}');
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);
     }
 
     List<Widget> buildPages() {
-      if (pantryIds.isNotEmpty) {
+      if (pantryProviders.isNotEmpty) {
         return [
           const OverviewPage(),
-          PantryPage(pantryProvider: pantryProviders[0]),//TODO Make sure last shown pantry is shown
+          const PantryPage(
+          //    pantryProvider: pantryProviders[0]
+          ),//TODO Make sure last shown pantry is shown
           const ShoppingPage(),
           ProfilePage(),
         ];
@@ -61,7 +59,7 @@ class MainScreen extends StatelessWidget {
               activatedIcon: const Icon(Icons.summarize_outlined),
               deactivatedIcon: Icon(Icons.summarize_outlined,
                   color: Colors.grey.shade700, size: 24),
-              active: pantryIds.isNotEmpty,
+              active: pantryProviders.isNotEmpty,
               activeIconColor: kColor4,
               selectedIcon: const Icon(Icons.summarize)),
           SpBottomNavigationBarItem(
@@ -69,7 +67,7 @@ class MainScreen extends StatelessWidget {
               deactivatedIcon: Icon(Icons.shopping_cart_outlined,
                   color: Colors.grey.shade700, size: 24),
               activeIconColor: kColor3,
-              active: pantryIds.isNotEmpty,
+              active: pantryProviders.isNotEmpty,
               selectedIcon: const Icon(Icons.shopping_cart)),
           SpBottomNavigationBarItem(
               activatedIcon: const Icon(
@@ -80,13 +78,13 @@ class MainScreen extends StatelessWidget {
               activeIconColor: kColor4,
               selectedIcon: const Icon(Icons.account_circle)),
         ],
-        currentIndex: pantryIds.isNotEmpty
+        currentIndex: pantryProviders.isNotEmpty
             ? activeScreenIndex
             : activeScreenIndex == 0
             ? 0
             : 3,
         onTap: (index) {
-          if (pantryIds.isNotEmpty || index == 0 || index == 3) {
+          if (pantryProviders.isNotEmpty || index == 0 || index == 3) {
             appStateProvider.switchActiveScreen(index);
             pageController.animateToPage(index,
                 duration: const Duration(milliseconds: 500),

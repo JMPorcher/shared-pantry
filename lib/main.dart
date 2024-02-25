@@ -58,7 +58,7 @@ class SharedPantry extends StatelessWidget {
               print('UserId sent to pantry ID stream: ${user?.uid}');
               List<String> pantryIds = context.watch<List<String>>();
               print('Streamed pantry Ids: ${pantryIds.toString()}');
-              return PantryProviders(
+              return PantryStreamsProvider(
                 pantryIds: pantryIds,
                 child: MaterialApp(
                   title: 'Shared Pantry',

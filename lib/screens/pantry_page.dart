@@ -13,15 +13,17 @@ import '../models/pantry.dart';
 import '../widgets/category_expansion_tile.dart';
 
 class PantryPage extends StatelessWidget {
-  const PantryPage({super.key, required this.pantryProvider});
+  const PantryPage({super.key,
+    //required this.pantryProvider
+  });
 
-  final PantryProvider pantryProvider;
+  //final PantryProvider pantryProvider;
 
   @override
   Widget build(BuildContext context) {
 
-    final Pantry pantry =
-        context.watch<Pantry>();
+    // final Pantry pantry =
+    //     context.watch<Pantry>();
     final currentCategoryList = <ItemCategory>[];//pantry.categories;
 
     return Scaffold(
@@ -30,7 +32,7 @@ class PantryPage extends StatelessWidget {
         SliverPersistentHeader(
           pinned: true,
           delegate: _SliverAppBarDelegate(
-            pantry: pantry,
+            pantry: Pantry(moderatorIds: [], title: '', id: '', founderID: ''),
           ),
         ),
         if (currentCategoryList.isEmpty)

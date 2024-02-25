@@ -22,8 +22,9 @@ class OverviewCardListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO Add a list of PantryProviders then build each card using the index on this list
-    final List<PantryProvider> pantryProviders = context.watch<List<PantryProvider>>();
+
+    final pantryProviders = Provider.of<List<Stream<Pantry>>>(context);
+    //TODO Use list of PantryProviders to build each card using the index on this list
 
     return Scaffold(
       appBar: AppBar(title: const Text('My Pantries', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
@@ -43,22 +44,25 @@ class OverviewCardListView extends StatelessWidget {
 }
 
 class PantryCard extends StatelessWidget {
-  const PantryCard(this.pantryProvider,
+  const PantryCard(this.pantryStream,
       {super.key}
   );
-  final PantryProvider pantryProvider;
+  final Stream<Pantry> pantryStream;
 
   @override
   Widget build(BuildContext context) {
-    final Pantry pantry = Provider.of<Pantry>(context);
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     return GestureDetector(
-      onTap: () => appStateProvider.newSelectedPantryId = pantry.id.toString(),
-      onLongPress: () => DatabaseService().removePantryFromDatabase(pantry.id),
+      onTap: () => {},
+        //appStateProvider.newSelectedPantryId = pantry.id.toString(),
+      onLongPress: () => {},
+        //DatabaseService().removePantryFromDatabase(pantry.id),
       child: OverviewScreenCard(
-          isSelected: pantry.id == appStateProvider.selectedPantryId,
-          title: pantry.title),
-    );
+          isSelected: true ,
+          //pantry.id == appStateProvider.selectedPantryId,
+          title: 'Placeholder'
+          //pantry.title),
+    ));
   }
 }
 

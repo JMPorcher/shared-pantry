@@ -26,9 +26,9 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<PantryProvider> pantryProviders = context.watch<List<PantryProvider>>();
+    //final List<PantryProvider> pantryProviders = context.watch<List<PantryProvider>>();
 
-    filterItems(pantryProviders);
+    //filterItems(pantryProviders);
     return Scaffold(
       appBar: AppBar(title: const Text('My Shopping List', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
       body: SingleChildScrollView(
@@ -38,7 +38,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const PantryFilterInfoText(),
-                buildPantrySwitchList(),
+                //buildPantrySwitchList(),
                 const DividerLine(),
                 const ItemsInfoText(),
                 Consumer<PantryProvider>(builder: (context, pantryProvider, child) {
