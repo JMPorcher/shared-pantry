@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/item_category.dart';
-import '../providers/pantry_provider.dart';
 import '../constants.dart';
 import '../models/item.dart';
 import '../models/pantry.dart';
 import '../widgets/buttons.dart';
+import '../services/pantry_data_stream.dart';
 
 class QuickaddItemDialog extends StatefulWidget {
   const QuickaddItemDialog(this.quickaddedItems, this.title, this.filterItems,
@@ -32,10 +32,10 @@ class _QuickaddItemDialogState extends State<QuickaddItemDialog> {
   @override
   Widget build(BuildContext context) {
     titleTextController.text = categoryTitleValueNotifier.value;
-    final List<PantryProvider> pantries = context.watch<List<PantryProvider>>();
+    final  pantries = context.watch<PantryDataProvider>().pantries;
     final List<String> pantryListTitles = [];
-    for (var pantry in pantries) {
-      Pantry pantry = context.watch<Pantry>();
+
+    for (var pantry in pantries!) {
       pantryListTitles.add(pantry.title);
     }
 

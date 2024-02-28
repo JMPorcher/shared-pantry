@@ -6,7 +6,7 @@ import 'package:shared_pantry/widgets/sp_switch.dart';
 
 import '../models/item.dart';
 import '../models/pantry.dart';
-import '../providers/pantry_provider.dart';
+import '../services/pantry_data_stream.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({super.key});
@@ -19,14 +19,14 @@ class _ShoppingPageState extends State<ShoppingPage> {
   List<Item> relevantItems = [];
   List<Item> quickaddedItems = [];
 
-  void filterItems(List<PantryProvider> pantryProviders) {
+  void filterItems(List<Pantry> pantries) {
     //Loop through pantries and use DatabaseService to retrieve all unavailable items
     relevantItems.addAll(quickaddedItems);
   }
 
   @override
   Widget build(BuildContext context) {
-    //final List<PantryProvider> pantryProviders = context.watch<List<PantryProvider>>();
+    final pantries = Provider.of<PantryDataProvider>(context).pantries;
 
     //filterItems(pantryProviders);
     return Scaffold(
@@ -38,10 +38,10 @@ class _ShoppingPageState extends State<ShoppingPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const PantryFilterInfoText(),
-                //buildPantrySwitchList(),
+                (pantries!.isNotEmpty) ? buildPantrySwitchList() : const Text('No pantries yet'),
                 const DividerLine(),
                 const ItemsInfoText(),
-                Consumer<PantryProvider>(builder: (context, pantryProvider, child) {
+                Consumer<Pantry>(builder: (context, pantries, child) {
                   //filterItems(pantryList);
                   return buildCheckboxList();
                 })
@@ -53,16 +53,15 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
 
   SizedBox buildPantrySwitchList() {
-    final List<PantryProvider> pantryProviders = context.watch<List<PantryProvider>>();
+    final pantries = Provider.of<PantryDataProvider>(context).pantries;
     return SizedBox(
       width: double.maxFinite,
-      height: pantryProviders.length * 40 + 20,
+      height: (pantries?.length ?? 1) * 40 + 20,
       child: ListView.builder(
-          itemCount: pantryProviders.length,
+          itemCount: pantries?.length ?? 1,
           itemExtent: 40,
           itemBuilder: (_, index) {
-            PantryProvider pantryProvider = pantryProviders[index];
-            Pantry pantry = context.watch<Pantry>();
+            Pantry pantry = pantries![index];
             return ListTile(
               leading: Text(pantry.title),
               trailing: SpSwitch(

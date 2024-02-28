@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
-import 'package:shared_pantry/services/database_services.dart';
 import 'package:shared_pantry/widgets/buttons.dart';
+import 'package:shared_pantry/services/pantry_data_stream.dart';
 import 'package:shared_pantry/widgets/sp_card.dart';
 
 import '../constants.dart';
 import '../dialogs/add_pantry_dialog.dart';
 import '../models/pantry.dart';
-import '../providers/pantry_provider.dart';
+import '../services/database_services.dart';
 
 class OverviewCardListView extends StatelessWidget {
   const OverviewCardListView(
@@ -23,16 +23,17 @@ class OverviewCardListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final pantryProviders = Provider.of<List<Stream<Pantry>>>(context);
+    final pantries = context.watch<PantryDataProvider>().pantries;
+    print('No of pantries: ${pantries.length}');
     //TODO Use list of PantryProviders to build each card using the index on this list
 
     return Scaffold(
       appBar: AppBar(title: const Text('My Pantries', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
       body: ListView.builder(
-          itemCount: pantryProviders.length + 1,
+          itemCount: pantries.length + 1,
           itemBuilder: (_, index) {
-            if (index < pantryProviders.length) {
-              return PantryCard(pantryProviders[index]);
+            if (index < pantries.length) {
+              return PantryCard(pantries[index]);
             } else {
               return
                   AddPantryCard(
@@ -44,25 +45,21 @@ class OverviewCardListView extends StatelessWidget {
 }
 
 class PantryCard extends StatelessWidget {
-  const PantryCard(this.pantryStream,
+  const PantryCard(this.pantry,
       {super.key}
   );
-  final Stream<Pantry> pantryStream;
+  final Pantry pantry;
 
   @override
   Widget build(BuildContext context) {
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     return GestureDetector(
-      onTap: () => {},
-        //appStateProvider.newSelectedPantryId = pantry.id.toString(),
-      onLongPress: () => {},
-        //DatabaseService().removePantryFromDatabase(pantry.id),
+      onTap: () => appStateProvider.newSelectedPantryId = pantry.id.toString(),
+      onLongPress: () => DatabaseService().removePantryFromDatabase(pantry.id),
       child: OverviewScreenCard(
-          isSelected: true ,
-          //pantry.id == appStateProvider.selectedPantryId,
-          title: 'Placeholder'
-          //pantry.title),
-    ));
+          isSelected: pantry.id == appStateProvider.selectedPantryId,
+          title: pantry.title),
+    );
   }
 }
 

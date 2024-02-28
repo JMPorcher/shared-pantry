@@ -6,7 +6,6 @@
 // import '../models/item.dart';
 // import '../models/item_category.dart';
 // import '../models/pantry.dart';
-// import '../providers/pantry_provider.dart';
 //
 // class ShoppingList extends StatefulWidget {
 //   const ShoppingList({super.key});

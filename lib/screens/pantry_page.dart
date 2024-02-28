@@ -1,10 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/models/item_category.dart';
-import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/widgets/no_categories_splash.dart';
 import 'package:shared_pantry/widgets/sp_card.dart';
 

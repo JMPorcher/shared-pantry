@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_pantry/widgets/text_input_fields.dart';
 
 import '../constants.dart';
 import '../dialogs/edit_category_dialog.dart';
 import '../models/item.dart';
 import '../models/item_category.dart';
-import '../providers/pantry_provider.dart';
-import 'buttons.dart';
 import 'item_tile.dart';
 
 class CategoryExpansionTile extends StatelessWidget {

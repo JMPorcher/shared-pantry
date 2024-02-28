@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
-import 'package:shared_pantry/widgets/pantry_card_listview.dart';
+import 'package:shared_pantry/widgets/overview_card_listview.dart';
 import 'package:shared_pantry/widgets/no_pantries_splash.dart';
-
-import '../models/pantry.dart';
+import 'package:shared_pantry/services/pantry_data_stream.dart';
 
 class OverviewPage extends StatelessWidget {
   const OverviewPage({super.key});
@@ -12,8 +11,8 @@ class OverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
-    final pantryProviders = Provider.of<List<Stream<Pantry>>>(context);
-    return pantryProviders.isEmpty
+    final pantries = Provider.of<PantryDataProvider>(context).pantries;
+    return pantries.isEmpty
         ? const NoPantriesSplash()
         : OverviewCardListView(
             context,

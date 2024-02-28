@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
-import 'package:shared_pantry/screens/first_startup_screen.dart';
 
 import '../constants.dart';
 import '../widgets/buttons.dart';
@@ -135,7 +134,7 @@ class DeleteAccountButton extends StatelessWidget {
   final FirebaseAuth auth;
   @override
   Widget build(BuildContext context) {
-    final navigator = Navigator.of(context);
+    //final navigator = Navigator.of(context);
     return SpButton.filledButton(
       onTap: () {
         auth.signOut();
