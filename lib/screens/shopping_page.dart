@@ -6,7 +6,6 @@ import 'package:shared_pantry/widgets/sp_switch.dart';
 
 import '../models/item.dart';
 import '../models/pantry.dart';
-import '../services/pantry_data_stream.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({super.key});
@@ -18,6 +17,7 @@ class ShoppingPage extends StatefulWidget {
 class _ShoppingPageState extends State<ShoppingPage> {
   List<Item> relevantItems = [];
   List<Item> quickaddedItems = [];
+  late List<Pantry> pantryList;
 
   void filterItems(List<Pantry> pantries) {
     //Loop through pantries and use DatabaseService to retrieve all unavailable items
@@ -25,8 +25,16 @@ class _ShoppingPageState extends State<ShoppingPage> {
   }
 
   @override
+  void initState() async {
+    // TODO: implement initState
+    super.initState();
+    final pantryStreams = Provider.of<List<Stream<Pantry>>>(context);
+    for (var pantryStream in pantryStreams) {
+      await pantryStream.forEach((pantry) => pantryList.add(pantry));
+    }
+  }
+  @override
   Widget build(BuildContext context) {
-    final pantries = Provider.of<PantryDataProvider>(context).pantries;
 
     //filterItems(pantryProviders);
     return Scaffold(
@@ -38,7 +46,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const PantryFilterInfoText(),
-                (pantries!.isNotEmpty) ? buildPantrySwitchList() : const Text('No pantries yet'),
+                (pantryList.isNotEmpty) ? buildPantrySwitchList() : const Text('No pantries yet'),
                 const DividerLine(),
                 const ItemsInfoText(),
                 Consumer<Pantry>(builder: (context, pantries, child) {
@@ -53,15 +61,15 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
 
   SizedBox buildPantrySwitchList() {
-    final pantries = Provider.of<PantryDataProvider>(context).pantries;
+    final pantries = Provider.of<List<Stream<Pantry>>>(context);
     return SizedBox(
       width: double.maxFinite,
-      height: (pantries?.length ?? 1) * 40 + 20,
+      height: (pantries.length) * 40 + 20,
       child: ListView.builder(
-          itemCount: pantries?.length ?? 1,
+          itemCount: pantries.isEmpty ? 1 : pantries.length,
           itemExtent: 40,
           itemBuilder: (_, index) {
-            Pantry pantry = pantries![index];
+            Pantry pantry = pantryList[index];
             return ListTile(
               leading: Text(pantry.title),
               trailing: SpSwitch(

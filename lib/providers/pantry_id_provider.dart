@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/providers/auth_provider.dart';
 
 import '../services/database_services.dart';
 

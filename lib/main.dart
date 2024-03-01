@@ -9,7 +9,7 @@ import 'package:shared_pantry/screens/first_startup_screen.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/profile_page.dart';
 import 'package:shared_pantry/services/database_services.dart';
-import 'package:shared_pantry/services/pantry_data_stream.dart';
+import 'package:shared_pantry/providers/pantry_list_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
@@ -57,7 +57,7 @@ class SharedPantry extends StatelessWidget {
               print('UserId sent to pantry ID stream: ${user?.uid}');
               List<String> pantryIds = context.watch<List<String>>();
               print('Streamed pantry Ids: ${pantryIds.toString()}');
-              return PantryDataStream(
+              return PantryListProvider(
                 pantryIds: pantryIds.isNotEmpty
                 ? pantryIds
                 : [],

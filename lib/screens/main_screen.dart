@@ -7,7 +7,6 @@ import 'package:shared_pantry/screens/shopping_page.dart';
 import 'package:shared_pantry/screens/pantry_page.dart';
 import 'package:shared_pantry/screens/profile_page.dart';
 import '../models/pantry.dart';
-import '../services/pantry_data_stream.dart';
 import '../widgets/sp_bottom_navigation_bar.dart';
 
 class MainScreen extends StatelessWidget {
@@ -20,9 +19,9 @@ class MainScreen extends StatelessWidget {
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
-    final pantries = Provider.of<PantryDataProvider>(context).pantries;
+    final pantries = Provider.of<List<Stream<Pantry>>>(context);
 
-    print('No. of streamed pantry Ids (main screen): ${pantries?.length ?? 0}');
+    print('No. of streamed pantry Ids (main screen): ${pantries.length}');
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);

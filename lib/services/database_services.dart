@@ -14,23 +14,30 @@ class DatabaseService {
       pantryCollectionReference;
 
   Stream<List<String>> streamPantrySubscriptionIds(String? userId) {
-    Stream<List<String>> pantryIds = userDataReference
-        .doc(userId)
-        .snapshots()
-        .map((snapshot) {
-           if (snapshot.exists) {
-             final subscribedPantries = snapshot['subscribed_pantries'] as List<dynamic>;
-             return subscribedPantries.map((item) => item.toString()).toList();
-           } else {
-             return [];
-           }
+    Stream<List<String>> pantryIds =
+        userDataReference.doc(userId).snapshots().map((snapshot) {
+      if (snapshot.exists) {
+        final subscribedPantries =
+            snapshot['subscribed_pantries'] as List<dynamic>;
+        return subscribedPantries.map((item) => item.toString()).toList();
+      } else {
+        return [];
+      }
     });
     return pantryIds;
   }
 
-  Stream<Pantry> streamPantryDetails(String pantryId) {
+  List<Stream<Pantry>> streamPantryList(List<String> pantryIds) {
+    List<Stream<Pantry>> pantryStreams = [];
+    for (String id in pantryIds) {
+      pantryStreams.add(_streamSinglePantry(id));
+    }
+    return pantryStreams;
+  }
+
+  Stream<Pantry> _streamSinglePantry(String id) {
     return pantryCollectionReference
-        .doc(pantryId)
+        .doc(id)
         .snapshots()
         .map((snapshot) => _getPantryFromDocumentSnapshot(snapshot));
   }
@@ -45,25 +52,19 @@ class DatabaseService {
 
   Future<DocumentReference> addPantryWithTitle(
       String title, String? userid) async {
-    //Add the pantry to the pantries collection
     DocumentReference<Map<String, dynamic>> pantryDocumentReference =
         await pantryCollectionReference.add({
       'title': title,
       'founder': userid,
       'users': [userid],
       'moderators': [userid],
-
       //TODO Should add with background image
       //TODO Once assistant is created: Add categories and items
     });
 
-    //Add the pantry to the user data in firebase
     userDataReference.doc(userid).update({
       'subscribed_pantries': FieldValue.arrayUnion([pantryDocumentReference.id])
     });
-
-    //TODO Probably move this to add button
-    //appStateProvider.switchActiveScreen(1);
     return pantryDocumentReference;
   }
 
