@@ -12,17 +12,15 @@ import '../widgets/category_expansion_tile.dart';
 
 class PantryPage extends StatelessWidget {
   const PantryPage({super.key,
-    //required this.pantryProvider
   });
 
-  //final PantryProvider pantryProvider;
 
   @override
   Widget build(BuildContext context) {
 
-    // final Pantry pantry =
-    //     context.watch<Pantry>();
-    final currentCategoryList = <ItemCategory>[];//pantry.categories;
+    //Check in sharedpreferences what pantry was last shown. if none was shown, show the first one from pantrylistprovider
+
+    final currentCategoryList = <ItemCategory>[];
 
     return Scaffold(
         body: CustomScrollView(

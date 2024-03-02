@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/widgets/buttons.dart';
-import 'package:shared_pantry/providers/pantry_list_provider.dart';
 import 'package:shared_pantry/widgets/sp_card.dart';
 
 import '../constants.dart';
@@ -23,7 +22,7 @@ class OverviewCardListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final pantries = context.watch<List<Stream<Pantry>>>();
+    final pantries = context.watch<List<Pantry>>();
     print('No of pantries: ${pantries.length}');
     //TODO Use list of PantryProviders to build each card using the index on this list
 

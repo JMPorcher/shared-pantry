@@ -12,7 +12,7 @@ class OverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
-    final pantries = Provider.of<List<Stream<Pantry>>>(context);
+    final pantries = Provider.of<List<Pantry>>(context);
     return pantries.isEmpty
         ? const NoPantriesSplash()
         : OverviewCardListView(

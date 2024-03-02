@@ -19,9 +19,8 @@ class MainScreen extends StatelessWidget {
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
-    final pantries = Provider.of<List<Stream<Pantry>>>(context);
-
-    print('No. of streamed pantry Ids (main screen): ${pantries.length}');
+    final pantries = context.watch<List<Pantry>>();
+    print('No of pantries: ${pantries.length}');
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);
