@@ -69,6 +69,7 @@ class AddPantryButton extends StatelessWidget {
             if (context.mounted) {
               Navigator.of(context).pop();
             }
+
             pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
           }
         },

@@ -12,7 +12,7 @@ import '../widgets/sp_bottom_navigation_bar.dart';
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
-  static const String id = 'pantry screen';
+  static const String id = 'main screen';
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,7 @@ class MainScreen extends StatelessWidget {
       if (pantries.isNotEmpty) {
         return [
           const OverviewPage(),
-          const PantryPage(
-          //    pantryProvider: pantryProviders[0]
-          ),//TODO Make sure last shown pantry is shown
+          const PantryPage(),//TODO Make sure last shown pantry is shown
           const ShoppingPage(),
           ProfilePage(),
         ];

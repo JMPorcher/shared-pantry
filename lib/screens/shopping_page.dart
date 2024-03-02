@@ -25,17 +25,14 @@ class _ShoppingPageState extends State<ShoppingPage> {
   }
 
   @override
-  void initState() async {
+  void initState() {
     // TODO: implement initState
     super.initState();
-    final pantryStreams = Provider.of<List<Stream<Pantry>>>(context);
-    for (var pantryStream in pantryStreams) {
-      await pantryStream.forEach((pantry) => pantryList.add(pantry));
-    }
   }
+
   @override
   Widget build(BuildContext context) {
-
+  pantryList = context.watch<List<Pantry>>();
     //filterItems(pantryProviders);
     return Scaffold(
       appBar: AppBar(title: const Text('My Shopping List', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
@@ -61,7 +58,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
 
   SizedBox buildPantrySwitchList() {
-    final pantries = Provider.of<List<Stream<Pantry>>>(context);
+    final pantries = Provider.of<List<Pantry>>(context);
     return SizedBox(
       width: double.maxFinite,
       height: (pantries.length) * 40 + 20,
