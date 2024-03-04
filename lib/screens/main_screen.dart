@@ -20,6 +20,10 @@ class MainScreen extends StatelessWidget {
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController = appStateProvider.mainScreenPageController;
     final pantries = context.watch<List<Pantry>>();
+    final activePantry = pantries.firstWhere(
+            (pantry) => pantry.id == appStateProvider.lastShownPantryId,
+            orElse: () => pantries[0]);
+    print(activePantry.id);
     print('No of pantries: ${pantries.length}');
 
     void switchScreen(int newIndex) async {
@@ -30,7 +34,7 @@ class MainScreen extends StatelessWidget {
       if (pantries.isNotEmpty) {
         return [
           const OverviewPage(),
-          const PantryPage(),//TODO Make sure last shown pantry is shown
+          PantryPage(pantry: activePantry),//TODO Make sure last shown pantry is shown
           const ShoppingPage(),
           ProfilePage(),
         ];

@@ -41,9 +41,10 @@ class SharedPantry extends StatelessWidget {
 
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    return ChangeNotifierProvider(create: (BuildContext context) => AppStateProvider(lastShownScreen, lastShownPantryId),
+    //TODO Move AppStateProvider below PantryListProvider so it can check whether the last shown pantry's ID is in active user's pantries
+    return
       //StreamProvider that returns the user's ID
-      child: StreamProvider<User?>.value(
+      StreamProvider<User?>.value(
         initialData: null,
         value: authProvider.authStateStream,
         builder: (context, snapshot) {
@@ -61,23 +62,25 @@ class SharedPantry extends StatelessWidget {
                 pantryIds: pantryIds.isNotEmpty
                 ? pantryIds
                 : [],
-                child: MaterialApp(
-                  title: 'Shared Pantry',
-                  theme: ThemeData(
-                    primarySwatch: Colors.blue,
+                child: ChangeNotifierProvider(create: (BuildContext context) => AppStateProvider(lastShownScreen, lastShownPantryId),
+                  //TODO Need to supply the active user's pantriList to the AppStateProvider
+                  child: MaterialApp(
+                    title: 'Shared Pantry',
+                    theme: ThemeData(
+                      primarySwatch: Colors.blue,
+                    ),
+                    routes: {
+                      ProfilePage.id: (context) => ProfilePage(),
+                      MainScreen.id: (context) => const MainScreen(),
+                      FirstStartupScreen.id: (context) => const FirstStartupScreen(),
+                    },
+                    home: user == null ? const FirstStartupScreen() : const MainScreen(),
                   ),
-                  routes: {
-                    ProfilePage.id: (context) => ProfilePage(),
-                    MainScreen.id: (context) => const MainScreen(),
-                    FirstStartupScreen.id: (context) => const FirstStartupScreen(),
-                  },
-                  home: user == null ? const FirstStartupScreen() : const MainScreen(),
                 ),
               );
             }
           );
           },
-      ),
-    );
+      );
   }
 }

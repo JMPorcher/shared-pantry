@@ -8,6 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_pantry/services/database_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/pantry.dart';
+
 class AddPantryDialog extends StatelessWidget {
   AddPantryDialog({super.key});
   final ValueNotifier<String> pantryTitleValueNotifier = ValueNotifier<String>('');
@@ -57,6 +59,7 @@ class AddPantryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final User? user = context.watch<User?>();
+    final pantryList = context.watch<List<Pantry>>();
 
     return TextButton(
         onPressed: () async {
@@ -70,7 +73,14 @@ class AddPantryButton extends StatelessWidget {
               Navigator.of(context).pop();
             }
 
-            pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
+            Future.delayed(const Duration(seconds: 1)).then((_) {
+              if (pantryList.any((pantry) => pantry.id == pantryReference.id) ) {
+                pageController.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.decelerate);
+              }
+            });
+
           }
         },
         child: const Text('Add'));
