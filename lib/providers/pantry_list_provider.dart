@@ -38,6 +38,7 @@ class _PantryListProviderState extends State<PantryListProvider> {
       _fetchPantryList();
     }
   }
+
   @override
   void dispose() {
     for (var subscription in subscriptions) {

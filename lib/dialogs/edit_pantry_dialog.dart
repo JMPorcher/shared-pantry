@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/services/database_services.dart';
@@ -12,7 +13,6 @@ class EditPantryDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Pantry pantry = context.watch<Pantry>();
     final ValueNotifier<String> textNotifier = ValueNotifier<String>(pantry.title);
     final pantryTitleTextController = TextEditingController();
     pantryTitleTextController.text = pantry.title;
@@ -69,7 +69,7 @@ class EditPantryContainer extends StatelessWidget {
             child: TextButton(
                 onPressed: () async {
                   if (pantryTitleTextController.text.isNotEmpty) {
-                    DatabaseService().editPantryTitle(pantry.id, pantry.title);
+                    DatabaseService().editPantryTitle(pantry.id, pantryTitleTextController.text);
                     Navigator.pop(context);
                   }
                 },
@@ -91,9 +91,11 @@ class DeletePantryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userId = context.watch<User?>()?.uid;
     return GestureDetector(
       onTap: () {
-        DatabaseService().removePantryFromDatabase(pantry.id);
+        DatabaseService().removePantryFromDatabase(pantry.id, userId);
+        
         Navigator.pop(context);
       },
       child: Container(

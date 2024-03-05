@@ -85,10 +85,8 @@ class AddPantryCard extends StatelessWidget {
   const AddPantryCard({
     super.key,
     required this.onTap,
-    required this.cardText,
   });
 
-  final String? cardText;
   final VoidCallback onTap;
 
   @override

@@ -4,23 +4,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/pantry.dart';
 
 class AppStateProvider extends ChangeNotifier {
-  AppStateProvider(this.lastShownScreen, this.lastShownPantryId, this.activeUsersPantryList) {
+  AppStateProvider(this.lastShownScreen, this.lastShownPantryId) {
     shownScreenIndex = lastShownScreen;
-
-    activeUsersPantryList.any((pantry) => pantry.id == lastShownPantryId)
-        ? _selectedPantryId = lastShownPantryId
-        : _selectedPantryId = '';
-
     mainScreenPageController = PageController(initialPage: shownScreenIndex);
+    _selectedPantryId = lastShownPantryId;
   }
 
-  final List<Pantry> activeUsersPantryList;
   final String lastShownPantryId;
   String _selectedPantryId = '';
   String get selectedPantryId => _selectedPantryId;
   set newSelectedPantryId(String newId){
+    print('id received: $newId');
     _selectedPantryId = newId;
+    print('new id: $_selectedPantryId');
   }
+
+
+
 
   final int lastShownScreen;
   int shownScreenIndex = 0;

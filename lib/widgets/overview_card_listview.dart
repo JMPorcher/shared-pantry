@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
@@ -36,7 +37,7 @@ class OverviewCardListView extends StatelessWidget {
             } else {
               return
                   AddPantryCard(
-                      onTap: () => AddPantryDialog(), cardText: 'Add a pantry');
+                      onTap: () => AddPantryDialog());
             }
           }),
     );
@@ -52,15 +53,22 @@ class PantryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
+    final User? user = context.watch<User?>();
     return GestureDetector(
-      onTap: () => appStateProvider.newSelectedPantryId = pantry.id.toString(),
-      onLongPress: () => DatabaseService().removePantryFromDatabase(pantry.id),
+      onTap: () {
+        print(pantry.id.toString());
+        appStateProvider.newSelectedPantryId = pantry.id.toString();
+        print(appStateProvider.lastShownPantryId);
+      },
+      onLongPress: () => DatabaseService().removePantryFromDatabase(pantry.id, user?.uid),
       child: OverviewScreenCard(
           isSelected: pantry.id == appStateProvider.selectedPantryId,
           title: pantry.title),
     );
   }
 }
+
+
 
 class AddPantryButton extends StatelessWidget {
   const AddPantryButton({

@@ -63,7 +63,6 @@ class SharedPantry extends StatelessWidget {
                 ? pantryIds
                 : [],
                 child: ChangeNotifierProvider(create: (BuildContext context) => AppStateProvider(lastShownScreen, lastShownPantryId),
-                  //TODO Need to supply the active user's pantriList to the AppStateProvider
                   child: MaterialApp(
                     title: 'Shared Pantry',
                     theme: ThemeData(

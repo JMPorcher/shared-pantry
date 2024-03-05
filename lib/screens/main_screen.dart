@@ -18,11 +18,15 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
-    final PageController pageController = appStateProvider.mainScreenPageController;
+    final PageController pageController =
+        appStateProvider.mainScreenPageController;
     final pantries = context.watch<List<Pantry>>();
-    final activePantry = pantries.firstWhere(
-            (pantry) => pantry.id == appStateProvider.lastShownPantryId,
-            orElse: () => pantries[0]);
+    final Pantry activePantry = (pantries.isNotEmpty)
+        ? pantries.firstWhere(
+            (pantry) => pantry.id == appStateProvider.selectedPantryId,
+            orElse: () => pantries[0])
+        : Pantry(moderatorIds: [], title: '', id: '', founderID: '');
+
     print(activePantry.id);
     print('No of pantries: ${pantries.length}');
 
@@ -34,7 +38,8 @@ class MainScreen extends StatelessWidget {
       if (pantries.isNotEmpty) {
         return [
           const OverviewPage(),
-          PantryPage(pantry: activePantry),//TODO Make sure last shown pantry is shown
+          PantryPage(pantry: activePantry),
+          //TODO Make sure last shown pantry is shown
           const ShoppingPage(),
           ProfilePage(),
         ];
@@ -81,8 +86,8 @@ class MainScreen extends StatelessWidget {
         currentIndex: pantries.isNotEmpty
             ? activeScreenIndex
             : activeScreenIndex == 0
-            ? 0
-            : 3,
+                ? 0
+                : 3,
         onTap: (index) {
           if (pantries.isNotEmpty || index == 0 || index == 3) {
             appStateProvider.switchActiveScreen(index);
@@ -95,13 +100,12 @@ class MainScreen extends StatelessWidget {
     }
 
     return SafeArea(
-          child: Scaffold(
-              bottomNavigationBar: buildSpBottomNavigationBar(),
-              body: PageView(
-                  onPageChanged: (index) => switchScreen(index),
-                  controller: pageController,
-                  children: buildPages()),
-          )
-        );
+        child: Scaffold(
+      bottomNavigationBar: buildSpBottomNavigationBar(),
+      body: PageView(
+          onPageChanged: (index) => switchScreen(index),
+          controller: pageController,
+          children: buildPages()),
+    ));
   }
 }

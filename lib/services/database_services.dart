@@ -29,8 +29,10 @@ class DatabaseService {
 
   List<Stream<Pantry>> streamPantryList(List<String> pantryIds) {
     List<Stream<Pantry>> pantryStreams = [];
-    for (String id in pantryIds) {
-      pantryStreams.add(_streamSinglePantry(id));
+    if (pantryIds.isNotEmpty) {
+      for (String id in pantryIds) {
+            pantryStreams.add(_streamSinglePantry(id));
+          }
     }
     return pantryStreams;
   }
@@ -69,11 +71,15 @@ class DatabaseService {
   }
 
   Future editPantryTitle(String? pantryId, String newTitle) async {
+    print('new title to be added: $newTitle');
     pantryCollectionReference.doc(pantryId).update({'title': newTitle});
   }
 
-  Future removePantryFromDatabase(String? uid) {
-    return pantryCollectionReference.doc(uid).delete();
+  Future removePantryFromDatabase(String? pantryId, String? userId) {
+    userDataReference.doc(userId).update({
+      'subscribed_pantries': FieldValue.arrayRemove([pantryId])
+    });
+    return pantryCollectionReference.doc(pantryId).delete();
   }
 
   List<String> filterPantryForUnavailableItems(String? uid) {

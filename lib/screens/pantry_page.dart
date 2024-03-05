@@ -20,8 +20,6 @@ class PantryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    //Check in sharedpreferences what pantry was last shown. if none was shown, show the first one from pantrylistprovider
-
     final currentCategoryList = <ItemCategory>[];
 
     return Scaffold(
