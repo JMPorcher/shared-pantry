@@ -55,9 +55,7 @@ class SharedPantry extends StatelessWidget {
             value: DatabaseService().streamPantrySubscriptionIds(
             user?.uid),
             builder: (context, snapshot) {
-              print('UserId sent to pantry ID stream: ${user?.uid}');
               List<String> pantryIds = context.watch<List<String>>();
-              print('Streamed pantry Ids: ${pantryIds.toString()}');
               return PantryListProvider(
                 pantryIds: pantryIds.isNotEmpty
                 ? pantryIds
@@ -65,9 +63,6 @@ class SharedPantry extends StatelessWidget {
                 child: ChangeNotifierProvider(create: (BuildContext context) => AppStateProvider(lastShownScreen, lastShownPantryId),
                   child: MaterialApp(
                     title: 'Shared Pantry',
-                    theme: ThemeData(
-                      primarySwatch: Colors.blue,
-                    ),
                     routes: {
                       ProfilePage.id: (context) => ProfilePage(),
                       MainScreen.id: (context) => const MainScreen(),

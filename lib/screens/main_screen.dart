@@ -28,7 +28,7 @@ class MainScreen extends StatelessWidget {
         : Pantry(moderatorIds: [], title: '', id: '', founderID: '');
 
     print(activePantry.id);
-    print('No of pantries: ${pantries.length}');
+    print('Main Screen: No of pantries: ${pantries.length}');
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);

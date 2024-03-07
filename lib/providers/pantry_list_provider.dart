@@ -58,6 +58,7 @@ class _PantryListProviderState extends State<PantryListProvider> {
   }
 
   Future<void> _fetchPantryList() async {
+    //pantryList.clear();
     pantryStreams = DatabaseService().streamPantryList(widget.pantryIds);
     subscriptions = pantryStreams.map((stream) {
       return stream.listen((pantry) {

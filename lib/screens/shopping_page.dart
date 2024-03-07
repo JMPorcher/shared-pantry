@@ -46,7 +46,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                 (pantryList.isNotEmpty) ? buildPantrySwitchList() : const Text('No pantries yet'),
                 const DividerLine(),
                 const ItemsInfoText(),
-                Consumer<Pantry>(builder: (context, pantries, child) {
+                Consumer<List<Pantry>>(builder: (context, pantries, child) {
                   //filterItems(pantryList);
                   return buildCheckboxList();
                 })

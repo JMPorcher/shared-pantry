@@ -11,14 +11,6 @@ import '../models/pantry.dart';
 import '../services/database_services.dart';
 
 class OverviewCardListView extends StatelessWidget {
-  const OverviewCardListView(
-    this.context,
-    this.appStateProvider, {
-    super.key,
-  });
-
-  final BuildContext context;
-  final AppStateProvider appStateProvider;
 
   @override
   Widget build(BuildContext context) {

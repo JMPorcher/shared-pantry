@@ -19,9 +19,6 @@ class AppStateProvider extends ChangeNotifier {
     print('new id: $_selectedPantryId');
   }
 
-
-
-
   final int lastShownScreen;
   int shownScreenIndex = 0;
 

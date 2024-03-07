@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/widgets/overview_card_listview.dart';
 import 'package:shared_pantry/widgets/no_pantries_splash.dart';
 
@@ -11,13 +10,14 @@ class OverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppStateProvider appStateProvider = context.watch<AppStateProvider>();
-    final pantries = Provider.of<List<Pantry>>(context);
-    return pantries.isEmpty
-        ? const NoPantriesSplash()
-        : OverviewCardListView(
-            context,
-            appStateProvider,
-          );
+    print('Overview Page is built');
+    final pantries = context.watch<List<Pantry>>();
+    print('pantryList length befor building page: ${pantries.length}');
+    return Consumer<List<Pantry>>(builder: (BuildContext context, List<Pantry> pantries, Widget? child) {
+        return pantries.isEmpty
+            ? const NoPantriesSplash()
+            : OverviewCardListView();
+    }
+    );
   }
 }
