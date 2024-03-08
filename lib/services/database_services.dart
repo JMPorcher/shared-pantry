@@ -85,4 +85,74 @@ class DatabaseService {
   List<String> filterPantryForUnavailableItems(String? uid) {
     return <String>[]; //TODO Add filter function
   }
+
+  //Category functions, move to db
+  void addCategory(String pantryId, String title) {
+    pantryCollectionReference
+        .doc(pantryId)
+        .collection('categories')
+        .add({'title' : title});
+  }
+
+  void renameCategory(String pantryId, String categoryTitle, String newTitle) {
+    pantryCollectionReference
+        .doc(pantryId)
+        .collection('categories')
+        .where('category', isEqualTo: categoryTitle)
+        .get()
+        .then((snapshot) {
+      for (var doc in snapshot.docs) {
+        doc.reference.update({'category' : newTitle});
+      }
+    });
+  }
+
+  void deleteCategory(String pantryId, String categoryId) {
+    pantryCollectionReference
+        .doc(pantryId)
+        .collection('categories')
+        .doc(categoryId)
+        .delete();
+  }
+
+  //Item functions
+  void addItem(String pantryId, String categoryTitle, String itemTitle) {
+    pantryCollectionReference
+        .doc(pantryId)
+        .collection('categories')
+        .where('category', isEqualTo: categoryTitle)
+        .get()
+        .then((snapshot) {
+      for (var doc in snapshot.docs) {
+        var itemsRef = doc.reference.collection('items');
+        itemsRef.add({itemTitle : false});
+      }
+    });
+  }
+
+  void switchItemAvailability(String pantryId, String categoryTitle, String itemTitle) {
+    pantryCollectionReference
+        .doc(pantryId)
+        .collection('categories')
+        .where('category', isEqualTo: categoryTitle)
+        .get()
+        .then((snapshot) {
+      for (var doc in snapshot.docs) {
+        Map<String, dynamic> items = doc['items'];
+        final bool currentItemAvailability = items[itemTitle];
+        final DocumentReference itemRef = doc.reference.collection('items').doc(itemTitle);
+        final newAvailability = !currentItemAvailability;
+        itemRef.update({itemTitle : newAvailability});
+      }
+    });
+  }
+
+  void deleteItem(String pantryId, String categoryId, String itemId) {
+    pantryCollectionReference
+        .doc(pantryId).collection('categories')
+        .doc(categoryId)
+        .collection('items')
+        .doc(itemId)
+        .delete();
+  }
 }

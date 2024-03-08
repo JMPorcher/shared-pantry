@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +25,6 @@ class _PantryListProviderState extends State<PantryListProvider> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _fetchPantryList();
   }
@@ -58,7 +57,7 @@ class _PantryListProviderState extends State<PantryListProvider> {
   }
 
   Future<void> _fetchPantryList() async {
-    //pantryList.clear();
+
     pantryStreams = DatabaseService().streamPantryList(widget.pantryIds);
     subscriptions = pantryStreams.map((stream) {
       return stream.listen((pantry) {
@@ -76,5 +75,8 @@ class _PantryListProviderState extends State<PantryListProvider> {
       });
     }).toList();
   }
+
+
+
 }
 
