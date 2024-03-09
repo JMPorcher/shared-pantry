@@ -77,6 +77,44 @@ class _PantryListProviderState extends State<PantryListProvider> {
   }
 
 
+  void addPantryWithTitle(String title, String? userid) {
+    DatabaseService().addPantryWithTitle(title, userid);
+  }
+
+  void editPantryTitle(String? pantryId, String newTitle) async {
+    DatabaseService().editPantryTitle(pantryId, newTitle);
+  }
+
+  void removePantryFromDatabase(String? pantryId, String? userId) {
+    DatabaseService().removePantryFromDatabase(pantryId, userId);
+  }
+
+  //Category functions, move to db
+  void addCategory(String pantryId, String title) {
+    DatabaseService().addCategory(pantryId, title);
+  }
+
+  void renameCategory(String pantryId, String categoryTitle, String newTitle) {
+    DatabaseService().renameCategory(pantryId, categoryTitle, newTitle);
+  }
+
+  void deleteCategory(String pantryId, String categoryId) {
+    DatabaseService().deleteCategory(pantryId, categoryId);
+  }
+
+  //Item functions
+  void addItem(String pantryId, String categoryTitle, String itemTitle) {
+    DatabaseService().addItem(pantryId, categoryTitle, itemTitle);
+  }
+
+  void switchItemAvailability(String pantryId, String categoryTitle, String itemTitle) {
+    DatabaseService().switchItemAvailability(pantryId, categoryTitle, itemTitle);
+  }
+
+  void deleteItem(String pantryId, String categoryId, String itemId) {
+    DatabaseService().deleteItem(pantryId, categoryId, itemId);
+  }
+
 
 }
 
