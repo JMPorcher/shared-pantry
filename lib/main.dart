@@ -5,11 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/screens/first_startup_screen.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/profile_page.dart';
-import 'package:shared_pantry/services/database_services.dart';
-import 'package:shared_pantry/providers/pantry_list_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
@@ -41,7 +40,6 @@ class SharedPantry extends StatelessWidget {
 
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    //TODO Move AppStateProvider below PantryListProvider so it can check whether the last shown pantry's ID is in active user's pantries
     return
       //StreamProvider that returns the user's ID
       StreamProvider<User?>.value(
@@ -50,18 +48,12 @@ class SharedPantry extends StatelessWidget {
         builder: (context, snapshot) {
           User? user = context.watch<User?>();
           //StreamProvider that returns the user's subscribed pantry ID's
-          return StreamProvider<List<String>>.value(
-            initialData: const [],
-            value: DatabaseService().streamPantrySubscriptionIds(
-            user?.uid),
-            builder: (context, snapshot) {
-              List<String> pantryIds = context.watch<List<String>>();
-              return PantryListProvider(
-                pantryIds: pantryIds.isNotEmpty
-                ? pantryIds
-                : [],
-                child: ChangeNotifierProvider(create: (BuildContext context) => AppStateProvider(lastShownScreen, lastShownPantryId),
-                  child: MaterialApp(
+          return MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(create: (BuildContext context) => PantryProvider(user: user)),
+                  ChangeNotifierProvider(create: (BuildContext context) => AppStateProvider(lastShownScreen, lastShownPantryId)),
+                ],
+                child: MaterialApp(
                     title: 'Shared Pantry',
                     routes: {
                       ProfilePage.id: (context) => ProfilePage(),
@@ -70,11 +62,8 @@ class SharedPantry extends StatelessWidget {
                     },
                     home: user == null ? const FirstStartupScreen() : const MainScreen(),
                   ),
-                ),
               );
             }
           );
-          },
-      );
   }
 }

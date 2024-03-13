@@ -57,7 +57,6 @@ class _PantryListProviderState extends State<PantryListProvider> {
   }
 
   Future<void> _fetchPantryList() async {
-
     pantryStreams = DatabaseService().streamPantryList(widget.pantryIds);
     subscriptions = pantryStreams.map((stream) {
       return stream.listen((pantry) {
@@ -78,7 +77,7 @@ class _PantryListProviderState extends State<PantryListProvider> {
 
 
   void addPantryWithTitle(String title, String? userid) {
-    DatabaseService().addPantryWithTitle(title, userid);
+    DatabaseService().addPantry(title, userid);
   }
 
   void editPantryTitle(String? pantryId, String newTitle) async {

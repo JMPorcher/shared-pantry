@@ -1,14 +1,10 @@
-
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/services/database_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/pantry.dart';
 
 class AddPantryDialog extends StatelessWidget {
   AddPantryDialog({super.key});
@@ -58,15 +54,14 @@ class AddPantryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User? user = context.watch<User?>();
-    final pantryList = context.watch<List<Pantry>>();
+    final pantryProvider = context.watch<PantryProvider>();
 
     return TextButton(
         onPressed: () async {
           final String pantryTitle = titleTextController.text;
           if (pantryTitle.isNotEmpty) {
             SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-            DocumentReference pantryReference = await DatabaseService().addPantryWithTitle(pantryTitle, user?.uid);
+            DocumentReference pantryReference = await DatabaseService().addPantry(pantryTitle, pantryProvider.user?.uid);
             sharedPreferences.setString('Last shown pantry', pantryReference.id);
 
             if (context.mounted) {
@@ -74,7 +69,7 @@ class AddPantryButton extends StatelessWidget {
             }
 
             Future.delayed(const Duration(seconds: 1)).then((_) {
-              if (pantryList.any((pantry) => pantry.id == pantryReference.id) ) {
+              if (pantryProvider.pantries.any((pantry) => pantry.id == pantryReference.id) ) {
                 pageController.nextPage(
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.decelerate);

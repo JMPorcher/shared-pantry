@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/providers/app_state_provider.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
 import 'package:shared_pantry/screens/overview_page.dart';
 import 'package:shared_pantry/screens/shopping_page.dart';
 import 'package:shared_pantry/screens/pantry_page.dart';
@@ -20,25 +21,18 @@ class MainScreen extends StatelessWidget {
     final int activeScreenIndex = appStateProvider.shownScreenIndex;
     final PageController pageController =
         appStateProvider.mainScreenPageController;
-    final pantries = context.watch<List<Pantry>>();
-    final Pantry activePantry = (pantries.isNotEmpty)
-        ? pantries.firstWhere(
-            (pantry) => pantry.id == appStateProvider.selectedPantryId,
-            orElse: () => pantries[0])
-        : Pantry(moderatorIds: [], title: '', id: '', founderID: '');
-
-    print(activePantry.id);
-    print('Main Screen: No of pantries: ${pantries.length}');
 
     void switchScreen(int newIndex) async {
       appStateProvider.switchActiveScreen(newIndex);
     }
 
+    List<Pantry> pantries = context.watch<PantryProvider>().pantries;
+
     List<Widget> buildPages() {
       if (pantries.isNotEmpty) {
         return [
           const OverviewPage(),
-          PantryPage(pantry: activePantry),
+          PantryPage(pantry: pantries[0] ),
           //TODO Make sure last shown pantry is shown
           const ShoppingPage(),
           ProfilePage(),

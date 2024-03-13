@@ -6,7 +6,7 @@ class ItemCategory {
 
   ItemCategory.fromJson(Map<String, dynamic>? parsedJson)
     : title = parsedJson?['title'],
-      items = parsedJson?['items'];
+      items = parsedJson?['items'] ?? [];
 
   String title;
   bool isExpanded = false;

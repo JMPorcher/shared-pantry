@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_pantry/models/item_category.dart';
 
+import '../models/item.dart';
 import '../models/pantry.dart';
 
 class DatabaseService {
@@ -31,28 +33,48 @@ class DatabaseService {
     List<Stream<Pantry>> pantryStreams = [];
     if (pantryIds.isNotEmpty) {
       for (String id in pantryIds) {
-            pantryStreams.add(_streamSinglePantry(id));
+            pantryStreams.add(streamSinglePantry(id));
           }
     }
     return pantryStreams;
   }
 
-  Stream<Pantry> _streamSinglePantry(String id) {
+  Stream<Pantry> streamSinglePantry(String id) {
     return pantryCollectionReference
         .doc(id)
         .snapshots()
-        .map((snapshot) => _getPantryFromDocumentSnapshot(snapshot));
+        .map((snapshot) => getPantryFromDocumentSnapshot(snapshot));
   }
 
-  Pantry _getPantryFromDocumentSnapshot(DocumentSnapshot doc) {
+  Pantry getPantryFromDocumentSnapshot(DocumentSnapshot doc) {
+    List<ItemCategory> categories = [];
+    List<dynamic> categoryDocs = doc['categories'] ?? [];
+
+    for (var categoryDoc in categoryDocs) {
+      String categoryName = categoryDoc['category'];
+      List<Item> items = [];
+
+      for (var itemDoc in categoryDoc['items']) {
+        String itemName = itemDoc.keys.first;
+        items.add(Item(itemName));
+      }
+
+      categories.add(ItemCategory(categoryName, items: items));
+    }
+
     return Pantry(
         id: doc.id,
         title: doc['title'],
         moderatorIds: doc['moderators'],
-        founderID: doc['founder']);
+        founderID: doc['founder'],
+        categories: categories
+        );
+
+    //TODO Get categories with items
+    //TODO Get users
   }
 
-  Future<DocumentReference> addPantryWithTitle(
+  Future<DocumentReference> addPantry(
       String title, String? userid) async {
     DocumentReference<Map<String, dynamic>> pantryDocumentReference =
         await pantryCollectionReference.add({
@@ -60,6 +82,7 @@ class DatabaseService {
       'founder': userid,
       'users': [userid],
       'moderators': [userid],
+      'categories' : []
       //TODO Should add with background image
       //TODO Once assistant is created: Add categories and items
     });
@@ -71,7 +94,6 @@ class DatabaseService {
   }
 
   Future editPantryTitle(String? pantryId, String newTitle) async {
-    print('new title to be added: $newTitle');
     pantryCollectionReference.doc(pantryId).update({'title': newTitle});
   }
 
@@ -87,11 +109,11 @@ class DatabaseService {
   }
 
   //Category functions, move to db
-  void addCategory(String pantryId, String title) {
+  void addCategory(String? pantryId, String title) {
     pantryCollectionReference
         .doc(pantryId)
         .collection('categories')
-        .add({'title' : title});
+        .add({'title' : title, 'items' : []});
   }
 
   void renameCategory(String pantryId, String categoryTitle, String newTitle) {

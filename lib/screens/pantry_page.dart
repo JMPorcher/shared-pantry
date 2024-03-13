@@ -48,7 +48,7 @@ class PantryPage extends StatelessWidget {
             return CategoryExpansionTile(currentCategory,
                 itemCategoryList: currentCategoryList);
           } else {
-            return AddCategoryButton(currentCategoryList);
+            return const AddCategoryButton();
           }
         }
       }, childCount: currentCategoryList.length + 1),
@@ -57,12 +57,7 @@ class PantryPage extends StatelessWidget {
 }
 
 class AddCategoryButton extends StatelessWidget {
-  const AddCategoryButton(
-    this.currentCategoryList, {
-    super.key,
-  });
-
-  final List<ItemCategory> currentCategoryList;
+  const AddCategoryButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +84,7 @@ class AddCategoryButton extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    AddCategoryDialog(currentCategoryList));
+                    AddCategoryDialog());
           }),
     );
   }
@@ -105,13 +100,13 @@ class NoCategoriesSplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+    return const SliverToBoxAdapter(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const NoCategoriesSplashScreen(),
-            AddCategoryButton(currentCategoryList),
+            NoCategoriesSplashScreen(),
+            AddCategoryButton(),
           ]),
     );
   }

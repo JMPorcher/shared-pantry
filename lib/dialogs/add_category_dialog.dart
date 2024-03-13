@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../models/item_category.dart';
+import '../models/pantry.dart';
+import '../providers/pantry_provider.dart';
 
 class AddCategoryDialog extends StatelessWidget {
-    AddCategoryDialog(this.currentCategoryList, { super.key, });
-
-    final List<ItemCategory> currentCategoryList;
+    AddCategoryDialog({ super.key, });
 
     final ValueNotifier<String> categoryTitleValueNotifier = ValueNotifier<String>('');
     final titleTextController = TextEditingController();
@@ -13,6 +13,7 @@ class AddCategoryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     titleTextController.text = categoryTitleValueNotifier.value;
+    final Pantry pantry = context.watch<Pantry>();
 
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -32,7 +33,7 @@ class AddCategoryDialog extends StatelessWidget {
                     final String categoryTitle = titleTextController.text;
                     if (categoryTitle.isNotEmpty) {
                       //TODO Add category function
-                      //context.read<PantryProvider>().addCategory(currentCategoryList, ItemCategory(categoryTitle));
+                      context.read<PantryProvider>().addCategory(pantry.id, titleTextController.text);
                       Navigator.pop(context);
                     }
                   },
