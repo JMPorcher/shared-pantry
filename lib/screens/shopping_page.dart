@@ -6,6 +6,7 @@ import 'package:shared_pantry/widgets/sp_switch.dart';
 
 import '../models/item.dart';
 import '../models/pantry.dart';
+import '../providers/pantry_provider.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({super.key});
@@ -32,7 +33,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
   @override
   Widget build(BuildContext context) {
-  pantryList = context.watch<List<Pantry>>();
+  pantryList = context.watch<PantryProvider>().pantries;
     //filterItems(pantryProviders);
     return Scaffold(
       appBar: AppBar(title: const Text('My Shopping List', style: TextStyle(color: kColor1)), centerTitle: true, backgroundColor: kColor51),
@@ -46,10 +47,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                 (pantryList.isNotEmpty) ? buildPantrySwitchList() : const Text('No pantries yet'),
                 const DividerLine(),
                 const ItemsInfoText(),
-                Consumer<List<Pantry>>(builder: (context, pantries, child) {
-                  //filterItems(pantryList);
-                  return buildCheckboxList();
-                })
+                buildCheckboxList()
               ],
             ),
           )),
@@ -58,12 +56,11 @@ class _ShoppingPageState extends State<ShoppingPage> {
 
 
   SizedBox buildPantrySwitchList() {
-    final pantries = Provider.of<List<Pantry>>(context);
     return SizedBox(
       width: double.maxFinite,
-      height: (pantries.length) * 40 + 20,
+      height: (pantryList.length) * 40 + 20,
       child: ListView.builder(
-          itemCount: pantries.isEmpty ? 1 : pantries.length,
+          itemCount: pantryList.isEmpty ? 1 : pantryList.length,
           itemExtent: 40,
           itemBuilder: (_, index) {
             Pantry pantry = pantryList[index];

@@ -38,8 +38,9 @@ class PantryProvider extends ChangeNotifier {
     DatabaseService().addPantry(title, userid);
   }
 
-  void editPantryTitle(String? pantryId, String newTitle) async {
-    DatabaseService().editPantryTitle(pantryId, newTitle);
+  void editPantryTitle(String? pantryId, String newTitle) {
+    DatabaseService().renamePantry(pantryId, newTitle);
+    notifyListeners();
   }
 
   void removePantryFromDatabase(String? pantryId, String? userId) {
@@ -51,8 +52,9 @@ class PantryProvider extends ChangeNotifier {
     DatabaseService().addCategory(pantryId, title);
   }
 
-  void renameCategory(String pantryId, String categoryTitle, String newTitle) {
-    DatabaseService().renameCategory(pantryId, categoryTitle, newTitle);
+  void renameCategory(
+      {required String? pantryId, required String oldTitle, required String newTitle}) {
+    DatabaseService().renameCategory(pantryId, oldTitle, newTitle);
   }
 
   void deleteCategory(String pantryId, String categoryId) {
@@ -71,5 +73,4 @@ class PantryProvider extends ChangeNotifier {
   void deleteItem(String pantryId, String categoryId, String itemId) {
     DatabaseService().deleteItem(pantryId, categoryId, itemId);
   }
-
 }

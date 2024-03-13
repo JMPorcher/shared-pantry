@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_pantry/dialogs/delete_category_dialog.dart';
 import 'package:shared_pantry/models/item_category.dart';
+import 'package:shared_pantry/models/pantry.dart';
+
+import '../providers/pantry_provider.dart';
 
 class EditCategoryDialog extends StatelessWidget {
-  const EditCategoryDialog(
-      {required this.itemCategoryList, required this.itemCategory, super.key});
+  const EditCategoryDialog(this.pantry,
+      {required this.itemCategory, super.key});
 
   final ItemCategory itemCategory;
-  final List<ItemCategory> itemCategoryList;
+  final Pantry pantry;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +24,9 @@ class EditCategoryDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          EditCategoryRow(categoryTitleTextController: categoryTitleTextController, itemCategory: itemCategory),
+          EditCategoryRow(pantry, categoryTitleTextController: categoryTitleTextController, itemCategory: itemCategory),
           const SizedBox(height: 12),
-          DeleteCategoryRow(itemCategory: itemCategory, itemCategoryList: itemCategoryList)
+          DeleteCategoryRow(itemCategory: itemCategory, itemCategoryList: pantry.categories)
         ],
       ),
     );
@@ -30,7 +34,7 @@ class EditCategoryDialog extends StatelessWidget {
 }
 
 class EditCategoryRow extends StatelessWidget {
-  const EditCategoryRow({
+  const EditCategoryRow(this.pantry, {
     super.key,
     required this.categoryTitleTextController,
     required this.itemCategory,
@@ -38,9 +42,12 @@ class EditCategoryRow extends StatelessWidget {
 
   final TextEditingController categoryTitleTextController;
   final ItemCategory itemCategory;
+  final Pantry pantry;
 
   @override
   Widget build(BuildContext context) {
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
+
     return Row(
       children: [
         Expanded(
@@ -53,9 +60,7 @@ class EditCategoryRow extends StatelessWidget {
         IconButton(
             onPressed: () {
               if (categoryTitleTextController.text.isNotEmpty) {
-                //TODO Edit category title function
-                //context.read<PantryProvider>().editCategoryName(itemCategory, categoryTitleTextController.text);
-
+                pantryProvider.renameCategory(pantryId: pantry.id, oldTitle: itemCategory.title, newTitle: categoryTitleTextController.text);
                 Navigator.pop(context);
               }
             },

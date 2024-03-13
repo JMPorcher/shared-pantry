@@ -28,24 +28,6 @@ class DatabaseService {
     });
     return pantryIds;
   }
-
-  List<Stream<Pantry>> streamPantryList(List<String> pantryIds) {
-    List<Stream<Pantry>> pantryStreams = [];
-    if (pantryIds.isNotEmpty) {
-      for (String id in pantryIds) {
-            pantryStreams.add(streamSinglePantry(id));
-          }
-    }
-    return pantryStreams;
-  }
-
-  Stream<Pantry> streamSinglePantry(String id) {
-    return pantryCollectionReference
-        .doc(id)
-        .snapshots()
-        .map((snapshot) => getPantryFromDocumentSnapshot(snapshot));
-  }
-
   Pantry getPantryFromDocumentSnapshot(DocumentSnapshot doc) {
     List<ItemCategory> categories = [];
     List<dynamic> categoryDocs = doc['categories'] ?? [];
@@ -93,7 +75,7 @@ class DatabaseService {
     return pantryDocumentReference;
   }
 
-  Future editPantryTitle(String? pantryId, String newTitle) async {
+  Future renamePantry(String? pantryId, String newTitle) async {
     pantryCollectionReference.doc(pantryId).update({'title': newTitle});
   }
 
@@ -116,7 +98,7 @@ class DatabaseService {
         .add({'title' : title, 'items' : []});
   }
 
-  void renameCategory(String pantryId, String categoryTitle, String newTitle) {
+  void renameCategory(String? pantryId, String categoryTitle, String newTitle) {
     pantryCollectionReference
         .doc(pantryId)
         .collection('categories')

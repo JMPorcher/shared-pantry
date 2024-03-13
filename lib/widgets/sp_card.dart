@@ -163,32 +163,40 @@ class PantryScreenCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
-          child: _PantryScreenCardLayoutStack(
-              pantry: pantry, cardText: pantry.title),
+          child: _PantryScreenCardLayoutStack(pantry),
         ),
       ),
     );
   }
 }
 
-class _PantryScreenCardLayoutStack extends StatelessWidget {
-  const _PantryScreenCardLayoutStack(
-      {required this.cardText, required this.pantry});
+class _PantryScreenCardLayoutStack extends StatefulWidget {
+  const _PantryScreenCardLayoutStack(this.pantry);
 
-  final String cardText;
   final Pantry pantry;
 
+  @override
+  State<_PantryScreenCardLayoutStack> createState() => _PantryScreenCardLayoutStackState();
+}
+
+class _PantryScreenCardLayoutStackState extends State<_PantryScreenCardLayoutStack> {
+
+  @override
+  void didUpdateWidget(covariant _PantryScreenCardLayoutStack oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         _OverviewCardBackgroundImage(),
-        TitleContainer(cardText: cardText),
+        TitleContainer(cardText: widget.pantry.title),
         EditPantryButton(
             onTap: () => showDialog(
                 context: context,
                 builder: (BuildContext context) => EditPantryDialog(
-                      pantry,
+                      widget.pantry,
                     )))
       ],
     );

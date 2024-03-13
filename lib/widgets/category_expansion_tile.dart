@@ -5,16 +5,17 @@ import '../constants.dart';
 import '../dialogs/edit_category_dialog.dart';
 import '../models/item.dart';
 import '../models/item_category.dart';
+import '../models/pantry.dart';
 import 'item_tile.dart';
 
 class CategoryExpansionTile extends StatelessWidget {
-  const CategoryExpansionTile(
+  const CategoryExpansionTile(this.pantry,
       this.currentCategory,
-      {super.key, required this.itemCategoryList}
+      {super.key}
   );
 
   final ItemCategory currentCategory;
-  final List<ItemCategory> itemCategoryList;
+  final Pantry pantry;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class CategoryExpansionTile extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) => EditCategoryDialog(
-                itemCategoryList: itemCategoryList,
+                pantry,
                 itemCategory: currentCategory,
               ),
             );

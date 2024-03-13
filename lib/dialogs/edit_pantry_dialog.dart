@@ -69,7 +69,7 @@ class EditPantryContainer extends StatelessWidget {
             child: TextButton(
                 onPressed: () async {
                   if (pantryTitleTextController.text.isNotEmpty) {
-                    DatabaseService().editPantryTitle(pantry.id, pantryTitleTextController.text);
+                    DatabaseService().renamePantry(pantry.id, pantryTitleTextController.text);
                     Navigator.pop(context);
                   }
                 },

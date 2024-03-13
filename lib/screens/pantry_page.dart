@@ -20,8 +20,6 @@ class PantryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final currentCategoryList = <ItemCategory>[];
-
     return Scaffold(
         body: CustomScrollView(
       slivers: [
@@ -31,8 +29,8 @@ class PantryPage extends StatelessWidget {
             pantry: pantry,
           ),
         ),
-        if (currentCategoryList.isEmpty)
-          NoCategoriesSplashView(currentCategoryList: currentCategoryList)
+        if (pantry.categories.isEmpty)
+          NoCategoriesSplashView(pantry)
         //else
           //buildCategories(currentCategoryList),
       ],
@@ -45,10 +43,9 @@ class PantryPage extends StatelessWidget {
         {
           if (index < currentCategoryList.length) {
             ItemCategory currentCategory = currentCategoryList[index];
-            return CategoryExpansionTile(currentCategory,
-                itemCategoryList: currentCategoryList);
+            return CategoryExpansionTile(pantry, currentCategory);
           } else {
-            return const AddCategoryButton();
+            return AddCategoryButton(pantry);
           }
         }
       }, childCount: currentCategoryList.length + 1),
@@ -57,7 +54,8 @@ class PantryPage extends StatelessWidget {
 }
 
 class AddCategoryButton extends StatelessWidget {
-  const AddCategoryButton({super.key});
+  const AddCategoryButton(this.pantry, {super.key});
+  final Pantry pantry;
 
   @override
   Widget build(BuildContext context) {
@@ -84,29 +82,28 @@ class AddCategoryButton extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    AddCategoryDialog());
+                    AddCategoryDialog(pantry));
           }),
     );
   }
 }
 
 class NoCategoriesSplashView extends StatelessWidget {
-  const NoCategoriesSplashView({
-    super.key,
-    required this.currentCategoryList,
+  const NoCategoriesSplashView(this.pantry, {
+    super.key
   });
 
-  final List<ItemCategory> currentCategoryList;
+  final Pantry pantry;
 
   @override
   Widget build(BuildContext context) {
-    return const SliverToBoxAdapter(
+    return SliverToBoxAdapter(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            NoCategoriesSplashScreen(),
-            AddCategoryButton(),
+            const NoCategoriesSplashScreen(),
+            AddCategoryButton(pantry),
           ]),
     );
   }
