@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
+import 'package:shared_pantry/providers/pantry_provider.dart';
 
 import '../constants.dart';
 import '../widgets/buttons.dart';
+import 'first_startup_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -134,12 +137,13 @@ class DeleteAccountButton extends StatelessWidget {
   final FirebaseAuth auth;
   @override
   Widget build(BuildContext context) {
-    //final navigator = Navigator.of(context);
+    final navigator = Navigator.of(context);
+    final PantryProvider pantryProvider = context.watch<PantryProvider>();
     return SpButton.filledButton(
       onTap: () {
+        pantryProvider.deleteUser();
         auth.signOut();
-        //Following line should be implied by the entire app listening to authstate
-        //navigator.pushNamedAndRemoveUntil(FirstStartupScreen.id, (route) => false);
+        navigator.pushNamedAndRemoveUntil(FirstStartupScreen.id, (route) => false);
       },
       child: const Text('Delete account',
           style: kFilledButtonTextStyle),

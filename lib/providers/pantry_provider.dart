@@ -73,4 +73,8 @@ class PantryProvider extends ChangeNotifier {
   void deleteItem(String pantryId, String categoryId, String itemId) {
     DatabaseService().deleteItem(pantryId, categoryId, itemId);
   }
+
+  void deleteUser(){
+    DatabaseService().deleteUser(user);
+  }
 }

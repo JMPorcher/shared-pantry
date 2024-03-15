@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_pantry/models/item_category.dart';
 
 import '../models/item.dart';
@@ -6,22 +7,22 @@ import '../models/pantry.dart';
 
 class DatabaseService {
   DatabaseService() {
-    userDataReference = FirebaseFirestore.instance.collection('users');
+    userCollectionReference = FirebaseFirestore.instance.collection('users');
     pantryCollectionReference =
         FirebaseFirestore.instance.collection('pantries');
   }
 
-  late final CollectionReference userDataReference;
+  late final CollectionReference userCollectionReference;
   late final CollectionReference<Map<String, dynamic>>
       pantryCollectionReference;
 
   Stream<List<String>> streamPantrySubscriptionIds(String? userId) {
     Stream<List<String>> pantryIds =
-        userDataReference.doc(userId).snapshots().map((snapshot) {
+        userCollectionReference.doc(userId).snapshots().map((snapshot) {
       if (snapshot.exists) {
         final subscribedPantries =
             snapshot['subscribed_pantries'] as List<dynamic>;
-        return subscribedPantries.map((item) => item.toString()).toList();
+        return subscribedPantries.map((id) => id.toString()).toList();
       } else {
         return [];
       }
@@ -69,7 +70,7 @@ class DatabaseService {
       //TODO Once assistant is created: Add categories and items
     });
 
-    userDataReference.doc(userid).update({
+    userCollectionReference.doc(userid).update({
       'subscribed_pantries': FieldValue.arrayUnion([pantryDocumentReference.id])
     });
     return pantryDocumentReference;
@@ -80,7 +81,7 @@ class DatabaseService {
   }
 
   Future removePantryFromDatabase(String? pantryId, String? userId) {
-    userDataReference.doc(userId).update({
+    userCollectionReference.doc(userId).update({
       'subscribed_pantries': FieldValue.arrayRemove([pantryId])
     });
     return pantryCollectionReference.doc(pantryId).delete();
@@ -158,5 +159,37 @@ class DatabaseService {
         .collection('items')
         .doc(itemId)
         .delete();
+  }
+
+
+  // User Functions
+  Future<void> deleteUser(User? user) async {
+    final List<dynamic> userPantryIdsDynamic = await userCollectionReference
+        .doc(user?.uid)
+        .get()
+        .then((snapshot) => 
+              snapshot.get('subscribed_pantries') as List<dynamic>);
+    final List<String> userPantryIds = userPantryIdsDynamic.map((entry) => entry.toString()).toList();
+
+    for (String pantryId in userPantryIds) {
+      deleteOrLeavePantry(pantryId, user);
+    }
+
+    await userCollectionReference.doc(user?.uid).delete();
+  }
+
+  Future<void> deleteOrLeavePantry(String pantryId, User? user) async {
+      final DocumentReference pantryReference = pantryCollectionReference
+          .doc(pantryId);
+
+      final DocumentSnapshot pantrySnapshot = await pantryReference.get();
+      final List<dynamic> users = pantrySnapshot['users'];
+
+      if (users.length == 1) {
+        removePantryFromDatabase(pantryId, user?.uid);
+      } else {
+        await pantryReference.update(
+            {'users': FieldValue.arrayRemove([user?.uid])});
+      }
   }
 }
