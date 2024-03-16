@@ -7,13 +7,6 @@ class Pantry {
         required this.id,
         required this.founderID, categories}) : categories = [];
 
-  Pantry.fromJson(Map<String, dynamic>? parsedJson, String this.id)
-      : title = parsedJson?['title'],
-        founderID = parsedJson?['founder'],
-        moderatorIds = parsedJson?['moderators'],
-        categories = [];
-
-
       //TODO optional SvgPicture backgroundImage = default_image_asset
       //TODO List<String(userId), Item> activityHistory = []
 

@@ -191,5 +191,7 @@ class DatabaseService {
         await pantryReference.update(
             {'users': FieldValue.arrayRemove([user?.uid])});
       }
+
+      //TODO Give admin rights to everyone in the group when leaving user is the founder
   }
 }

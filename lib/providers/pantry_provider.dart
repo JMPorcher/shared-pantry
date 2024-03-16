@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_pantry/models/item_category.dart';
 
 import '../models/pantry.dart';
 import '../services/database_services.dart';
@@ -12,26 +15,62 @@ class PantryProvider extends ChangeNotifier {
   }
 
   final User? user;
-  late StreamProvider<List<String>> _pantryIdStreamProvider;
-
-  StreamProvider<List<String>> get pantryIdStreamProvider => _pantryIdStreamProvider;
-
+  late StreamSubscription<List<String>> _pantryIdSubscription;
   late List<Pantry> _pantries = [];
 
   List<Pantry> get pantries => _pantries;
 
-  void _initializeStreams() {
-    DatabaseService().streamPantrySubscriptionIds(user?.uid).listen((List<String> pantryIds) async {
-      List<Future<Pantry>> futures = pantryIds.map((pantryId) async {
-        DocumentSnapshot snapshot = await DatabaseService().pantryCollectionReference
-            .doc(pantryId)
-            .get();
-        return DatabaseService().getPantryFromDocumentSnapshot(snapshot);
-      }).toList();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
-      _pantries = await Future.wait(futures);
+  void _initializeStreams() {
+    _pantryIdSubscription = DatabaseService().streamPantrySubscriptionIds(user?.uid).listen((List<String> pantryIds) async {
+      List<Pantry> newPantries = [];
+
+      for (String pantryId in pantryIds) {
+        DocumentSnapshot pantrySnapshot = await DatabaseService().pantryCollectionReference.doc(pantryId).get();
+        Pantry pantry = DatabaseService().getPantryFromDocumentSnapshot(pantrySnapshot);
+
+        // Listen for changes to categories and items inside the pantry
+        _listenToCategoryChanges(pantry);
+        _listenToItemChanges(pantryId);
+
+        newPantries.add(pantry);
+      }
+
+      _pantries = newPantries;
       notifyListeners();
     });
+  }
+
+  void _listenToCategoryChanges(Pantry pantry) {
+    DatabaseService()
+        .pantryCollectionReference
+        .doc(pantry.id)
+        .collection('categories')
+        .snapshots()
+        .listen((snapshot) {
+            List<ItemCategory> categories = snapshot
+                .docs
+                .map((categorySnapshot) => ItemCategory.fromSnapshot(categorySnapshot)).toList();
+            pantry.categories = categories;
+            notifyListeners();
+        });
+  }
+
+  void _listenToItemChanges(String pantryId) {
+    // Stream items collection inside each category and handle changes
+    // Example:
+    // DatabaseService().pantryCollectionReference.doc(pantryId).collection('categories').snapshots().listen((snapshot) {
+    //   snapshot.docs.forEach((categoryDoc) {
+    //     categoryDoc.reference.collection('items').snapshots().listen((itemSnapshot) {
+    //       // Handle item changes
+    //     });
+    //   });
+    // });
   }
 
   void addPantry(String title, String? userid) {
