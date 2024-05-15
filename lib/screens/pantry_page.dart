@@ -12,14 +12,15 @@ import '../widgets/category_expansion_tile.dart';
 
 class PantryPage extends StatelessWidget {
 
-  const PantryPage({super.key, required this.pantry
+  PantryPage({super.key, required this.pantry
   });
 
   final Pantry pantry;
+  late List<ItemCategory> categoryList;
 
   @override
   Widget build(BuildContext context) {
-
+    categoryList = pantry.categories;
     return Scaffold(
         body: CustomScrollView(
       slivers: [
@@ -31,24 +32,24 @@ class PantryPage extends StatelessWidget {
         ),
         if (pantry.categories.isEmpty)
           NoCategoriesSplashView(pantry)
-        //else
-          //buildCategories(currentCategoryList),
+        else
+          buildCategories(categoryList),
       ],
     ));
   }
 
-  SliverList buildCategories(List<ItemCategory> currentCategoryList) {
+  SliverList buildCategories(List<ItemCategory> categoryList) {
     return SliverList(
       delegate: SliverChildBuilderDelegate((context, index) {
         {
-          if (index < currentCategoryList.length) {
-            ItemCategory currentCategory = currentCategoryList[index];
+          if (index < categoryList.length) {
+            ItemCategory currentCategory = categoryList[index];
             return CategoryExpansionTile(pantry, currentCategory);
           } else {
             return AddCategoryButton(pantry);
           }
         }
-      }, childCount: currentCategoryList.length + 1),
+      }, childCount: categoryList.length + 1),
     );
   }
 }
