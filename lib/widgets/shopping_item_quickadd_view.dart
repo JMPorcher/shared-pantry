@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_pantry/dialogs/quickadd_item_dialog.dart';
 import 'package:shared_pantry/widgets/text_input_fields.dart';
 
 import '../models/item.dart';

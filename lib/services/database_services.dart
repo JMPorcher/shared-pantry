@@ -29,6 +29,7 @@ class DatabaseService {
     });
     return pantryIds;
   }
+
   Pantry getPantryFromDocumentSnapshot(DocumentSnapshot doc) {
     List<ItemCategory> categories = [];
     List<dynamic> categoryDocs = doc['categories'] ?? [];
@@ -57,8 +58,7 @@ class DatabaseService {
     //TODO Get users
   }
 
-  Future<DocumentReference> addPantry(
-      String title, String? userid) async {
+  Future<DocumentReference> addPantry(String title, String? userid) async {
     DocumentReference<Map<String, dynamic>> pantryDocumentReference =
         await pantryCollectionReference.add({
       'title': title,
