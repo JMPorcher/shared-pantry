@@ -43,9 +43,9 @@ class RegistrationForm extends StatelessWidget {
                           child: RegisterButton(
                               formKey: formKey,
                               firestore: firestore,
-                              usernameTEController: usernameTEController,
-                              emailTEController: emailTEController,
-                              passwordTEController: passwordTEController,
+                              usernameTextEditingController: usernameTEController,
+                              emailTextEditingController: emailTEController,
+                              passwordTextEditingController: passwordTEController,
                               isFormValidNotifier: isFormValidNotifier,
                               spAuth: spAuth,
                           )),
@@ -79,18 +79,18 @@ class RegisterButton extends StatelessWidget {
     super.key,
     required this.formKey,
     required this.firestore,
-    required this.usernameTEController,
-    required this.emailTEController,
-    required this.passwordTEController,
+    required this.usernameTextEditingController,
+    required this.emailTextEditingController,
+    required this.passwordTextEditingController,
     required this.isFormValidNotifier,
     required this.spAuth
   });
 
   final GlobalKey<FormState> formKey;
   final FirebaseFirestore firestore;
-  final TextEditingController usernameTEController;
-  final TextEditingController emailTEController;
-  final TextEditingController passwordTEController;
+  final TextEditingController usernameTextEditingController;
+  final TextEditingController emailTextEditingController;
+  final TextEditingController passwordTextEditingController;
   final ValueNotifier<bool> isFormValidNotifier;
   final SpAuthProvider spAuth;
   @override
@@ -99,9 +99,9 @@ class RegisterButton extends StatelessWidget {
         onTap: () async {
           final currentState = formKey.currentState;
           if (currentState != null && currentState.validate()) {
-            final String userName = usernameTEController.text;
-            final String eMail = emailTEController.text;
-            final String password = passwordTEController.text;
+            final String userName = usernameTextEditingController.text;
+            final String eMail = emailTextEditingController.text;
+            final String password = passwordTextEditingController.text;
 
             final navigator = Navigator.of(context);
             final scaffoldMessenger = ScaffoldMessenger.of(context);
