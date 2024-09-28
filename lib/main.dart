@@ -19,11 +19,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  final int lastShownScreen =
-      sharedPreferences.getInt('Last shown screen') ?? 0;
+  final Future<SharedPreferencesWithCache> _sharedPrefs = SharedPreferencesWithCache.create(cacheOptions: const SharedPreferencesWithCacheOptions());
+  final sharedPrefs = await _sharedPrefs;
+  final int lastShownScreen = sharedPrefs.getInt('Last shown screen') ?? 0;
   final String lastShownPantryId =
-      sharedPreferences.getString('Last shown pantry') ?? '';
+       sharedPrefs.getString('Last shown pantry') ?? '';
   runApp(SharedPantry(lastShownScreen, lastShownPantryId));
 }
 

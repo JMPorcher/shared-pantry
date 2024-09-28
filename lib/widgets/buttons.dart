@@ -68,10 +68,10 @@ class AddItemButton extends StatelessWidget {
                 return ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: fieldIsEmpty
-                          ? WidgetStateProperty.all(kColor11)
-                          : WidgetStateProperty.all(kColor111),
+                          ? MaterialStateProperty.all(kColor11)
+                          : MaterialStateProperty.all(kColor111),
                       padding:
-                          WidgetStateProperty.all(const EdgeInsets.all(0))),
+                          MaterialStateProperty.all(const EdgeInsets.all(0))),
                   onPressed: () => onPressed(),
                   child: const Icon(
                     Icons.add,
