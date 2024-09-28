@@ -21,9 +21,9 @@ class SpSwitch extends StatelessWidget {
       onChanged: toggleSwitch,
       activeTrackColor: kColor61,
       inactiveTrackColor: Colors.grey.withOpacity(0.5),
-      thumbColor: MaterialStateColor.resolveWith(
-              (Set<MaterialState> states) {
-            if (states.contains(MaterialState.selected)) {
+      thumbColor: WidgetStateColor.resolveWith(
+              (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
               return kColor6;
             }
             return kColor1;
