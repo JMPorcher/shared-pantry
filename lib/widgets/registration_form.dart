@@ -106,16 +106,8 @@ class RegisterButton extends StatelessWidget {
             final navigator = Navigator.of(context);
             final scaffoldMessenger = ScaffoldMessenger.of(context);
             try {
-              await spAuth.firebaseAuth.createUserWithEmailAndPassword(
-                  email: eMail, password: password);
-              final userID = spAuth.user?.uid;
-              firestore.collection('users').doc(userID).set({
-                'email': eMail,
-                'display_name' : userName,
-                'subscribed_pantries' : []
-              }, SetOptions(merge: true));
-              await spAuth.firebaseAuth
-                  .signInWithEmailAndPassword(email: eMail, password: password)
+              await spAuth.signUpWithEmail(userName, eMail, password);
+              await spAuth.signInWithEmail(eMail, password)
                   .then((_) => navigator.pushNamed(MainScreen.id));
             } on FirebaseAuthException catch (_) {
               scaffoldMessenger.showSnackBar(const SnackBar(

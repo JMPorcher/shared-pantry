@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_pantry/services/database_services.dart';
 
 class SpAuthProvider extends ChangeNotifier {
   SpAuthProvider() {
@@ -20,12 +21,13 @@ class SpAuthProvider extends ChangeNotifier {
   User? get user => _user;
 
 
-  Future<void> signUpWithEmail(String email, String password) async {
+  Future<void> signUpWithEmail(String displayName, String email, String password) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
-      );
+      ).then((userCredential) => DatabaseService().addUser(displayName, userCredential));
+//TODO add name to credentials
     } catch (error) {
       rethrow;
     }
@@ -37,12 +39,13 @@ class SpAuthProvider extends ChangeNotifier {
   }
 
 
-  Future<void> signInWithEmail(String email, String password) async {
+  Future<UserCredential> signInWithEmail(String email, String password) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      return userCredential;
     } catch (error) {
       rethrow;
     }

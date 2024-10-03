@@ -76,6 +76,14 @@ class DatabaseService {
     return pantryDocumentReference;
   }
 
+  void addUser(String userName, UserCredential userCredential) async {
+    userCollectionReference.doc(userCredential.user?.uid).set(
+        {'email': userCredential.user?.email,
+          'display_name': userName,
+          'subscribed_pantries': []},
+        SetOptions(merge: true));
+  }
+
   Future renamePantry(String? pantryId, String newTitle) async {
     pantryCollectionReference.doc(pantryId).update({'title': newTitle});
   }
@@ -87,6 +95,7 @@ class DatabaseService {
     return pantryCollectionReference.doc(pantryId).delete();
   }
 
+  //This doesn't have to happen using the DB, just the repository
   List<String> filterPantryForUnavailableItems(String? uid) {
     return <String>[]; //TODO Add filter function
   }

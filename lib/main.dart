@@ -47,7 +47,7 @@ class SharedPantry extends StatelessWidget {
         value: authProvider.authStateStream,
         builder: (context, snapshot) {
           User? user = context.watch<User?>();
-          print('$user is current user');
+          print('${user?.uid} is current user');
           //StreamProvider that returns the user's subscribed pantry ID's
           return MultiProvider(
                 providers: [

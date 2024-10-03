@@ -41,6 +41,7 @@ class PantryProvider extends ChangeNotifier {
       }
 
       _pantries = newPantries;
+      for (Pantry pantry in _pantries) print(pantry.title);
       notifyListeners();
     });
   }

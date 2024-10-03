@@ -16,7 +16,7 @@ class PantryPage extends StatelessWidget {
   });
 
   final Pantry pantry;
-  late List<ItemCategory> categoryList;
+  late final List<ItemCategory> categoryList;
 
   @override
   Widget build(BuildContext context) {
