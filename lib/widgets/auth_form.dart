@@ -6,8 +6,12 @@ import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/widgets/buttons.dart';
 
-class RegistrationForm extends StatelessWidget {
-  const RegistrationForm({super.key});
+class AuthForm extends StatelessWidget {
+  const AuthForm({
+    super.key,
+  required this.child});
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -33,40 +37,7 @@ class RegistrationForm extends StatelessWidget {
             const SizedBox(height: 16.0),
             PasswordTextFormField(passwordTEController: passwordTEController),
             const SizedBox(height: 20.0),
-            ValueListenableBuilder<bool>(
-                valueListenable: isFormValidNotifier,
-                builder: (context, isFormValid, child) {
-                  return Row(
-                    children: [
-                      Expanded(
-                          flex: 4,
-                          child: RegisterButton(
-                              formKey: formKey,
-                              firestore: firestore,
-                              usernameTextEditingController: usernameTEController,
-                              emailTextEditingController: emailTEController,
-                              passwordTextEditingController: passwordTEController,
-                              isFormValidNotifier: isFormValidNotifier,
-                              spAuth: spAuth,
-                          )),
-                      const Expanded(
-                          flex: 1,
-                          child: Text(
-                            'OR',
-                            textAlign: TextAlign.center,
-                          )),
-                      Expanded(
-                          flex: 4,
-                          child: LoginButton(spAuth,
-                              formKey: formKey,
-                              firestore: firestore,
-                              usernameTEController: usernameTEController,
-                              emailTEController: emailTEController,
-                              passwordTEController: passwordTEController,
-                              isFormValidNotifier: isFormValidNotifier))
-                    ],
-                  );
-                }),
+            child
           ],
         ),
       ),

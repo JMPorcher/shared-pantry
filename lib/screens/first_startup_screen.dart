@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
-import 'package:shared_pantry/widgets/registration_form.dart';
+import 'package:shared_pantry/screens/registration_screen.dart';
+import 'package:shared_pantry/widgets/buttons.dart';
 
 import '../providers/auth_provider.dart';
 
@@ -13,16 +14,17 @@ class FirstStartupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kColor1,
       body: SafeArea(
         child: Column(children: [
-          TitleTextWithPadding(),
-          WelcomeTextWithPadding(),
-          SizedBox(height: 20.0),
-          RegistrationForm(),
-          SkipButton(),
+          const TitleTextWithPadding(),
+          const WelcomeTextWithPadding(),
+          const SizedBox(height: 20.0),
+          SpButton.filledButton(child: const Text('Register New Account'), onTap: () {Navigator.of(context).pushNamed(RegistrationScreen.id);}),
+          SpButton.outlineButton(child: const Text('Login Existing Account'), onTap: () {}),
+          const SkipButton(),
         ]
         ),
       ),
