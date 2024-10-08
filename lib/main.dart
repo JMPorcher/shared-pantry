@@ -68,3 +68,38 @@ class SharedPantry extends StatelessWidget {
           );
   }
 }
+
+// Changes suggested by Gemini
+// void main() async {
+//   // ... (other initializations)
+//
+//   runApp(
+//     MultiProvider(
+//       providers: [
+//         Provider(create: (_) => SpAuthProvider()), // Provide SpAuthProvider
+//       ],
+//       child: StreamProvider<User?>.value(
+//         initialData: null,
+//         value: SpAuthProvider().authStateStream, // Access authStateStream
+//         builder: (context, snapshot) {
+//           return MultiProvider(
+//             providers: [
+//               // Use ProxyProvider to create PantryProvider
+//               ProxyProvider<User?, PantryProvider>(
+//                 update: (context, user, previousPantryProvider) =>
+//                     PantryProvider(user: user),
+//               ),
+//               ChangeNotifierProvider(
+//                 create: (BuildContext context) =>
+//                     AppStateProvider(lastShownScreen, lastShownPantryId),
+//               ),
+//             ],
+//             child: MaterialApp(
+//               // ... (rest of your MaterialApp)
+//             ),
+//           );
+//         },
+//       ),
+//     ),
+//   );
+// }

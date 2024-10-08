@@ -1,27 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/providers/auth_provider.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/widgets/buttons.dart';
 
 class AuthForm extends StatelessWidget {
-  const AuthForm({
+  AuthForm({
     super.key,
-  required this.child});
+    required this.isFormValidNotifier,
+    required this.usernameTEController,
+    required this.emailTEController,
+    required this.passwordTEController,
 
-  final Widget child;
+  });
+
+  final ValueNotifier<bool> isFormValidNotifier;
+  final TextEditingController usernameTEController;
+  final TextEditingController emailTEController;
+  final TextEditingController passwordTEController;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final ValueNotifier<bool> isFormValidNotifier = ValueNotifier<bool>(false);
-    final TextEditingController usernameTEController = TextEditingController();
-    final TextEditingController emailTEController = TextEditingController();
-    final TextEditingController passwordTEController = TextEditingController();
-    final SpAuthProvider spAuth = SpAuthProvider();
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 
     return Padding(
       padding: const EdgeInsets.all(24.0),
@@ -37,7 +41,6 @@ class AuthForm extends StatelessWidget {
             const SizedBox(height: 16.0),
             PasswordTextFormField(passwordTEController: passwordTEController),
             const SizedBox(height: 20.0),
-            child
           ],
         ),
       ),
@@ -45,67 +48,7 @@ class AuthForm extends StatelessWidget {
   }
 }
 
-class RegisterButton extends StatelessWidget {
-  const RegisterButton({
-    super.key,
-    required this.formKey,
-    required this.firestore,
-    required this.usernameTextEditingController,
-    required this.emailTextEditingController,
-    required this.passwordTextEditingController,
-    required this.isFormValidNotifier,
-    required this.spAuth
-  });
 
-  final GlobalKey<FormState> formKey;
-  final FirebaseFirestore firestore;
-  final TextEditingController usernameTextEditingController;
-  final TextEditingController emailTextEditingController;
-  final TextEditingController passwordTextEditingController;
-  final ValueNotifier<bool> isFormValidNotifier;
-  final SpAuthProvider spAuth;
-  @override
-  Widget build(BuildContext context) {
-    return SpButton.filledButton(
-        onTap: () async {
-          final currentState = formKey.currentState;
-          if (currentState != null && currentState.validate()) {
-            final String userName = usernameTextEditingController.text;
-            final String eMail = emailTextEditingController.text;
-            final String password = passwordTextEditingController.text;
-
-            final navigator = Navigator.of(context);
-            final scaffoldMessenger = ScaffoldMessenger.of(context);
-            try {
-              await spAuth.signUpWithEmail(userName, eMail, password);
-              await spAuth.signInWithEmail(eMail, password)
-                  .then((_) => navigator.pushNamed(MainScreen.id));
-            } on FirebaseAuthException catch (_) {
-              scaffoldMessenger.showSnackBar(const SnackBar(
-                  content: Text(
-                      'Email already has an account. Use a different one or reset your password.')));
-              rethrow;
-            }
-          } else {
-            isFormValidNotifier.value = false;
-          }
-        },
-        horizontalPadding: 0,
-        child: const Padding(
-          padding: EdgeInsets.all(12.0),
-          child: FittedBox(
-            child: Text(
-              'Register',
-              maxLines: 1,
-              style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-          ),
-        ));
-  }
-}
 
 class LoginButton extends StatelessWidget {
   const LoginButton(this.spAuth,

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_pantry/constants.dart';
 import 'package:shared_pantry/screens/main_screen.dart';
 import 'package:shared_pantry/screens/registration_screen.dart';
@@ -22,8 +23,14 @@ class FirstStartupScreen extends StatelessWidget {
           const TitleTextWithPadding(),
           const WelcomeTextWithPadding(),
           const SizedBox(height: 20.0),
-          SpButton.filledButton(child: const Text('Register New Account'), onTap: () {Navigator.of(context).pushNamed(RegistrationScreen.id);}),
-          SpButton.outlineButton(child: const Text('Login Existing Account'), onTap: () {}),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: SpButton.filledButton(child: const Text('Register New Account'), onTap: () {Navigator.of(context).pushNamed(RegistrationScreen.id);}),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: SpButton.outlineButton(child: const Text('Login Existing Account'), onTap: () {}),
+          ),
           const SkipButton(),
         ]
         ),
@@ -71,11 +78,9 @@ class WelcomeTextWithPadding extends StatelessWidget {
 class SkipButton extends StatelessWidget {
   const SkipButton({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-    SpAuthProvider spAuth = SpAuthProvider();
-    //User? user = context.watch<User?>();
+    SpAuthProvider spAuth = Provider.of<SpAuthProvider>(context);
     final navigator = Navigator.of(context);
     return MaterialButton(
         onPressed: () async {
